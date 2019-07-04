@@ -15,7 +15,7 @@ require_once 'includes/header.inc.php';
     <h3>МБОУ "ИТ-лицей №24"</h3><br>
     <div class="alert alert-info" role="alert">
         <h3>Добро пожаловать!</h3>
-        <em>Текущая версия системы: Alpha 2</em><br>
+        <em>Текущая версия системы: Alpha 3</em><br>
     </div>
     <br>
     <h3>Важная информация:</h3>

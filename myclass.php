@@ -37,7 +37,7 @@ require_once 'includes/header.inc.php';
                 else $sections = $db->select_fs('groups', "curator_id = '".$user->username."'");
                 foreach ($sections as $section) {
                     $cur = $db->select('users', "username = '".$section['curator_id']."'");
-                    echo '<option value="' . $section['id'] . '">' . "(" . $section['id'] . ") " . $section['name'] . ' (куратор ' . $cur['f'] . ' ' . $cur['i'] . ' ' . $cur['o'] . ' (ЕИС-'. $cur['username'] . '))</option>';
+                    echo '<option value="' . $section['id'] . '">' . $section['name'] . ' (куратор ' . $cur['f'] . ' ' . $cur['i'] . ' ' . $cur['o'] . ' (ЕИС-'. $cur['username'] . '))</option>';
                 }
                 ?>
             </select>
