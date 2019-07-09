@@ -39,12 +39,13 @@
                    aria-haspopup="true" aria-expanded="false">Администратор
                 </a>
                 <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                    <h6 class="dropdown-header">Вывод данных</h6>
-                    <a class="dropdown-item" href="a_instr.php">Инструкция по выводу данных</a>
-                    <div class="dropdown-divider"></div>
                     <h6 class="dropdown-header">Обработка заявок</h6>
                     <a class="dropdown-item" href="a_create.php">Создание УЗ</a>
                     <a class="dropdown-item" href="a_flush.php">Сброс пароля</a>
+                    <h6 class="dropdown-header">Работа с аккаунтами</h6>
+                    <a class="dropdown-item" href="a_give_solo.php">Выдача одному</a>
+                    <a class="dropdown-item" href="a_give_group.php">Выдача группе</a>
+                    <a class="dropdown-item" href="a_delete.php">Удаление аккаунтов</a>
                 </div>
             </li>
         <?php endif ?>

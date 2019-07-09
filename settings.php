@@ -27,7 +27,7 @@ $user = unserialize($_SESSION['user']);
     <br><br>
 </center>
 <?php
-echo '<table id="dtBasicExample" class="table table-striped table-bordered table-sm">' .
+echo '<table id="dtBasicExample" class="table table-sm table-hover">' .
     '<thead>' .
     '<tr>' .
     '<th>Дата, время</th>' .

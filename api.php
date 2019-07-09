@@ -5,11 +5,18 @@ $page = "api.php";
 $error = "";
 $pid = "";
 
-if (isset($_GET['data'])) {
-
-    $data['counter_id'] = "'" . $_GET['counter'] . "'";
-    $data['data'] = "'" . $_GET['data'] . "'";
-    $db->insert($data, 'pool');
-    echo 'Success';
-} else die('<h3>Попытка взлома.</h3>Данная страница была открыта не через запрос.');
+if (isset($_GET['act'])) {
+    if($_GET['act'] == "auth"){
+        echo 'INDEV';
+    }
+    else if($_GET['act'] == "request"){
+        echo 'INDEV';
+    }
+    else if($_GET['act'] == "notify"){
+        echo 'INDEV';
+    }
+    else if($_GET['act'] == "getlog"){
+        echo 'INDEV';
+    }
+} else die('HACKING_ATTEMPT');
 ?>
