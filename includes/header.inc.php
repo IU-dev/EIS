@@ -15,20 +15,22 @@
             <?php if (isset($user->username)) : ?>
             <li class="nav-item dropdown <?php echo($page == "show.php" || $page == "t_create.php" || $page == "t_flush.php" ? "active" : ""); ?>">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">Мои учетные записи
+                   aria-haspopup="true" aria-expanded="false">Мои действия
                 </a>
                 <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                    <a class="dropdown-item" href="show.php">Посмотреть</a>
+                    <a class="dropdown-item" href="show.php">Логины и пароли</a>
+                    <a class="dropdown-item" href="visits.php">Посещаемость</a>
                 </div>
             </li>
             <?php if ($user->admin == 1 || $user->admin == 2) : ?>
             <li class="nav-item dropdown <?php echo($page == "myclass.php" || $page == "p_add.php" || $page == "p_del.php" ? "active" : ""); ?>">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">Участники системы
+                   aria-haspopup="true" aria-expanded="false">Действия педагогов
                 </a>
                 <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
                     <h6 class="dropdown-header">Просмотр</h6>
-                    <a class="dropdown-item" href="myclass.php">Списки по классам</a>
+                    <a class="dropdown-item" href="myclass.php">Списки классов</a>
+                    <a class="dropdown-item" href="not_visited.php">Отсутствующие</a>
                     <?php if ($user->admin == 2) : ?>
                     <div class="dropdown-divider"></div>
                     <h6 class="dropdown-header">Особые действия</h6>

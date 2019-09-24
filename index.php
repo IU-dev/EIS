@@ -12,11 +12,11 @@ require_once 'includes/header.inc.php';
 <body>
 <center>
     <br>
-    <h1>Единая идентификационная система</h1>
+    <h1>Единая информационная система</h1>
     <h3>МБОУ "ИТ-лицей №24"</h3><br>
     <div class="alert alert-info" role="alert">
         <h3>Добро пожаловать!</h3>
-        <em>Текущая версия системы: R1.1</em><br>
+        <em>Текущая версия системы: R1.2</em><br>
         <?php
         if (isset($_SESSION['user'])) {
             $user = unserialize($_SESSION['user']);

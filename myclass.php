@@ -14,6 +14,24 @@ if (isset($_POST['submit'])) {
     $cont = $db->select('groups', "id = '" . $_POST['section'] . "'");
 }
 
+if (isset($_POST['visits'])) {
+    $display = 1;
+    $cont = $db->select('groups', "id = '" . $_POST['section'] . "'");
+    $i = 0;
+    foreach($_POST['users'] as $key=>$uname){
+        if($_POST['marks'][$key] != '9'){
+            $data['eis_id'] = "'".$uname."'";
+            $data['date'] = "'".$_POST['date']."'";
+            $data['hrs'] = "'".$_POST['hrs'][$key]."'";
+            $data['reason'] = "'".$_POST['marks'][$key]."'";
+            $data['set_by'] = "'".$user->username."'";
+            $g = $db->insert($data, 'visits');
+            $i = $i + 1;
+        }
+    }
+    echo '<center><strong>Сведения по пропускам успешно отправлены.</strong><br>Отправлена информация в количестве: '.$i.' человек.</center>';
+}
+
 $user = unserialize($_SESSION['user']);
 
 if ($user->admin < 1) {
@@ -33,18 +51,87 @@ require_once 'includes/header.inc.php';
             <p class="h4 mb-4 text-center">Выберите группу обучающихся</p>
             <select class="browser-default custom-select mb-4" id="select" name="section">
                 <?php
-                if($user->admin == 2) $sections = $db->select_fs('groups', "id != '0'");
-                else $sections = $db->select_fs('groups', "curator_id = '".$user->username."'");
+                if ($user->admin == 2) $sections = $db->select_fs('groups', "id != '0'");
+                else $sections = $db->select_fs('groups', "curator_id = '" . $user->username . "'");
                 foreach ($sections as $section) {
-                    $cur = $db->select('users', "username = '".$section['curator_id']."'");
-                    echo '<option value="' . $section['id'] . '">' . $section['name'] . ' (куратор ' . $cur['f'] . ' ' . $cur['i'] . ' ' . $cur['o'] . ' (ЕИС-'. $cur['username'] . '))</option>';
+                    $cur = $db->select('users', "username = '" . $section['curator_id'] . "'");
+                    echo '<option value="' . $section['id'] . '">' . $section['name'] . ' (куратор ' . $cur['f'] . ' ' . $cur['i'] . ' ' . $cur['o'] . ' (ЕИС-' . $cur['username'] . '))</option>';
                 }
                 ?>
             </select>
             <button class="btn btn-info btn-block" type="submit" name="submit">Выбрать</button>
         </form>
     <?php else : ?>
+    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Данные об отсутствующих</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="myclass.php" method="post">
+                <div class="modal-body mx-3">
+                    Введите дату:
+                    <input type="date" id="inputMDEx" class="form-control" name="date" width="75%">
+                    <br>
+                        <div class="card card-cascade narrower">
+                            <div
+                                    class="view view-cascade gradient-card-header blue-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center">
+                                <div>
+                                </div>
+                                <a href=""
+                                   class="white-text mx-3"><?php echo "(" . $cont['id'] . ") " . $cont['name']; ?></a>
+
+                                <div>
+                                </div>
+                            </div>
+                            <div class="px-4">
+                                <div class="table-wrapper">
+                                    <?php
+                                    echo '<table id="participants" class="table table-sm table-hover">' .
+                                        '<thead>' .
+                                        '<tr>' .
+                                        '<th>№</th>' .
+                                        '<th>ЕИС</th>' .
+                                        '<th>ФИО участника</th>' .
+                                        '<th>Отметка посещаемости</th>' .
+                                        '<th>Кол-во часов</th>' .
+                                        '</tr>' .
+                                        '</thead>';
+                                    $parts = $db->select_fs('users', "group_id = '" . $cont['id'] . "'");
+                                    $i = 1;
+                                    foreach ($parts as $part) {
+                                        echo '<tr>';
+                                        echo '<td>' . $i . '</td>';
+                                        echo '<td>' . $part['username'] . '</td>';
+                                        echo '<input type="hidden" name="users[]" value="'.$part['username'].'">';
+                                        echo '<td>' . $part['f'] . ' ' . $part['i'] . ' ' . $part['o'] . '</td>';
+                                        echo '<td><select class="browser-default custom-select" name="marks[]"><option value="9" selected>Был</option><option value="0">Не установлена</option><option value="1">Пропуск по болезни</option><option value="2">Заявление родителей</option><option value="3">Мероприятие</option></select></td>';
+                                        echo '<td><input type="text" id="textInput" name="hrs[]" class="form-control mb-4" placeholder="Часы" value="0"></td>';
+                                        $i = $i + 1;
+                                    }
+                                    echo '</table>';
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <input type="hidden" name="section" value="<?php echo $_POST['section'] ?>">
+                    <button class="btn btn-default" type="submit" name="visits">Внести сведения</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <h3>Список группы</h3>
+    <br><br>
+    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalLoginForm">
+        Передать информацию об отсутствующих
+    </button>
     <br><br>
 </center>
 <div class="card card-cascade narrower">
@@ -83,14 +170,17 @@ require_once 'includes/header.inc.php';
             ?>
         </div>
     </div>
-    <?php require_once 'includes/footer.inc.php'; ?>
-    <script>
-        $(document).ready(function () {
-            $('#participants').DataTable();
-            $('.dataTables_length').addClass('bs-select');
-        });
+</div>
+<?php require_once 'includes/footer.inc.php'; ?>
+<script>
 
-    </script>
-    <?php endif ?>
+    $(document).ready(function() {
+        $('.mdb-select').materialSelect();
+    });
+
+    $('.datepicker').pickadate();
+
+</script>
+<?php endif ?>
 </body>
 </html>
