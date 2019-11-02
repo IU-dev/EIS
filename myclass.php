@@ -162,7 +162,7 @@ require_once 'includes/header.inc.php';
                 echo '<tr>';
                 echo '<td>' . $i . '</td>';
                 echo '<td>' . $part['username'] . '</td>';
-                echo '<td>' . $part['f'] . ' ' . $part['i'] . ' ' . $part['o'] . '</td>';
+                echo '<td><a href="info.php?uid='.$part['id'].'">' . $part['f'] . ' ' . $part['i'] . ' ' . $part['o'] . '</a></td>';
                 echo '<td>Нет доступных действий.</td>';
                 $i = $i + 1;
             }

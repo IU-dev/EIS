@@ -132,7 +132,7 @@ require_once 'includes/header.inc.php';
                 </table>
             </div>
             <div class="tab-pane fade" id="accs" role="tabpanel" aria-labelledby="profile-tab-md">
-                <table id="accs2" class="table table-bordered table-hover table-striped table-sm table-responsive">
+                <table id="accs2" class="table table-bordered table-hover table-striped table-sm">
                     <thead>
                     <tr>
                         <th scope="col">ACC-</th>

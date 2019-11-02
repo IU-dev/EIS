@@ -18,6 +18,11 @@
     color: #5a5a5a;
 }
 
+.stretchtable{
+    width:100%;
+    table-layout: fixed;
+}
+
 .machine_text {
     background: lightgrey;
     font-family: Consolas;
