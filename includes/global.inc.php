@@ -31,5 +31,6 @@ if (isset($_SESSION['logged_in'])) {
 <link href="css/mdb.min.css" rel="stylesheet">
 <!-- Your custom styles (optional) -->
 <link href="css/style.css" rel="stylesheet">
+<link href="css/toastr.css" rel="stylesheet">
 <link href="main.css" rel="stylesheet">
 <link href="css/addons/datatables.min.css" rel="stylesheet">

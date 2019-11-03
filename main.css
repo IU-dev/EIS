@@ -18,9 +18,8 @@
     color: #5a5a5a;
 }
 
-.stretchtable{
-    width:100%;
-    table-layout: fixed;
+.mw100{
+    min-width: 100%;
 }
 
 .machine_text {

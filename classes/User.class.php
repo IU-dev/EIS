@@ -8,13 +8,16 @@ class User
     public $id;
     public $username;
     public $hashedPassword;
-    public $email;
     public $joinDate;
     public $f;
     public $i;
     public $o;
     public $group_id;
     public $admin;
+    public $birthday;
+    public $phone;
+    public $email;
+    public $delo;
 
     function __construct($data)
     {
@@ -28,6 +31,9 @@ class User
         $this->o = (isset($data['o'])) ? $data['o'] : "";
         $this->group_id = (isset($data['group_id'])) ? $data['group_id'] : "";
         $this->admin = (isset($data['admin'])) ? $data['admin'] : "";
+        $this->phone = (isset($data['phone'])) ? $data['phone'] : "";
+        $this->birthday = (isset($data['birthday'])) ? $data['birthday'] : "";
+        $this->delo = (isset($data['delo'])) ? $data['delo'] : "";
     }
 
     public function save($isNewUser = false)
