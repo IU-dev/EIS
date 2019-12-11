@@ -28,8 +28,8 @@ if (isset($_POST['submit-create'])) {
             $data['login'] = "'".$_POST['login'][$key]."'";
             $data['password'] = "'".$_POST['password'][$key]."'";
             $data['last_update'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-            $data['last_update_user_eis'] = "'" . $user->username . "'";
-            $data['created_by_eis'] = "'" . $user->username . "'";
+            $data['last_update_user_eis'] = "'" . $user->id . "'";
+            $data['created_by_eis'] = "'" . $user->id . "'";
             $res = $db->insert($data, 'accounts');
         }
     }
@@ -99,10 +99,10 @@ require_once 'includes/header.inc.php';
             $parts = $db->select_fs('users', "group_id = '" . $cont['id'] . "'");
             $i = 1;
             foreach ($parts as $part) {
-                echo '<input type="hidden" name="eis[]" value="' . $part['username'] . '">';
+                echo '<input type="hidden" name="eis[]" value="' . $part['id'] . '">';
                 echo '<tr>';
                 echo '<td>' . $i . '</td>';
-                echo '<td>' . $part['username'] . '</td>';
+                echo '<td>' . $part['id'] . '</td>';
                 echo '<td>' . $part['f'] . ' ' . $part['i'] . ' ' . $part['o'] . '</td>';
                 echo '<td><input type="text" id="textInput" name="login[]" class="form-control mb-4" placeholder="Логин"></td>';
                 echo '<td><input type="text" id="textInput" name="password[]" class="form-control mb-4" placeholder="Пароль"></td>';

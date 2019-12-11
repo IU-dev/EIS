@@ -32,7 +32,7 @@ if (isset($_GET['act'])) {
             echo '#10: '.$usr['f'].'<br>';
             echo '#11: '.$usr['i'].'<br>';
             echo '#12: '.$usr['o'].'<br>';
-            echo '#30: '.$usr['username'].'<br>';
+            echo '#30: '.$usr['id'].'<br>';
             echo '#50: '.$group['name'].'<br>';
             echo '#907: ^A20190813^B1<br>';
             echo '*****<br>';

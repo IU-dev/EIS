@@ -24,40 +24,40 @@ if (isset($_GET['act'])) {
 }
 
 if(isset($_POST['submit-otkaz'])){
-    $data['restored_by_eis'] = "'".$user->username."'";
+    $data['restored_by_eis'] = "'".$user->id."'";
     $data['state'] = "'3'";
     $data['comment_admin'] = "'".$_POST['comment_admin']."'";
     $a = $db->update($data, 'tickets_create', "id = '".$_POST['id']."'");
     echo '<div class="alert alert-success">Отказ на заявку с ID '.$_POST['id'].' успешно выдан.</div>';
     $tick = $db->select('tickets_create', "id = '".$_POST['id']."'");
-    $usvr = $db->select('users', "username = '".$tick['from_eis']."'");
+    $usvr = $db->select('users', "id = '".$tick['from_eis']."'");
     $ndata['userid'] = "'".$usvr['id']."'";
     $ndata['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-    $ndata['ot'] = "'". $user->f . " " . $user->i . " " . $user->o . " (ЕИС-" . $user->username . ")'";
+    $ndata['ot'] = "'". $user->f . " " . $user->i . " " . $user->o . " (ЕИС-" . $user->id . ")'";
     $ndata['text'] = "'Обновлен статус заявки на создание аккаунта № ".$_POST['id'].": Отказано.'";
     $ig = $db->insert($ndata, 'logs');
 }
 
 if(isset($_POST['submit-vidat'])){
-    $data['restored_by_eis'] = "'".$user->username."'";
+    $data['restored_by_eis'] = "'".$user->id."'";
     $data['state'] = "'2'";
     $data['comment_admin'] = "'".$_POST['comment_admin']."'";
     $a = $db->update($data, 'tickets_create', "id = '".$_POST['id']."'");
     echo '<div class="alert alert-success">Аккаунт на заявку с ID '.$_POST['id'].' успешно выдан.</div>';
     $tick = $db->select('tickets_create', "id = '".$_POST['id']."'");
-    $usvr = $db->select('users', "username = '".$tick['from_eis']."'");
+    $usvr = $db->select('users', "id = '".$tick['from_eis']."'");
     $ndata['userid'] = "'".$usvr['id']."'";
     $ndata['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-    $ndata['ot'] = "'". $user->f . " " . $user->i . " " . $user->o . " (ЕИС-" . $user->username . ")'";
+    $ndata['ot'] = "'". $user->f . " " . $user->i . " " . $user->o . " (ЕИС-" . $user->id . ")'";
     $ndata['text'] = "'Обновлен статус заявки на создание аккаунта № ".$_POST['id'].": Исполнена.'";
     $ig = $db->insert($ndata, 'logs');
-    $adata['user_eis'] = "'".$usvr['username']."'";
+    $adata['user_eis'] = "'".$usvr['id']."'";
     $adata['service_id'] = "'".$_POST['service_id']."'";
     $adata['login'] = "'".$_POST['login']."'";
     $adata['password'] = "'".$_POST['password']."'";
     $adata['last_update'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-    $adata['last_update_user_eis'] = "'".$user->username."'";
-    $adata['created_by_eis'] = "'".$user->username."'";
+    $adata['last_update_user_eis'] = "'".$user->id."'";
+    $adata['created_by_eis'] = "'".$user->id."'";
     $igg = $db->insert($adata, 'accounts');
 }
 
@@ -101,8 +101,8 @@ require_once 'includes/header.inc.php';
             foreach ($parts as $part) {
                 echo '<tr>';
                 echo '<td>' . $part['id'] . '</td>';
-                $usver = $db->select('users', "username = '".$part['from_eis']."'");
-                echo '<td>' . $usver['f'] . ' ' . $usver['i'] . ' ' . $usver['o'] . ' (ЕИС-'. $usver['username'] . ')</td>';
+                $usver = $db->select('users', "id = '".$part['from_eis']."'");
+                echo '<td>' . $usver['f'] . ' ' . $usver['i'] . ' ' . $usver['o'] . ' (ЕИС-'. $usver['id'] . ')</td>';
                 $servis = $db->select('services', "id = '".$part['service_id']."'");
                 echo '<td>' . $servis['name'] . '</td>';
                 echo '<td>' . $part['comment_user'] . '</td>';

@@ -21,8 +21,8 @@ if (isset($_POST['submit'])) {
     $adata['login'] = "'".$_POST['login']."'";
     $adata['password'] = "'".$_POST['password']."'";
     $adata['last_update'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-    $adata['last_update_user_eis'] = "'".$user->username."'";
-    $adata['created_by_eis'] = "'".$user->username."'";
+    $adata['last_update_user_eis'] = "'".$user->id."'";
+    $adata['created_by_eis'] = "'".$user->id."'";
     $igg = $db->insert($adata, 'accounts');
     $msg = "Успешно выдан аккаунт за номером ACC-".$igg;
 }

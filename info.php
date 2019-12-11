@@ -34,7 +34,7 @@ require_once 'includes/header.inc.php';
 ?>
 <html>
 <head>
-    <title>Список участников | <?php echo $pname; ?></title>
+    <title>Информационная карта | <?php echo $pname; ?></title>
 </head>
 <body><br>
 <div class="modal fade" id="MakeWrite" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

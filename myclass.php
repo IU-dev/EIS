@@ -52,10 +52,10 @@ require_once 'includes/header.inc.php';
             <select class="browser-default custom-select mb-4" id="select" name="section">
                 <?php
                 if ($user->admin == 2) $sections = $db->select_fs('groups', "id != '0'");
-                else $sections = $db->select_fs('groups', "curator_id = '" . $user->username . "'");
+                else $sections = $db->select_fs('groups', "curator_id = '" . $user->id . "'");
                 foreach ($sections as $section) {
-                    $cur = $db->select('users', "username = '" . $section['curator_id'] . "'");
-                    echo '<option value="' . $section['id'] . '">' . $section['name'] . ' (куратор ' . $cur['f'] . ' ' . $cur['i'] . ' ' . $cur['o'] . ' (ЕИС-' . $cur['username'] . '))</option>';
+                    $cur = $db->select('users', "id = '" . $section['curator_id'] . "'");
+                    echo '<option value="' . $section['id'] . '">' . $section['name'] . ' (куратор ' . $cur['f'] . ' ' . $cur['i'] . ' ' . $cur['o'] . ' (ЕИС-' . $cur['id'] . '))</option>';
                 }
                 ?>
             </select>
@@ -106,8 +106,8 @@ require_once 'includes/header.inc.php';
                                     foreach ($parts as $part) {
                                         echo '<tr>';
                                         echo '<td>' . $i . '</td>';
-                                        echo '<td>' . $part['username'] . '</td>';
-                                        echo '<input type="hidden" name="users[]" value="'.$part['username'].'">';
+                                        echo '<td>' . $part['id'] . '</td>';
+                                        echo '<input type="hidden" name="users[]" value="'.$part['id'].'">';
                                         echo '<td>' . $part['f'] . ' ' . $part['i'] . ' ' . $part['o'] . '</td>';
                                         echo '<td><select class="browser-default custom-select" name="marks[]"><option value="9" selected>Был</option><option value="0">Не установлена</option><option value="1">Пропуск по болезни</option><option value="2">Заявление родителей</option><option value="3">Мероприятие</option></select></td>';
                                         echo '<td><input type="text" id="textInput" name="hrs[]" class="form-control mb-4" placeholder="Часы" value="0"></td>';
@@ -161,9 +161,9 @@ require_once 'includes/header.inc.php';
             foreach ($parts as $part) {
                 echo '<tr>';
                 echo '<td>' . $i . '</td>';
-                echo '<td>' . $part['username'] . '</td>';
+                echo '<td>' . $part['id'] . '</td>';
                 echo '<td><a href="info.php?uid='.$part['id'].'">' . $part['f'] . ' ' . $part['i'] . ' ' . $part['o'] . '</a></td>';
-                echo '<td>Нет доступных действий.</td>';
+                echo '<td><a class="badge badge-success" target="_blank" href="info.php?uid=' . $part['id'] . '"><i class="fas fa-check"></i> Информационная карта</a></td>';
                 $i = $i + 1;
             }
             echo '</table>';

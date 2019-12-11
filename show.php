@@ -14,13 +14,13 @@ require_once 'includes/header.inc.php';
 
 if (isset($_GET['act'])) {
     if ($_GET['act'] == '1') {
-        $data['from_eis'] = "'" . $user->username . "'";
+        $data['from_eis'] = "'" . $user->id . "'";
         $data['acc_id'] = "'" . $_GET['acc'] . "'";
         $data['state'] = "'0'";
         $itog = $db->insert($data, 'tickets_restore');
         $msg = "Заявка на сброс пароля успешно отправлена!";
     } else if ($_GET['act'] == '2') {
-        $data['from_eis'] = "'" . $user->username . "'";
+        $data['from_eis'] = "'" . $user->id . "'";
         $data['service_id'] = "'" . $_GET['service_id'] . "'";
         $data['state'] = "'0'";
         $data['comment_user'] = "'" . $_GET['comment'] . "'";
@@ -72,7 +72,7 @@ if (isset($_GET['act'])) {
     <h3>Мои учетные записи</h3><br>
     <br>
     <?php
-    $accs = $db->select_fs('accounts', "user_eis = '" . $user->username . "'");
+    $accs = $db->select_fs('accounts', "user_eis = '" . $user->id . "'");
     $i = 0;
     foreach ($accs as $acc) {
         echo '<div class="alert alert-primary fixed-35em">';
@@ -88,8 +88,8 @@ if (isset($_GET['act'])) {
         echo '<hr>';
         echo '<strong>Запись в ЕИС: </strong>' . $acc['id'] . '<br>';
         echo '<strong>Последнее обновление: </strong>' . date("d.m.Y H:i:s", strtotime($acc['last_update'] . " GMT")) . '<br>';
-        $usr = $db->select('users', "username = '" . $acc['last_update_user_eis'] . "'");
-        echo '<strong>Обновил: </strong>' . $usr['f'] . ' ' . $usr['i'] . ' ' . $usr['o'] . ' (ЕИС-' . $usr['username'] . ')<br>';
+        $usr = $db->select('users', "id = '" . $acc['last_update_user_eis'] . "'");
+        echo '<strong>Обновил: </strong>' . $usr['f'] . ' ' . $usr['i'] . ' ' . $usr['o'] . ' (ЕИС-' . $usr['id'] . ')<br>';
         echo '<hr>';
         echo '<a class="btn btn-sm btn-primary" role="button" href="show.php?act=1&acc=' . $acc['id'] . '">Подать заявку на сброс</a>';
         $tickets = $db->select_desc_fs('tickets_restore', "acc_id = '" . $acc['id'] . "'");
@@ -102,8 +102,8 @@ if (isset($_GET['act'])) {
             else if ($ticket['state'] == "2") echo 'Исполнена';
             else if ($ticket['state'] == "3") echo 'Отказано';
             echo '<br>';
-            $isp = $db->select('users', "username = '" . $ticket['restored_by_eis'] . "'");
-            echo '<strong>Исполнитель:</strong> ' . $isp['f'] . ' ' . $isp['i'] . ' ' . $isp['o'] . ' (ЕИС-' . $isp['username'] . ')<br>';
+            $isp = $db->select('users', "id = '" . $ticket['restored_by_eis'] . "'");
+            echo '<strong>Исполнитель:</strong> ' . $isp['f'] . ' ' . $isp['i'] . ' ' . $isp['o'] . ' (ЕИС-' . $isp['id'] . ')<br>';
             echo '<strong>Комментарий исполнителя:</strong><br>' . $ticket['comment'];
             echo '</div>';
         }
@@ -122,7 +122,7 @@ if (isset($_GET['act'])) {
                 Подать заявку
             </button>
             <?php
-            $tickets = $db->select_desc_fs('tickets_create', "from_eis = '" . $user->username . "'");
+            $tickets = $db->select_desc_fs('tickets_create', "from_eis = '" . $user->id . "'");
             foreach ($tickets as $ticket) {
                 echo '<div class="alert alert-warning">';
                 echo '<strong>Заявка на создание № </strong>' . $ticket['id'];
@@ -132,10 +132,10 @@ if (isset($_GET['act'])) {
                 else if ($ticket['state'] == "2") echo 'Исполнена';
                 else if ($ticket['state'] == "3") echo 'Отказано';
                 echo '<br>';
-                $isp = $db->select('users', "username = '" . $ticket['restored_by_eis'] . "'");
+                $isp = $db->select('users', "id = '" . $ticket['restored_by_eis'] . "'");
                 $prod = $db->select('services', "id = '".$ticket['service_id']."'");
                 echo '<strong>Сервис: </strong>'.$prod['name'];
-                echo '<br><strong>Исполнитель:</strong> ' . $isp['f'] . ' ' . $isp['i'] . ' ' . $isp['o'] . ' (ЕИС-' . $isp['username'] . ')<br>';
+                echo '<br><strong>Исполнитель:</strong> ' . $isp['f'] . ' ' . $isp['i'] . ' ' . $isp['o'] . ' (ЕИС-' . $isp['id'] . ')<br>';
                 echo '<strong>Комментарий исполнителя:</strong><br>' . $ticket['comment_admin'];
                 echo '</div>';
             }

@@ -24,7 +24,7 @@ if (isset($_GET['act'])) {
 }
 
 if(isset($_POST['submit-otkaz'])){
-    $data['restored_by_eis'] = "'".$user->username."'";
+    $data['restored_by_eis'] = "'".$user->id."'";
     $data['state'] = "'3'";
     $data['comment'] = "'".$_POST['comment_admin']."'";
     $a = $db->update($data, 'tickets_restore', "id = '".$_POST['id']."'");
@@ -33,13 +33,13 @@ if(isset($_POST['submit-otkaz'])){
     $usvr = $db->select('users', "username = '".$tick['from_eis']."'");
     $ndata['userid'] = "'".$usvr['id']."'";
     $ndata['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-    $ndata['ot'] = "'". $user->f . " " . $user->i . " " . $user->o . " (ЕИС-" . $user->username . ")'";
+    $ndata['ot'] = "'". $user->f . " " . $user->i . " " . $user->o . " (ЕИС-" . $user->id . ")'";
     $ndata['text'] = "'Обновлен статус заявки на сброс пароля № ".$_POST['id'].": Отказано.'";
     $ig = $db->insert($ndata, 'logs');
 }
 
 if(isset($_POST['submit-vidat'])){
-    $data['restored_by_eis'] = "'".$user->username."'";
+    $data['restored_by_eis'] = "'".$user->id."'";
     $data['state'] = "'2'";
     $data['comment'] = "'".$_POST['comment_admin']."'";
     $a = $db->update($data, 'tickets_restore', "id = '".$_POST['id']."'");
@@ -48,12 +48,12 @@ if(isset($_POST['submit-vidat'])){
     $usvr = $db->select('users', "username = '".$tick['from_eis']."'");
     $ndata['userid'] = "'".$usvr['id']."'";
     $ndata['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-    $ndata['ot'] = "'". $user->f . " " . $user->i . " " . $user->o . " (ЕИС-" . $user->username . ")'";
+    $ndata['ot'] = "'". $user->f . " " . $user->i . " " . $user->o . " (ЕИС-" . $user->id . ")'";
     $ndata['text'] = "'Обновлен статус заявки на сброс пароля № ".$_POST['id'].": Исполнена.'";
     $ig = $db->insert($ndata, 'logs');
     $adata['password'] = "'".$_POST['password']."'";
     $adata['last_update'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-    $adata['last_update_user_eis'] = "'".$user->username."'";
+    $adata['last_update_user_eis'] = "'".$user->id."'";
     $igg = $db->update($adata, 'accounts', "id = '".$_POST['accid']."'");
 }
 
@@ -97,7 +97,7 @@ require_once 'includes/header.inc.php';
                 echo '<tr>';
                 echo '<td>' . $part['id'] . '</td>';
                 $usver = $db->select('users', "username = '".$part['from_eis']."'");
-                echo '<td>' . $usver['f'] . ' ' . $usver['i'] . ' ' . $usver['o'] . ' (ЕИС-'. $usver['username'] . ')</td>';
+                echo '<td>' . $usver['f'] . ' ' . $usver['i'] . ' ' . $usver['o'] . ' (ЕИС-'. $usver['id'] . ')</td>';
                 $acct = $db->select('accounts', "id = '".$part['acc_id']."'");
                 $srvs = $db->select('services', "id = '".$acct['service_id']."'");
                 echo '<td> <span class="badge badge-info">ACC-' . $acct['id'] . '</span><br>Сервис: '.$srvs['name'].'<br>Логин: '.$acct['login'].'</td>';
