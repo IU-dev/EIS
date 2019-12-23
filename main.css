@@ -28,23 +28,23 @@
 }
 
 .itogs{
-    width: 5em;
+    max-width: 5em;
 }
 
 .fixed-5em{
-    width: 5em;
+    max-width: 5em;
 }
 
 .fixed-15em{
-    width: 15em;
+    max-width: 15em;
 }
 
 .fixed-25em{
-    width: 25em;
+    max-width: 25em;
 }
 
 .fixed-35em{
-    width: 35em;
+    max-width: 35em;
 }
 
 table.dataTable thead .sorting:after,
