@@ -304,7 +304,7 @@ require_once 'includes/header.inc.php';
 
     $(document).ready(function () {
         $('#visits2').DataTable({
-            "order": [[0, "desc"]]
+            "order": [[1, "desc"]]
         });
         $('.dataTables_length').addClass('bs-select');
     });
