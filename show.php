@@ -133,8 +133,8 @@ if (isset($_GET['act'])) {
                 else if ($ticket['state'] == "3") echo 'Отказано';
                 echo '<br>';
                 $isp = $db->select('users', "id = '" . $ticket['restored_by_eis'] . "'");
-                $prod = $db->select('services', "id = '".$ticket['service_id']."'");
-                echo '<strong>Сервис: </strong>'.$prod['name'];
+                $prod = $db->select('services', "id = '" . $ticket['service_id'] . "'");
+                echo '<strong>Сервис: </strong>' . $prod['name'];
                 echo '<br><strong>Исполнитель:</strong> ' . $isp['f'] . ' ' . $isp['i'] . ' ' . $isp['o'] . ' (ЕИС-' . $isp['id'] . ')<br>';
                 echo '<strong>Комментарий исполнителя:</strong><br>' . $ticket['comment_admin'];
                 echo '</div>';

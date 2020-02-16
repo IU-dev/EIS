@@ -15,46 +15,37 @@ if ($user->admin < 2) {
 $show = 0;
 
 if (isset($_GET['act'])) {
-    if($_GET['act'] == "1"){
+    if ($_GET['act'] == "1") {
         $show = 1;
-    }
-    else if($_GET['act'] == "2"){
+    } else if ($_GET['act'] == "2") {
         $show = 2;
     }
 }
 
-if(isset($_POST['submit-otkaz'])){
-    $data['restored_by_eis'] = "'".$user->id."'";
+if (isset($_POST['submit-otkaz'])) {
+    $data['restored_by_eis'] = "'" . $user->id . "'";
     $data['state'] = "'3'";
-    $data['comment'] = "'".$_POST['comment_admin']."'";
-    $a = $db->update($data, 'tickets_restore', "id = '".$_POST['id']."'");
-    echo '<div class="alert alert-success">Отказ на заявку с ID '.$_POST['id'].' успешно выдан.</div>';
-    $tick = $db->select('tickets_restore', "id = '".$_POST['id']."'");
-    $usvr = $db->select('users', "username = '".$tick['from_eis']."'");
-    $ndata['userid'] = "'".$usvr['id']."'";
-    $ndata['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-    $ndata['ot'] = "'". $user->f . " " . $user->i . " " . $user->o . " (ЕИС-" . $user->id . ")'";
-    $ndata['text'] = "'Обновлен статус заявки на сброс пароля № ".$_POST['id'].": Отказано.'";
-    $ig = $db->insert($ndata, 'logs');
+    $data['comment'] = "'" . $_POST['comment_admin'] . "'";
+    $a = $db->update($data, 'tickets_restore', "id = '" . $_POST['id'] . "'");
+    echo '<div class="alert alert-success">Отказ на заявку с ID ' . $_POST['id'] . ' успешно выдан.</div>';
+    $tick = $db->select('tickets_restore', "id = '" . $_POST['id'] . "'");
+    $usvr = $db->select('users', "id = '" . $tick['from_eis'] . "'");
+    $userTools->notify($usvr['id'], "Система", "Обновлен статус заявки на сброс пароля № " . $_POST['id'] . ": Отказано.");
 }
 
-if(isset($_POST['submit-vidat'])){
-    $data['restored_by_eis'] = "'".$user->id."'";
+if (isset($_POST['submit-vidat'])) {
+    $data['restored_by_eis'] = "'" . $user->id . "'";
     $data['state'] = "'2'";
-    $data['comment'] = "'".$_POST['comment_admin']."'";
-    $a = $db->update($data, 'tickets_restore', "id = '".$_POST['id']."'");
-    echo '<div class="alert alert-success">Пароль аккаунта по заявке с ID '.$_POST['id'].' успешно сброшен.</div>';
-    $tick = $db->select('tickets_restore', "id = '".$_POST['id']."'");
-    $usvr = $db->select('users', "username = '".$tick['from_eis']."'");
-    $ndata['userid'] = "'".$usvr['id']."'";
-    $ndata['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-    $ndata['ot'] = "'". $user->f . " " . $user->i . " " . $user->o . " (ЕИС-" . $user->id . ")'";
-    $ndata['text'] = "'Обновлен статус заявки на сброс пароля № ".$_POST['id'].": Исполнена.'";
-    $ig = $db->insert($ndata, 'logs');
-    $adata['password'] = "'".$_POST['password']."'";
+    $data['comment'] = "'" . $_POST['comment_admin'] . "'";
+    $a = $db->update($data, 'tickets_restore', "id = '" . $_POST['id'] . "'");
+    echo '<div class="alert alert-success">Пароль аккаунта по заявке с ID ' . $_POST['id'] . ' успешно сброшен.</div>';
+    $tick = $db->select('tickets_restore', "id = '" . $_POST['id'] . "'");
+    $usvr = $db->select('users', "id = '" . $tick['from_eis'] . "'");
+    $userTools->notify($usvr['id'], "Система", "Обновлен статус заявки на сброс пароля № " . $_POST['id'] . ": Исполнена.");
+    $adata['password'] = "'" . $_POST['password'] . "'";
     $adata['last_update'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-    $adata['last_update_user_eis'] = "'".$user->id."'";
-    $igg = $db->update($adata, 'accounts', "id = '".$_POST['accid']."'");
+    $adata['last_update_user_eis'] = "'" . $user->id . "'";
+    $igg = $db->update($adata, 'accounts', "id = '" . $_POST['accid'] . "'");
 }
 
 require_once 'includes/header.inc.php';
@@ -96,11 +87,11 @@ require_once 'includes/header.inc.php';
             foreach ($parts as $part) {
                 echo '<tr>';
                 echo '<td>' . $part['id'] . '</td>';
-                $usver = $db->select('users', "username = '".$part['from_eis']."'");
-                echo '<td>' . $usver['f'] . ' ' . $usver['i'] . ' ' . $usver['o'] . ' (ЕИС-'. $usver['id'] . ')</td>';
-                $acct = $db->select('accounts', "id = '".$part['acc_id']."'");
-                $srvs = $db->select('services', "id = '".$acct['service_id']."'");
-                echo '<td> <span class="badge badge-info">ACC-' . $acct['id'] . '</span><br>Сервис: '.$srvs['name'].'<br>Логин: '.$acct['login'].'</td>';
+                $usver = $db->select('users', "id = '" . $part['from_eis'] . "'");
+                echo '<td>' . $usver['f'] . ' ' . $usver['i'] . ' ' . $usver['o'] . ' (ЕИС-' . $usver['id'] . ')</td>';
+                $acct = $db->select('accounts', "id = '" . $part['acc_id'] . "'");
+                $srvs = $db->select('services', "id = '" . $acct['service_id'] . "'");
+                echo '<td> <span class="badge badge-info">ACC-' . $acct['id'] . '</span><br>Сервис: ' . $srvs['name'] . '<br>Логин: ' . $acct['login'] . '</td>';
                 echo '<td><a class="badge badge-success" href="a_flush.php?act=1&ticket=' . $part['id'] . '"><i class="fas fa-check"></i> Сбросить</a>&nbsp;<a class="badge badge-danger" href="a_flush.php?act=2&ticket=' . $part['id'] . '"><i class="far fa-window-close"></i> Отказать</a></td>';
             }
             echo '</table>';
@@ -113,9 +104,9 @@ require_once 'includes/header.inc.php';
             <p class="h4 mb-4 text-center">Сброс пароля</p>
             <input type="hidden" name="id" value="<?php echo $_GET['ticket']; ?>">
             <?php
-            $ticket = $db->select('tickets_restore', "id = '". $_GET['ticket']."'");
-            $accn = $db->select('accounts', "id = '".$ticket['acc_id']."'");
-            $srvz = $db->select('services', "id = '".$accn['service_id']."'");
+            $ticket = $db->select('tickets_restore', "id = '" . $_GET['ticket'] . "'");
+            $accn = $db->select('accounts', "id = '" . $ticket['acc_id'] . "'");
+            $srvz = $db->select('services', "id = '" . $accn['service_id'] . "'");
             ?>
             <input type="hidden" name="accid" value="<?php echo $ticket['acc_id']; ?>">
             ID заявки: <?php echo $_GET['ticket'] ?><br>
@@ -131,7 +122,8 @@ require_once 'includes/header.inc.php';
             <p class="h4 mb-4 text-center">Регистрация отказа</p>
             <input type="hidden" name="id" value="<?php echo $_GET['ticket']; ?>">
             ID заявки: <?php echo $_GET['ticket'] ?>
-            <input type="text" id="textInput" name="comment_admin" class="form-control mb-4" placeholder="Введите причину отказа">
+            <input type="text" id="textInput" name="comment_admin" class="form-control mb-4"
+                   placeholder="Введите причину отказа">
             <button class="btn btn-info btn-block" type="submit" name="submit-otkaz">Отказать</button>
         </form>
     <?php endif ?>

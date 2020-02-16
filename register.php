@@ -78,7 +78,7 @@ if (isset($_POST['submit-form'])) {
 
         <input type="text" class="form-control" placeholder="Имя" name="i">
 
-        <input type="text"class="form-control mb-4" placeholder="Отчество" name="o">
+        <input type="text" class="form-control mb-4" placeholder="Отчество" name="o">
 
         <input type="text" class="form-control" placeholder="Логин" name="username">
 

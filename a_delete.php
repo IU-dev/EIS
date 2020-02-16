@@ -14,7 +14,8 @@ if ($user->admin < 2) {
 }
 
 if (isset($_GET['delete'])) {
-    $itog = $db->delete('accounts', "id = '".$_GET['delete']."'");
+    $itog = $db->delete('accounts', "id = '" . $_GET['delete'] . "'");
+    $userTools->notify($adata['user_eis'], "Система", "Вам был удален аккаунт № ACC-" . $_GET['delete']);
     $msg = "<div class='alert alert-success'>Операция удаления аккаунта с ID ACC-" . $_GET['delete'] . " произведена.</div>";
 }
 
@@ -60,7 +61,7 @@ require_once 'includes/header.inc.php';
                 echo '<tr>';
                 echo '<td>' . $part['id'] . '</td>';
                 echo '<td>' . $part['user_eis'] . '</td>';
-                $srv = $db->select('services', "id = '".$part['service_id']."'");
+                $srv = $db->select('services', "id = '" . $part['service_id'] . "'");
                 echo '<td>' . $srv['name'] . '</td>';
                 echo '<td>' . $part['login'] . '</td>';
                 echo '<td><a class="badge badge-danger" href="a_delete.php?delete=' . $part['id'] . '"><i class="fas fa-trash"></i> Удалить</a></td>';

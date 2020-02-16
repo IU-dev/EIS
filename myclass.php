@@ -18,18 +18,18 @@ if (isset($_POST['visits'])) {
     $display = 1;
     $cont = $db->select('groups', "id = '" . $_POST['section'] . "'");
     $i = 0;
-    foreach($_POST['users'] as $key=>$uname){
-        if($_POST['marks'][$key] != '9'){
-            $data['eis_id'] = "'".$uname."'";
-            $data['date'] = "'".$_POST['date']."'";
-            $data['hrs'] = "'".$_POST['hrs'][$key]."'";
-            $data['reason'] = "'".$_POST['marks'][$key]."'";
-            $data['set_by'] = "'".$user->username."'";
+    foreach ($_POST['users'] as $key => $uname) {
+        if ($_POST['marks'][$key] != '9') {
+            $data['eis_id'] = "'" . $uname . "'";
+            $data['date'] = "'" . $_POST['date'] . "'";
+            $data['hrs'] = "'" . $_POST['hrs'][$key] . "'";
+            $data['reason'] = "'" . $_POST['marks'][$key] . "'";
+            $data['set_by'] = "'" . $user->id . "'";
             $g = $db->insert($data, 'visits');
             $i = $i + 1;
         }
     }
-    echo '<center><strong>Сведения по пропускам успешно отправлены.</strong><br>Отправлена информация в количестве: '.$i.' человек.</center>';
+    echo '<center><strong>Сведения по пропускам успешно отправлены.</strong><br>Отправлена информация в количестве: ' . $i . ' человек.</center>';
 }
 
 $user = unserialize($_SESSION['user']);
@@ -73,10 +73,10 @@ require_once 'includes/header.inc.php';
                     </button>
                 </div>
                 <form action="myclass.php" method="post">
-                <div class="modal-body mx-3">
-                    Введите дату:
-                    <input type="date" id="inputMDEx" class="form-control" name="date" width="75%">
-                    <br>
+                    <div class="modal-body mx-3">
+                        Введите дату:
+                        <input type="date" id="inputMDEx" class="form-control" name="date" width="75%">
+                        <br>
                         <div class="card card-cascade narrower">
                             <div
                                     class="view view-cascade gradient-card-header blue-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center">
@@ -98,19 +98,17 @@ require_once 'includes/header.inc.php';
                                         '<th>ЕИС</th>' .
                                         '<th>ФИО участника</th>' .
                                         '<th>Отметка посещаемости</th>' .
-                                        '<th>Кол-во часов</th>' .
                                         '</tr>' .
                                         '</thead>';
-                                    $parts = $db->select_fs('users', "group_id = '" . $cont['id'] . "'");
+                                    $parts = $db->select_fs('users', "group_id = '" . $cont['id'] . "' ORDER BY f ASC, i ASC");
                                     $i = 1;
                                     foreach ($parts as $part) {
                                         echo '<tr>';
                                         echo '<td>' . $i . '</td>';
                                         echo '<td>' . $part['id'] . '</td>';
-                                        echo '<input type="hidden" name="users[]" value="'.$part['id'].'">';
+                                        echo '<input type="hidden" name="users[]" value="' . $part['id'] . '">';
                                         echo '<td>' . $part['f'] . ' ' . $part['i'] . ' ' . $part['o'] . '</td>';
                                         echo '<td><select class="browser-default custom-select" name="marks[]"><option value="9" selected>Был</option><option value="0">Не установлена</option><option value="1">Пропуск по болезни</option><option value="2">Заявление родителей</option><option value="3">Мероприятие</option></select></td>';
-                                        echo '<td><input type="text" id="textInput" name="hrs[]" class="form-control mb-4" placeholder="Часы" value="0"></td>';
                                         $i = $i + 1;
                                     }
                                     echo '</table>';
@@ -118,14 +116,14 @@ require_once 'includes/header.inc.php';
                                 </div>
                             </div>
                         </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <input type="hidden" name="section" value="<?php echo $_POST['section'] ?>">
-                    <button class="btn btn-default" type="submit" name="visits">Внести сведения</button>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <input type="hidden" name="section" value="<?php echo $_POST['section'] ?>">
+                        <button class="btn btn-default" type="submit" name="visits">Внести сведения</button>
+                </form>
             </div>
         </div>
+    </div>
     </div>
     <h3>Список группы</h3>
     <br><br>
@@ -156,13 +154,13 @@ require_once 'includes/header.inc.php';
                 '<th>Действие</th>' .
                 '</tr>' .
                 '</thead>';
-            $parts = $db->select_fs('users', "group_id = '" . $cont['id'] . "'");
+            $parts = $db->select_fs('users', "group_id = '" . $cont['id'] . "' ORDER BY f ASC, i ASC");
             $i = 1;
             foreach ($parts as $part) {
                 echo '<tr>';
                 echo '<td>' . $i . '</td>';
                 echo '<td>' . $part['id'] . '</td>';
-                echo '<td><a href="info.php?uid='.$part['id'].'">' . $part['f'] . ' ' . $part['i'] . ' ' . $part['o'] . '</a></td>';
+                echo '<td><a href="info.php?uid=' . $part['id'] . '">' . $part['f'] . ' ' . $part['i'] . ' ' . $part['o'] . '</a></td>';
                 echo '<td><a class="badge badge-success" target="_blank" href="info.php?uid=' . $part['id'] . '"><i class="fas fa-check"></i> Информационная карта</a></td>';
                 $i = $i + 1;
             }
@@ -174,7 +172,7 @@ require_once 'includes/header.inc.php';
 <?php require_once 'includes/footer.inc.php'; ?>
 <script>
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.mdb-select').materialSelect();
     });
 

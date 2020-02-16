@@ -17,13 +17,13 @@ if (!isset($_GET['uid'])) {
     $usr = $userTools->get($uid);
 }
 
-if(isset($_POST['submit-makewrite'])){
-    $data['from_id'] = "'".$user->id."'";
-    $data['to_id'] = "'".$usr->id."'";
-    $data['datetime'] =  "'" . date("Y-m-d H:i:s", time()) . "'";
-    $data['text'] = "'".$_POST['record']."'";
+if (isset($_POST['submit-makewrite'])) {
+    $data['from_id'] = "'" . $user->id . "'";
+    $data['to_id'] = "'" . $usr->id . "'";
+    $data['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+    $data['text'] = "'" . $_POST['record'] . "'";
     $not = $db->insert($data, 'notes');
-    $msg = '<script type="text/javascript">toastr.success("Внесена запись NOT-'.$not.'", "Успешно!");</script>';
+    $msg = '<script type="text/javascript">toastr.success("Внесена запись NOT-' . $not . '", "Успешно!");</script>';
 }
 
 if ($user->admin < 1) {
@@ -82,7 +82,7 @@ require_once 'includes/header.inc.php';
                 <tbody>
                 <tr>
                     <td>Дата рождения</td>
-                    <td><?php echo $usr->birthday; ?></td>
+                    <td><?php echo date("d.m.Y", strtotime($usr->birthday . " GMT")); ?></td>
                 </tr>
                 <tr>
                     <td>Телефон</td>
@@ -114,22 +114,22 @@ require_once 'includes/header.inc.php';
                    aria-selected="false">Аккаунты</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#contact-md" role="tab"
+                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#visits" role="tab"
+                   aria-controls="contact-md"
+                   aria-selected="false">Посещаемость</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#monitors" role="tab"
                    aria-controls="contact-md"
                    aria-selected="false">Мониторинги</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#contact-md" role="tab"
-                   aria-controls="contact-md"
-                   aria-selected="false">История действий</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#contact-md" role="tab"
+                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#rating" role="tab"
                    aria-controls="contact-md"
                    aria-selected="false">Личный рейтинг</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#contact-md" role="tab"
+                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#pdata" role="tab"
                    aria-controls="contact-md"
                    aria-selected="false">Персональные данные</a>
             </li>
@@ -175,7 +175,7 @@ require_once 'includes/header.inc.php';
                     </thead>
                     <tbody>
                     <?php
-                    $accs = $db->select_fs('accounts', "user_eis = '" . $usr->username . "'");
+                    $accs = $db->select_fs('accounts', "user_eis = '" . $usr->id . "'");
                     foreach ($accs as $acc) {
                         echo '<tr>';
                         echo '<td>' . $acc['id'] . '</td>';
@@ -189,14 +189,98 @@ require_once 'includes/header.inc.php';
                     </tbody>
                 </table>
             </div>
-            <div class="tab-pane fade" id="contact-md" role="tabpanel" aria-labelledby="contact-tab-md">
-                <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo
-                    retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft
-                    beer,
-                    iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony.
-                    Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles
-                    pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of
-                    them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
+            <div class="tab-pane fade" id="visits" role="tabpanel" aria-labelledby="profile-tab-md">
+                <table id="visits2" class="table table-bordered table-hover table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col">VAD-</th>
+                        <th scope="col">День</th>
+                        <th scope="col">Причина пропуска</th>
+                        <th scope="col">Отметку поставил</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $parts = $db->select_fs('visits', "eis_id = '" . $usr->id . "'");
+                    foreach ($parts as $part) {
+                        echo '<tr>';
+                        echo '<td>' . $part['id'] . '</td>';
+                        echo '<td>' . date("d.m.Y", strtotime($part['date'] . " GMT")) . '</td>';
+                        if ($part['reason'] == '0') echo '<td>Не установлена</td>';
+                        else if ($part['reason'] == '1') echo '<td>Пропуск по болезни</td>';
+                        else if ($part['reason'] == '2') echo '<td>Уважительная причина (Заявление родителей)</td>';
+                        else if ($part['reason'] == '3') echo '<td>Уважительная причина (Мероприятие)</td>';
+                        $by = $db->select('users', "id = '" . $part['set_by'] . "'");
+                        echo '<td>' . $by['f'] . ' ' . $by['i'] . ' ' . $by['o'] . ' <a class="badge badge-primary">ЕИС-' . $by['id'] . '</a></td>';
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="monitors" role="tabpanel" aria-labelledby="profile-tab-md">
+                <table id="monitors2" class="table table-bordered table-hover table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col">MBD-</th>
+                        <th scope="col">Наименование работы</th>
+                        <th scope="col">Тип</th>
+                        <th scope="col">Результат</th>
+                        <th scope="col">Действие</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $avg = 0.0;
+                    $nm = 0;
+                    $accs = $db->select_desc_fs('monitors_bids', "usr_id = '" . $usr->id . "'");
+                    foreach ($accs as $acc) {
+                        echo '<tr>';
+                        echo '<td>' . $acc['id'] . '</td>';
+                        $srv = $db->select('monitors', "id = '" . $acc['monitor_id'] . "'");
+                        echo '<td>' . $srv['name'] . '</td>';
+                        if ($srv['type'] == "rated") {
+                            echo '<td>Рейтинговый</td>';
+                            $avg = $avg + (float)$acc['value'];
+                            $nm = $nm + 1;
+                        } else if ($srv['type'] == "notrated") echo '<td>Нерейтинговый</td>';
+                        echo '<td>' . $acc['value'] . '</td>';
+                        echo '<td><a class="badge badge-primary" href="mjob.php?id=' . $acc['id'] . '" target="_blank">Посмотреть подробно</a></td>';
+                        echo '</tr>';
+                    }
+                    ?>
+                    </tbody>
+                </table>
+                <br>
+                <strong>Средний балл по рейтинговым работам: </strong><?php echo $avg / $nm; ?>
+            </div>
+            <div class="tab-pane fade" id="rating" role="tabpanel" aria-labelledby="contact-tab-md">
+                <p>Модуль в разработке.</p>
+            </div>
+            <div class="tab-pane fade" id="pdata" role="tabpanel" aria-labelledby="profile-tab-md">
+                <table id="pdata2" class="table table-bordered table-hover table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col">PDA-</th>
+                        <th scope="col">Поле</th>
+                        <th scope="col">Значение</th>
+                        <th scope="col">Действие</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $accs = $db->select_fs('pdata', "eis_id = '" . $usr->id . "'");
+                    foreach ($accs as $acc) {
+                        echo '<tr>';
+                        echo '<td>' . $acc['id'] . '</td>';
+                        $fld = $db->select('pdata_fields', "id = '" . $acc['field_id'] . "'");
+                        echo '<td>' . $fld['name'] . '</td>';
+                        echo '<td>' . $acc['data'] . '</td>';
+                        echo '<td><a class="badge badge-primary" href="info_cpd.php?id=' . $usr->id . '&pd=' . $acc['id'] . '">Изменить</a></td>';
+                        echo '</tr>';
+                    }
+                    ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -218,8 +302,31 @@ require_once 'includes/header.inc.php';
         $('.dataTables_length').addClass('bs-select');
     });
 
+    $(document).ready(function () {
+        $('#visits2').DataTable({
+            "order": [[0, "desc"]]
+        });
+        $('.dataTables_length').addClass('bs-select');
+    });
+
+    $(document).ready(function () {
+        $('#monitors2').DataTable({
+            "order": [[0, "desc"]]
+        });
+        $('.dataTables_length').addClass('bs-select');
+    });
+
+    $(document).ready(function () {
+        $('#pdata2').DataTable({
+            "order": [[0, "asc"]],
+            "iDisplayLength": 25
+        });
+        $('.dataTables_length').addClass('bs-select');
+    });
+
+
 </script>
-<?php if($msg != ''){
+<?php if ($msg != '') {
     echo $msg;
 }
 ?>

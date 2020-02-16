@@ -18,7 +18,7 @@
     color: #5a5a5a;
 }
 
-.mw100{
+.mw100 {
     min-width: 100%;
 }
 
@@ -27,23 +27,23 @@
     font-family: Consolas;
 }
 
-.itogs{
+.itogs {
     max-width: 5em;
 }
 
-.fixed-5em{
+.fixed-5em {
     max-width: 5em;
 }
 
-.fixed-15em{
+.fixed-15em {
     max-width: 15em;
 }
 
-.fixed-25em{
+.fixed-25em {
     max-width: 25em;
 }
 
-.fixed-35em{
+.fixed-35em {
     max-width: 35em;
 }
 

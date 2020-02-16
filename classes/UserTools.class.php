@@ -11,7 +11,7 @@ class UserTools
         $db = new DB();
         $connection = $db->connect_get();
         $hashedPassword = md5($password);
-        $result = mysqli_query($connection, "SELECT * FROM users WHERE username = '$username' AND 
+        $result = mysqli_query($connection, "SELECT * FROM users WHERE id = '$username' AND 
 			password = '$hashedPassword'");
         if (mysqli_num_rows($result) == 1) {
             $data = mysqli_fetch_assoc($result);
@@ -107,25 +107,11 @@ class UserTools
         return true;
     }
 
-    public function notify($username, $who, $comment)
+    public function notify($userid, $who, $comment)
     {
         $db = new DB();
         $connection = $db->connect_get();
-        $now_state = $db->select('users', "username = '" . $username . "'");
-        $data1['userid'] = "'" . $now_state['id'] . "'";
-        $data1['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-        $data1['ot'] = "'" . $who . "'";
-        $data1['text'] = "'" . $comment . "'";
-        $db->insert($data1, 'logs');
-        return true;
-    }
-
-    public function notify_id($username, $who, $comment)
-    {
-        $db = new DB();
-        $connection = $db->connect_get();
-        $now_state = $db->select('users', "id = '" . $username . "'");
-        $data1['userid'] = "'" . $now_state['id'] . "'";
+        $data1['userid'] = "'" . $userid . "'";
         $data1['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
         $data1['ot'] = "'" . $who . "'";
         $data1['text'] = "'" . $comment . "'";

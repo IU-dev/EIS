@@ -17,11 +17,11 @@ $user = unserialize($_SESSION['user']);
 </head>
 <body>
 <center><br>
-    <h1><?php echo $user->f." ".$user->i." ".$user->o; ?></h1>
-    <h3>ID ЕИС: <?php echo $user->username; ?></h3>
+    <h1><?php echo $user->f . " " . $user->i . " " . $user->o; ?></h1>
+    <h3>ID ЕИС: <?php echo $user->id; ?></h3>
     <br>
     <h3>Группа: <?php
-        $group = $db->select('groups', "id = '".$user->group_id."'");
+        $group = $db->select('groups', "id = '" . $user->group_id . "'");
         echo $group['name'];
         ?></h3>
     <br><br>

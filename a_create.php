@@ -31,11 +31,7 @@ if(isset($_POST['submit-otkaz'])){
     echo '<div class="alert alert-success">Отказ на заявку с ID '.$_POST['id'].' успешно выдан.</div>';
     $tick = $db->select('tickets_create', "id = '".$_POST['id']."'");
     $usvr = $db->select('users', "id = '".$tick['from_eis']."'");
-    $ndata['userid'] = "'".$usvr['id']."'";
-    $ndata['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-    $ndata['ot'] = "'". $user->f . " " . $user->i . " " . $user->o . " (ЕИС-" . $user->id . ")'";
-    $ndata['text'] = "'Обновлен статус заявки на создание аккаунта № ".$_POST['id'].": Отказано.'";
-    $ig = $db->insert($ndata, 'logs');
+    $userTools->notify($usvr['id'], "Система", "Обновлен статус заявки на создание аккаунта № ".$_POST['id'].": Отказано.");
 }
 
 if(isset($_POST['submit-vidat'])){
@@ -46,10 +42,7 @@ if(isset($_POST['submit-vidat'])){
     echo '<div class="alert alert-success">Аккаунт на заявку с ID '.$_POST['id'].' успешно выдан.</div>';
     $tick = $db->select('tickets_create', "id = '".$_POST['id']."'");
     $usvr = $db->select('users', "id = '".$tick['from_eis']."'");
-    $ndata['userid'] = "'".$usvr['id']."'";
-    $ndata['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
-    $ndata['ot'] = "'". $user->f . " " . $user->i . " " . $user->o . " (ЕИС-" . $user->id . ")'";
-    $ndata['text'] = "'Обновлен статус заявки на создание аккаунта № ".$_POST['id'].": Исполнена.'";
+    $userTools->notify($usvr['id'], "Система", "Обновлен статус заявки на создание аккаунта № ".$_POST['id'].": Исполнена.");
     $ig = $db->insert($ndata, 'logs');
     $adata['user_eis'] = "'".$usvr['id']."'";
     $adata['service_id'] = "'".$_POST['service_id']."'";

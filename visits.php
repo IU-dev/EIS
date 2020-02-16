@@ -40,23 +40,21 @@ require_once 'includes/header.inc.php';
                     '<tr>' .
                     '<th>ID</th>' .
                     '<th>Дата</th>' .
-                    '<th>Пропущено уроков</th>' .
                     '<th>Причина</th>' .
                     '<th>Отметил пользователь</th>' .
                     '</tr>' .
                     '</thead>';
-                $parts = $db->select_fs('visits', "eis_id = '".$user->username."'");
+                $parts = $db->select_fs('visits', "eis_id = '" . $user->id . "'");
                 foreach ($parts as $part) {
                     echo '<tr>';
                     echo '<td>' . $part['id'] . '</td>';
                     echo '<td>' . date("d.m.Y", strtotime($part['date'] . " GMT")) . '</td>';
-                    echo '<td>' . $part['hrs'] . '</td>';
-                    if($part['reason'] == '0') echo '<td>Не установлена</td>';
-                    else if($part['reason'] == '1') echo '<td>Пропуск по болезни</td>';
-                    else if($part['reason'] == '2') echo '<td>Уважительная причина (Заявление родителей)</td>';
-                    else if($part['reason'] == '3') echo '<td>Уважительная причина (Мероприятие)</td>';
-                    $by = $db->select('users', "username = '".$part['set_by']."'");
-                    echo '<td>'.$by['f'].' '.$by['i'].' '.$by['o'].' <a class="badge badge-primary">ЕИС-'.$by['username'].'</a></td>';
+                    if ($part['reason'] == '0') echo '<td>Не установлена</td>';
+                    else if ($part['reason'] == '1') echo '<td>Пропуск по болезни</td>';
+                    else if ($part['reason'] == '2') echo '<td>Уважительная причина (Заявление родителей)</td>';
+                    else if ($part['reason'] == '3') echo '<td>Уважительная причина (Мероприятие)</td>';
+                    $by = $db->select('users', "id = '" . $part['set_by'] . "'");
+                    echo '<td>' . $by['f'] . ' ' . $by['i'] . ' ' . $by['o'] . ' <a class="badge badge-primary">ЕИС-' . $by['id'] . '</a></td>';
                 }
                 echo '</table>';
                 ?>
@@ -66,12 +64,13 @@ require_once 'includes/header.inc.php';
         <script>
             $(document).ready(function () {
                 $('#participants').DataTable({
-                    "order": [[ 0, "desc" ]]
+                    "order": [[0, "desc"]]
                 });
                 $('.dataTables_length').addClass('bs-select');
             });
 
-        </script><br>
+        </script>
+        <br>
     </div>
 </center>
 </body>

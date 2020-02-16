@@ -23,14 +23,15 @@ if (isset($_POST['submit'])) {
 if (isset($_POST['submit-create'])) {
     foreach ($_POST['eis'] as $key => $usr) {
         if ($_POST['login'][$key] != "") {
-            $data['user_eis'] = "'".$usr."'";
-            $data['service_id'] = "'".$_POST['service_id']."'";
-            $data['login'] = "'".$_POST['login'][$key]."'";
-            $data['password'] = "'".$_POST['password'][$key]."'";
+            $data['user_eis'] = "'" . $usr . "'";
+            $data['service_id'] = "'" . $_POST['service_id'] . "'";
+            $data['login'] = "'" . $_POST['login'][$key] . "'";
+            $data['password'] = "'" . $_POST['password'][$key] . "'";
             $data['last_update'] = "'" . date("Y-m-d H:i:s", time()) . "'";
             $data['last_update_user_eis'] = "'" . $user->id . "'";
             $data['created_by_eis'] = "'" . $user->id . "'";
             $res = $db->insert($data, 'accounts');
+            $userTools->notify($data['user_eis'], "Система", "Вам был выдан аккаунт № ACC-" . $res . " (групповая выдача)");
         }
     }
     echo 'Процедура групповой выдачи аккаунтов произведена успешно.';
@@ -46,7 +47,7 @@ require_once 'includes/header.inc.php';
 <center><br>
     <?php if ($display == 0) : ?>
         <form class="md-form border border-light p-5" action="a_give_group.php" method="post">
-            <p class="h4 mb-4 text-center">Выберите группу обучающихся</p>
+            <p class="h4 mb-4 text-center">Выберите группу</p>
             <select class="browser-default custom-select mb-4" id="select" name="section">
                 <?php
                 if ($user->admin == 2) $sections = $db->select_fs('groups', "id != '0'");
@@ -96,7 +97,7 @@ require_once 'includes/header.inc.php';
                 '<th>Пароль</th>' .
                 '</tr>' .
                 '</thead>';
-            $parts = $db->select_fs('users', "group_id = '" . $cont['id'] . "'");
+            $parts = $db->select_fs('users', "group_id = '" . $cont['id'] . "' ORDER BY f ASC, i ASC");
             $i = 1;
             foreach ($parts as $part) {
                 echo '<input type="hidden" name="eis[]" value="' . $part['id'] . '">';

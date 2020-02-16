@@ -17,7 +17,7 @@
 <script type="text/javascript" src="js/toastr.min.js"></script>
 <!-- Bootstrap tooltips -->
 <script>
-    if(device.desktop()) $('body').addClass("desktop");
-    if(device.tablet()) $('body').addClass("mobile");
-    if(device.mobile()) $('body').addClass("mobile");
+    if (device.desktop()) $('body').addClass("desktop");
+    if (device.tablet()) $('body').addClass("mobile");
+    if (device.mobile()) $('body').addClass("mobile");
 </script>
