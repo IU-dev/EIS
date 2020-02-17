@@ -35,6 +35,9 @@
                 <h6 class="dropdown-header">Просмотр</h6>
                 <a class="dropdown-item" href="myclass.php">Списки классов</a>
                 <a class="dropdown-item" href="not_visited.php">Отсутствующие</a>
+                <div class="dropdown-divider"></div>
+                <h6 class="dropdown-header">Мониторинги</h6>
+                <a class="dropdown-item" href="mon_list.php">Список мониторингов</a>
                 <?php if ($user->admin == 2) : ?>
                     <div class="dropdown-divider"></div>
                     <h6 class="dropdown-header">Особые действия</h6>
@@ -45,18 +48,6 @@
                 <?php endif ?>
             <?php endif ?>
             <?php if ($user->admin == "2") : ?>
-                <li class="nav-item dropdown <?php echo($page == "mon_enter_man.php" || $page == "mon_enter_sod.php" || $page == "mon_list.php" ? "active" : ""); ?>">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">Мониторинги
-                    </a>
-                    <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                        <h6 class="dropdown-header">Обработка</h6>
-                        <a class="dropdown-item" href="mon_enter_man.php">Внести данные вручную</a>
-                        <a class="dropdown-item" href="mon_enter_sod.php">Внести данные СОД</a>
-                        <h6 class="dropdown-header">Мониторинги</h6>
-                        <a class="dropdown-item" href="mon_list.php">Список мониторингов</a>
-                    </div>
-                </li>
                 <li class="nav-item dropdown <?php echo($page == "a_create.php" || $page == "a_flush.php" || $page == "a_give_solo.php" || $page == "a_give_group.php" || $page == "a_delete.php" ? "active" : ""); ?>">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">Администратор

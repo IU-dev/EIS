@@ -71,7 +71,8 @@ require_once 'includes/header.inc.php';
     </tr>
     <tr>
         <td><strong>Текст</strong></td>
-        <td><?php echo $mjb['text']; ?></td>
+        <td><?php $string = $mjb['text'];
+                substr_replace($string,"<br>", "\n"); echo $string; ?></td>
     </tr>
     </tbody>
 </table>
