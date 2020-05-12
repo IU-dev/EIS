@@ -17,6 +17,7 @@ require_once 'includes/header.inc.php';
     <div class="alert alert-info" role="alert">
         <h3>Добро пожаловать!</h3>
         <em>Текущая версия системы: R1.4 U1</em><br>
+        <a role="button" class="btn btn-lg btn-primary" href="applics.php">Заявления</a>
         <?php if($user->admin == "9" || $user->admin == "2") echo '<a role="button" class="btn btn-lg btn-primary" href="delay.php">Отметить отсутствующих</a>'; ?>
         <?php
         if (isset($_SESSION['user'])) {

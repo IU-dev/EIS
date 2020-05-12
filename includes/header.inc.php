@@ -20,6 +20,7 @@
                 <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
                     <a class="dropdown-item" href="show.php">Логины и пароли</a>
                     <a class="dropdown-item" href="visits.php">Посещаемость</a>
+                    <a class="dropdown-item" href="applics.php">Заявления</a>
                     <?php if ($user->admin == 9 || $user->admin == 2) : ?>
                         <hr>
                         <a class="dropdown-item" href="delay.php">Отметить отсутствующих</a>
