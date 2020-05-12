@@ -42,7 +42,7 @@ require_once 'includes/header.inc.php';
     <title>Результаты мониторинга | <?php echo $pname; ?></title>
 </head>
 <body>
-<center><br>
+<center>
     <br><?php if (isset($msg)) echo $msg; ?><br>
 </center>
 <div class="modal fade" id="manual" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

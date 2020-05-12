@@ -51,7 +51,7 @@ require_once 'includes/header.inc.php';
             <p class="h4 mb-4 text-center">Выберите группу обучающихся</p>
             <select class="browser-default custom-select mb-4" id="select" name="section">
                 <?php
-                if ($user->admin == 2) $sections = $db->select_fs('groups', "id != '0'");
+                if ($user->admin == 2 || $user->admin == 9) $sections = $db->select_fs('groups', "id != '0'");
                 else $sections = $db->select_fs('groups', "curator_id = '" . $user->id . "'");
                 foreach ($sections as $section) {
                     $cur = $db->select('users', "id = '" . $section['curator_id'] . "'");

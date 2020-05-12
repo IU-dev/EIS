@@ -22,7 +22,7 @@
                     <a class="dropdown-item" href="visits.php">Посещаемость</a>
                     <?php if ($user->admin == 9 || $user->admin == 2) : ?>
                         <hr>
-                        <a class="dropdown-item" href="delay.php">Отметить опоздавших</a>
+                        <a class="dropdown-item" href="delay.php">Отметить отсутствующих</a>
                     <?php endif ?>
                 </div>
             </li>

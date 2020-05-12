@@ -22,6 +22,19 @@ if (isset($_GET['act'])) {
         echo 'INDEV';
     } else if ($_GET['act'] == "getlog") {
         echo 'INDEV';
+    } else if ($_GET['act'] == "regenerate") {
+        $grps = $db->select_fs('groups', "id != '0'");
+        foreach ($grps as $grp) {
+            echo '<strong>Группа ' . $grp['name'] . '</strong><br>';
+            $usrs = $db->select_fs('users', "group_id = '" . $grp['id'] . "'");
+            foreach ($usrs as $usr) {
+                $np = random_int(1000, 9999);
+                $data['password'] = "'" . md5($np) . "'";
+                $b = $db->update($data, 'users', "id = '" . $usr['id'] . "'");
+                echo $usr['f'] . ';' . $usr['i'] . ';' . $usr['o'] . ';' . $usr['id'] . ';' . $np . '<br>';
+            }
+            echo '<br>';
+        }
     } else if ($_GET['act'] == "getIrbisData") {
         $usrs = $db->select_fs('users', "id != '0'");
         echo 'getIrbisData: Генерация данных для системы ИРБИС64.<br><strong>Внимание! Не забудьте перекодировать txt файл в кодировку Windows!!!</strong><hr>';
