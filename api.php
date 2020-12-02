@@ -42,7 +42,7 @@ if (isset($_GET['act'])) {
         foreach ($usrs as $usr){
             echo '('.$usr['id'].') '.$usr['f'].' '.$usr['i'].' '.$usr['o'].'<br>';
         }
-        echo '<hr>Выписка из Единой информационной системы МБОУ "ИТ-лицей №24"';
+        echo '<hr>Выписка из Единой информационной системы<br>МБОУ "ИТ-лицей №24"';
         echo '<br>'.date("d.m.Y H:i:s");
     } else if ($_GET['act'] == "getIrbisData") {
         $usrs = $db->select_fs('users', "id != '0'");
