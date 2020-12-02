@@ -130,6 +130,9 @@ require_once 'includes/header.inc.php';
     <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalLoginForm">
         Передать информацию об отсутствующих
     </button>
+    <a type="button" class="btn btn-sm btn-primary" target="_blank" href="api.php?act=getLinksForParents&gid=<?php echo $_POST['section'] ?>">
+        Список для внесения данных
+    </a>
     <br><br>
 </center>
 <div class="card card-cascade narrower">

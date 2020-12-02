@@ -25,6 +25,10 @@
                         <hr>
                         <a class="dropdown-item" href="delay.php">Отметить отсутствующих</a>
                     <?php endif ?>
+                    <?php if ($user->admin == 8 || $user->admin == 2) : ?>
+                        <hr>
+                        <a class="dropdown-item" href="docs.php">Выписка документов</a>
+                    <?php endif ?>
                 </div>
             </li>
             <?php if ($user->admin == "1" || $user->admin == "2") : ?>

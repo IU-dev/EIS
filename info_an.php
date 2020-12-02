@@ -21,14 +21,14 @@ if (isset($_POST['submit'])) {
     foreach ($flds as $key => $fld) {
         $check = $db->select('pdata', "eis_id = '" . $_POST['uid'] . "' AND field_id = '" . $key . "'");
         if (isset($check['data'])) {
-            $data['data'] = "'" . $fld . "'";
+            $data['data'] = "'" . str_replace('"', '', $fld) . "'";
             $data['last_update_by'] = "'0'";
             $data['last_update_datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
             $ib = $db->update($data, 'pdata', "id = '" . $check['id'] . "'");
         } else {
             $data['eis_id'] = "'" . $_POST['uid'] . "'";
             $data['field_id'] = "'" . $key . "'";
-            $data['data'] = "'" . $fld . "'";
+            $data['data'] = "'" . str_replace('"', '', $fld) . "'";
             $data['last_update_by'] = "'0'";
             $data['last_update_datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
             $ib = $db->insert($data, 'pdata');

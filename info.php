@@ -85,16 +85,14 @@ require_once 'includes/header.inc.php';
                     <td><?php echo date("d.m.Y", strtotime($usr->birthday . " GMT")); ?></td>
                 </tr>
                 <tr>
-                    <td>Телефон</td>
-                    <td><?php echo $usr->phone; ?></td>
-                </tr>
-                <tr>
-                    <td>Электронная почта</td>
-                    <td><?php echo $usr->email; ?></td>
-                </tr>
-                <tr>
                     <td>Личное дело</td>
                     <td><?php echo $usr->delo; ?></td>
+                </tr>
+                <tr>
+                    <td>Соглашение об обработке ПД</td>
+                    <?php if(count($db->select('pdata_docs', "user_id = '".$usr->id."'")) == 0){
+                        echo '<td>Не существует <a href="info.php?uid='.$usr->id.'&make_sogl=1" class="badge badge-pill badge-primary">Создать</a></td>'; }
+                        else if($db->select('pdata_docs', "user_id = '".$usr->id."'")['state'] == '0') echo '№ ID, не подписано <a href="info.php?uid='.$usr->id.'&sign_sogl=1" class="badge badge-pill badge-primary">Подписать</a></td>'?>
                 </tr>
                 </tbody>
             </table>
