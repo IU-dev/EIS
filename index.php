@@ -15,10 +15,8 @@ require_once 'includes/header.inc.php';
     <h1>Единая информационная система</h1>
     <h3>МБОУ "ИТ-лицей №24"</h3><br>
     <div class="alert alert-info" role="alert">
-        <h3>Добро пожаловать!</h3>
-        <em>Текущая версия системы: R1.4 U1</em><br>
-        <a role="button" class="btn btn-lg btn-primary" href="applics.php">Заявления</a>
-        <?php if($user->admin == "9" || $user->admin == "2") echo '<a role="button" class="btn btn-lg btn-primary" href="delay.php">Отметить отсутствующих</a>'; ?>
+        <h3>Добро пожаловать, <?php echo $user->i.' '.$user->o; ?>!</h3>
+        <em>Текущая версия системы: R1.5 U1</em><br>
         <?php
         if (isset($_SESSION['user'])) {
             $user = unserialize($_SESSION['user']);

@@ -26,6 +26,30 @@ if (isset($_POST['submit-makewrite'])) {
     $msg = '<script type="text/javascript">toastr.success("Внесена запись NOT-' . $not . '", "Успешно!");</script>';
 }
 
+if ($_GET['make_sogl'] == "1") {
+    if ($db->counter('pdata_docs', "user_id = '" . $uid . "' AND (state = '0' OR state = '1')") > 0) {
+        $msg = '<script type="text/javascript">toastr.error("Для данного пользователя уже сформировано действующее соглашение", "Ошибка!");</script>';
+    } else {
+        $data['user_id'] = "'" . $uid . "'";
+        $data['state'] = "'0'";
+        $pdc = $db->insert($data, 'pdata_docs');
+        $msg = '<script type="text/javascript">toastr.success("Внесено соглашение об обработке ПД PDC-' . $pdc . '", "Успешно!");</script>';
+    }
+}
+
+if (isset($_GET['sign_sogl'])) {
+    if ($user->admin == "2") {
+        $sogl = $db->select('pdata_docs', "id = '" . $_GET['sign_sogl'] . "'");
+        if ($sogl['state'] == "0") {
+            $data['state'] = "'1'";
+            $data['who_signed'] = "'" . $user->id . "'";
+            $data['date_accept'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+            $p = $db->update($data, 'pdata_docs', "id = '" . $_GET['sign_sogl'] . "'");
+            $msg = '<script type="text/javascript">toastr.success("Вы успешно подписали соглашение", "Успешно!");</script>';
+        } else $msg = '<script type="text/javascript">toastr.error("Данное соглашение уже подписано, либо отозвано", "Ошибка!");</script>';
+    } else $msg = '<script type="text/javascript">toastr.error("У вас нет прав для подписания соглашения", "Ошибка!");</script>';
+}
+
 if ($user->admin < 1) {
     header("Location: access_denied.php");
 }
@@ -90,9 +114,37 @@ require_once 'includes/header.inc.php';
                 </tr>
                 <tr>
                     <td>Соглашение об обработке ПД</td>
-                    <?php if(count($db->select('pdata_docs', "user_id = '".$usr->id."'")) == 0){
-                        echo '<td>Не существует <a href="info.php?uid='.$usr->id.'&make_sogl=1" class="badge badge-pill badge-primary">Создать</a></td>'; }
-                        else if($db->select('pdata_docs', "user_id = '".$usr->id."'")['state'] == '0') echo '№ ID, не подписано <a href="info.php?uid='.$usr->id.'&sign_sogl=1" class="badge badge-pill badge-primary">Подписать</a></td>'?>
+                    <?php
+                    $display_create = 0;
+                    $counts = [];
+                    $counts['0'] = 0;
+                    $counts['1'] = 0;
+                    $counts['2'] = 0;
+                    $docs = $db->select_fs('pdata_docs', "user_id = '" . $usr->id . "'");
+                    if (count($db->select('pdata_docs', "user_id = '" . $usr->id . "'")) == 0) {
+                        echo '<td>Не существует ';
+                        $display_create = 1;
+                    } else {
+                        echo '<td>';
+                        foreach ($docs as $doc) {
+                            if ($doc['state'] == "0") {
+                                echo '№ ' . $doc['id'] . ', <strong>не подписано</strong> <a href="print.php?sysdoc=1&id=' . $doc['id'] . '" class="badge badge-pill badge-primary" target="_blank">Распечатать</a> ';
+                                if ($user->admin == 2) echo '<a href="info.php?uid=' . $usr->id . '&sign_sogl=' . $doc['id'] . '" class="badge badge-pill badge-primary">Подписать</a> ';
+                                else echo '<small>Согласие может подписать технический администратор системы</small> ';
+                                $counts['0'] = $counts['0'] + 1;
+                            } else if ($doc['state'] == "1") {
+                                echo '№ ' . $doc['id'] . ', подписано ' . date("d.m.Y H:i:s", strtotime($doc['date_accept'] . " GMT")) . ' (' . $userTools->get_name($doc['who_signed']) . ') ';
+                                $counts['1'] = $counts['1'] + 1;
+                            } else if ($doc['state'] == "2") {
+                                echo '№ ' . $doc['id'] . ', отозвано ' . date("d.m.Y H:i:s", strtotime($doc['date_null'] . " GMT")) . ' (' . $userTools->get_name($doc['who_null']) . ') ';
+                                $counts['2'] = $counts['2'] + 1;
+                            }
+                        }
+                    }
+                    if ($display_create == 1 || ($counts['2'] > $counts['0'] && $counts['2'] > $counts['1'])) echo '<a href="info.php?uid=' . $usr->id . '&make_sogl=1" class="badge badge-pill badge-primary">Создать</a><br>';
+                    echo '</td>';
+
+                    ?>
                 </tr>
                 </tbody>
             </table>
@@ -130,6 +182,11 @@ require_once 'includes/header.inc.php';
                 <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#pdata" role="tab"
                    aria-controls="contact-md"
                    aria-selected="false">Персональные данные</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#actions" role="tab"
+                   aria-controls="contact-md"
+                   aria-selected="false">Действия</a>
             </li>
         </ul>
         <div class="tab-content card pt-5 mw100" id="myTabContentMD">
@@ -279,6 +336,10 @@ require_once 'includes/header.inc.php';
                     ?>
                     </tbody>
                 </table>
+            </div>
+            <div class="tab-pane fade show" id="actions" role="tabpanel" aria-labelledby="profile-tab-md">
+                <strong>Действия с пользователем:</strong><br>
+
             </div>
         </div>
     </div>

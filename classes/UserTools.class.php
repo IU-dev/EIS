@@ -56,6 +56,13 @@ class UserTools
         return new User($result);
     }
 
+    public function get_name($id){
+        $db = new DB();
+        $connection = $db->connect_get();
+        $result = $db->select('users', "id = $id");
+        return $result['f'].' '.$result['i'].' '.$result['o'];
+    }
+
     public function add_points($username, $who, $num, $comment)
     {
         $db = new DB();

@@ -5,8 +5,8 @@ class DB
 {
 
     protected $db_name = 'admin_eis24db';
-    protected $db_user = 'admin_eis24';
-    protected $db_pass = 'P@ssw0rdgim24';
+    protected $db_user = 'root';
+    protected $db_pass = '';
     protected $db_host = 'localhost';
 
     // Открывает соединение к БД. Убедитесь, что
