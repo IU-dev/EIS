@@ -10,6 +10,7 @@
     }
   ],
   "require": {
-    "phpoffice/phpword": "0.17.0"
+    "phpoffice/phpword": "0.16.0",
+    "shuchkin/simplexlsx": "0.8.18"
   }
 }

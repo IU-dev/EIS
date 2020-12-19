@@ -9,7 +9,7 @@ if (!isset($_SESSION['logged_in'])) {
 
 $user = unserialize($_SESSION['user']);
 
-if ($user->admin < 2) {
+if ($user->admin < 9) {
     header("Location: access_denied.php");
 }
 

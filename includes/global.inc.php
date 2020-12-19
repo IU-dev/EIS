@@ -3,6 +3,7 @@ require_once 'classes/User.class.php';
 require_once 'classes/UserTools.class.php';
 require_once 'classes/DB.class.php';
 require_once 'includes/footer.inc.php';
+require 'vendor/autoload.php';
 $pname = 'МБОУ "ИТ-лицей №24"';
 //connect to the database
 $db = new DB();

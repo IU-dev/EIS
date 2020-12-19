@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
 
 $user = unserialize($_SESSION['user']);
 
-if ($user->admin < 1) {
+if ($user->admin < 2) {
     header("Location: access_denied.php");
 }
 

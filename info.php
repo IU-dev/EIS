@@ -38,7 +38,7 @@ if ($_GET['make_sogl'] == "1") {
 }
 
 if (isset($_GET['sign_sogl'])) {
-    if ($user->admin == "2") {
+    if ($user->admin > 9) {
         $sogl = $db->select('pdata_docs', "id = '" . $_GET['sign_sogl'] . "'");
         if ($sogl['state'] == "0") {
             $data['state'] = "'1'";
@@ -129,7 +129,7 @@ require_once 'includes/header.inc.php';
                         foreach ($docs as $doc) {
                             if ($doc['state'] == "0") {
                                 echo '№ ' . $doc['id'] . ', <strong>не подписано</strong> <a href="print.php?sysdoc=1&id=' . $doc['id'] . '" class="badge badge-pill badge-primary" target="_blank">Распечатать</a> ';
-                                if ($user->admin == 2) echo '<a href="info.php?uid=' . $usr->id . '&sign_sogl=' . $doc['id'] . '" class="badge badge-pill badge-primary">Подписать</a> ';
+                                if ($user->admin == 9) echo '<a href="info.php?uid=' . $usr->id . '&sign_sogl=' . $doc['id'] . '" class="badge badge-pill badge-primary">Подписать</a> ';
                                 else echo '<small>Согласие может подписать технический администратор системы</small> ';
                                 $counts['0'] = $counts['0'] + 1;
                             } else if ($doc['state'] == "1") {
@@ -139,6 +139,7 @@ require_once 'includes/header.inc.php';
                                 echo '№ ' . $doc['id'] . ', отозвано ' . date("d.m.Y H:i:s", strtotime($doc['date_null'] . " GMT")) . ' (' . $userTools->get_name($doc['who_null']) . ') ';
                                 $counts['2'] = $counts['2'] + 1;
                             }
+                            echo "<br>";
                         }
                     }
                     if ($display_create == 1 || ($counts['2'] > $counts['0'] && $counts['2'] > $counts['1'])) echo '<a href="info.php?uid=' . $usr->id . '&make_sogl=1" class="badge badge-pill badge-primary">Создать</a><br>';
@@ -159,9 +160,14 @@ require_once 'includes/header.inc.php';
                    aria-selected="true">Записи</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="profile-tab-md" data-toggle="tab" href="#accs" role="tab"
-                   aria-controls="profile-md"
-                   aria-selected="false">Аккаунты</a>
+                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#rating" role="tab"
+                   aria-controls="contact-md"
+                   aria-selected="false">Личный рейтинг</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#pdata" role="tab"
+                   aria-controls="contact-md"
+                   aria-selected="false">Персональные данные</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#visits" role="tab"
@@ -174,14 +180,9 @@ require_once 'includes/header.inc.php';
                    aria-selected="false">Мониторинги</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#rating" role="tab"
-                   aria-controls="contact-md"
-                   aria-selected="false">Личный рейтинг</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#pdata" role="tab"
-                   aria-controls="contact-md"
-                   aria-selected="false">Персональные данные</a>
+                <a class="nav-link" id="profile-tab-md" data-toggle="tab" href="#accs" role="tab"
+                   aria-controls="profile-md"
+                   aria-selected="false">Аккаунты</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#actions" role="tab"
@@ -339,7 +340,28 @@ require_once 'includes/header.inc.php';
             </div>
             <div class="tab-pane fade show" id="actions" role="tabpanel" aria-labelledby="profile-tab-md">
                 <strong>Действия с пользователем:</strong><br>
-
+                <details>
+                    <summary>Печать документов пользователя</summary>
+                    <?php
+                    echo '<ul>';
+                    $forms = $db->select_fs('forms', "type = 'user' AND state = '1'");
+                    foreach($forms as $form){
+                        echo '<li><a target="_blank" href="print.php?customdoc='.$form['id'].'&id='.$usr->id.'">'.$form['name'].'</a></li>';
+                    }
+                    echo '</ul>';
+                    ?>
+                </details>
+                <details>
+                    <summary>Создание реестрового документа</summary>
+                    <?php
+                    echo '<ul>';
+                    $forms = $db->select_fs('forms', "type = 'user_reestr' AND state = '1'");
+                    foreach($forms as $form){
+                        echo '<li><a target="_blank" href="print.php?reestrdoc='.$form['id'].'&id='.$usr->id.'">'.$form['name'].'</a></li>';
+                    }
+                    echo '</ul>';
+                    ?>
+                </details>
             </div>
         </div>
     </div>

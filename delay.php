@@ -34,7 +34,7 @@ if (isset($_POST['visits'])) {
 
 $user = unserialize($_SESSION['user']);
 
-if ($user->admin < 1) {
+if ($user->admin < 2) {
     header("Location: access_denied.php");
 }
 
@@ -51,7 +51,7 @@ require_once 'includes/header.inc.php';
             <p class="h4 mb-4 text-center">Выберите группу обучающихся</p>
             <select class="browser-default custom-select mb-4" id="select" name="section">
                 <?php
-                if ($user->admin == 2 || $user->admin == 9) $sections = $db->select_fs('groups', "id != '0' ORDER BY parallel ASC, name ASC");
+                if ($user->admin > 1) $sections = $db->select_fs('groups', "id != '0' ORDER BY parallel ASC, name ASC");
                 else $sections = $db->select_fs('groups', "curator_id = '" . $user->id . "' ORDER BY parallel ASC, name ASC");
                 foreach ($sections as $section) {
                     $cur = $db->select('users', "id = '" . $section['curator_id'] . "'");

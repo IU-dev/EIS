@@ -12,10 +12,6 @@ $rt = false;
 
 $user = unserialize($_SESSION['user']);
 
-if ($user->admin < 1) {
-    header("Location: access_denied.php");
-}
-
 if (isset($_POST['submit'])) {
     $flds = $_POST['fld'];
     foreach ($flds as $key => $fld) {

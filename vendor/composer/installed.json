@@ -97,17 +97,17 @@
     },
     {
         "name": "phpoffice/phpword",
-        "version": "0.17.0",
-        "version_normalized": "0.17.0.0",
+        "version": "0.16.0",
+        "version_normalized": "0.16.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHPOffice/PHPWord.git",
-            "reference": "b8346af548d399acd9e30fc76ab0c55c2fec03a5"
+            "reference": "7b7d4e4936014544aa706f4c03d3ac925d74beb9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPOffice/PHPWord/zipball/b8346af548d399acd9e30fc76ab0c55c2fec03a5",
-            "reference": "b8346af548d399acd9e30fc76ab0c55c2fec03a5",
+            "url": "https://api.github.com/repos/PHPOffice/PHPWord/zipball/7b7d4e4936014544aa706f4c03d3ac925d74beb9",
+            "reference": "7b7d4e4936014544aa706f4c03d3ac925d74beb9",
             "shasum": ""
         },
         "require": {
@@ -136,11 +136,11 @@
             "ext-xsl": "Allows applying XSL style sheet to headers, to main document part, and to footers of an OOXML template",
             "ext-zip": "Allows writing OOXML and ODF"
         },
-        "time": "2019-10-01T20:43:33+00:00",
+        "time": "2018-12-30T00:35:03+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-develop": "0.18-dev"
+                "dev-develop": "0.17-dev"
             }
         },
         "installation-source": "dist",
@@ -163,16 +163,16 @@
                 "homepage": "http://gabrielbull.com/"
             },
             {
-                "name": "Franck Lefevre",
-                "homepage": "https://rootslabs.net/blog/"
-            },
-            {
                 "name": "Ivan Lanin",
                 "homepage": "http://ivan.lanin.org"
             },
             {
                 "name": "Roman Syroeshko",
                 "homepage": "http://ru.linkedin.com/pub/roman-syroeshko/34/a53/994/"
+            },
+            {
+                "name": "Franck Lefevre",
+                "homepage": "https://rootslabs.net/blog/"
             },
             {
                 "name": "Antoine de Troostembergh"
@@ -204,6 +204,55 @@
             "template processor",
             "word",
             "writer"
+        ]
+    },
+    {
+        "name": "shuchkin/simplexlsx",
+        "version": "0.8.18",
+        "version_normalized": "0.8.18.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/shuchkin/simplexlsx.git",
+            "reference": "9325345853e453affdc8591cb7216538b856ce05"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/shuchkin/simplexlsx/zipball/9325345853e453affdc8591cb7216538b856ce05",
+            "reference": "9325345853e453affdc8591cb7216538b856ce05",
+            "shasum": ""
+        },
+        "require": {
+            "ext-libxml": "*",
+            "ext-simplexml": "*",
+            "ext-zlib": "*"
+        },
+        "time": "2020-07-21T16:47:24+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/SimpleXLSX.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Sergey Shuchkin (SMSPILOT)",
+                "email": "sergey.shuchkin@gmail.com",
+                "homepage": "http://www.shuchkin.ru/"
+            }
+        ],
+        "description": "Parse and retrieve data from Excel XLSx files. MS Excel 2007 workbooks PHP reader.",
+        "homepage": "https://github.com/shuchkin/simplexlsx",
+        "keywords": [
+            "backend",
+            "excel",
+            "parser",
+            "php",
+            "xlsx"
         ]
     },
     {

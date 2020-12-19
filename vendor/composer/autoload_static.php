@@ -35,6 +35,7 @@ class ComposerStaticInit799689eb2fd546cbfbae573b50107d97
 
     public static $classMap = array (
         'PclZip' => __DIR__ . '/..' . '/pclzip/pclzip/pclzip.lib.php',
+        'SimpleXLSX' => __DIR__ . '/..' . '/shuchkin/simplexlsx/src/SimpleXLSX.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

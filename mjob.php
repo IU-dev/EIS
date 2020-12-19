@@ -17,7 +17,7 @@ if (!isset($_GET['id'])) {
     $mon = $db->select('monitors', "id = '" . $mjb['monitor_id'] . "'");
 }
 
-if ($user->admin < 1) {
+if ($user->admin < 4) {
     header("Location: access_denied.php");
 }
 

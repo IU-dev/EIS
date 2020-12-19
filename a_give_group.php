@@ -11,7 +11,7 @@ $display = 0;
 
 $user = unserialize($_SESSION['user']);
 
-if ($user->admin < 2) {
+if ($user->admin < 9) {
     header("Location: access_denied.php");
 }
 
@@ -50,8 +50,7 @@ require_once 'includes/header.inc.php';
             <p class="h4 mb-4 text-center">Выберите группу</p>
             <select class="browser-default custom-select mb-4" id="select" name="section">
                 <?php
-                if ($user->admin == 2) $sections = $db->select_fs('groups', "id != '0'");
-                else $sections = $db->select_fs('groups', "curator_id = '" . $user->username . "'");
+                $sections = $db->select_fs('groups', "id != '0'");
                 foreach ($sections as $section) {
                     $cur = $db->select('users', "username = '" . $section['curator_id'] . "'");
                     echo '<option value="' . $section['id'] . '">' . $section['name'] . ' (куратор ' . $cur['f'] . ' ' . $cur['i'] . ' ' . $cur['o'] . ' (ЕИС-' . $cur['username'] . '))</option>';

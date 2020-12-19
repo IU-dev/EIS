@@ -21,17 +21,17 @@
                     <a class="dropdown-item" href="show.php">Логины и пароли</a>
                     <a class="dropdown-item" href="visits.php">Посещаемость</a>
                     <a class="dropdown-item" href="applics.php">Заявления</a>
-                    <?php if ($user->admin == 9 || $user->admin == 2) : ?>
+                    <?php if ($user->admin >= 1) : ?>
                         <hr>
                         <a class="dropdown-item" href="delay.php">Отметить отсутствующих</a>
                     <?php endif ?>
-                    <?php if ($user->admin == 8 || $user->admin == 2) : ?>
+                    <?php if ($user->admin >= 3) : ?>
                         <hr>
                         <a class="dropdown-item" href="docs.php">Выписка документов</a>
                     <?php endif ?>
                 </div>
             </li>
-            <?php if ($user->admin == "1" || $user->admin == "2") : ?>
+            <?php if ($user->admin >= 2) : ?>
             <li class="nav-item dropdown <?php echo($page == "myclass.php" || $page == "p_add.php" || $page == "p_del.php" || $page == "not_visited.php" ? "active" : ""); ?>">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">Действия педагогов
@@ -43,31 +43,33 @@
                 <div class="dropdown-divider"></div>
                 <h6 class="dropdown-header">Мониторинги</h6>
                 <a class="dropdown-item" href="mon_list.php">Список мониторингов</a>
-                <?php if ($user->admin == 2) : ?>
-                    <div class="dropdown-divider"></div>
-                    <h6 class="dropdown-header">Особые действия</h6>
-                    <a class="dropdown-item" href="p_add.php">Добавить</a>
-                    <a class="dropdown-item" href="p_del.php">Удалить</a>
-                    </div>
+                <?php if ($user->admin == 9) : ?>
                     </li>
                 <?php endif ?>
             <?php endif ?>
-            <?php if ($user->admin == "2") : ?>
-                <li class="nav-item dropdown <?php echo($page == "a_create.php" || $page == "a_flush.php" || $page == "a_give_solo.php" || $page == "a_give_group.php" || $page == "a_delete.php" ? "active" : ""); ?>">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">Администратор
-                    </a>
-                    <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                        <h6 class="dropdown-header">Обработка заявок</h6>
-                        <a class="dropdown-item" href="a_create.php">Создание УЗ</a>
-                        <a class="dropdown-item" href="a_flush.php">Сброс пароля</a>
-                        <h6 class="dropdown-header">Работа с аккаунтами</h6>
-                        <a class="dropdown-item" href="a_give_solo.php">Выдача одному</a>
-                        <a class="dropdown-item" href="a_give_group.php">Выдача группе</a>
-                        <a class="dropdown-item" href="a_delete.php">Удаление аккаунтов</a>
-                    </div>
-                </li>
-            <?php endif ?>
+            <?php if ($user->admin == "9") : ?>
+            <li class="nav-item dropdown <?php echo($page == "a_create.php" || $page == "a_flush.php" || $page == "a_give_solo.php" || $page == "a_give_group.php" || $page == "a_delete.php" ? "active" : ""); ?>">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">Администратор
+                </a>
+                <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+                    <h6 class="dropdown-header">Заявки</h6>
+                    <a class="dropdown-item" href="a_create.php">Создание УЗ</a>
+                    <a class="dropdown-item" href="a_flush.php">Сброс пароля</a>
+                    <div class="dropdown-divider"></div>
+                    <h6 class="dropdown-header">Аккаунты</h6>
+                    <a class="dropdown-item" href="a_give_solo.php">Выдача одному</a>
+                    <a class="dropdown-item" href="a_give_group.php">Выдача группе</a>
+                    <a class="dropdown-item" href="a_delete.php">Удаление аккаунтов</a>
+                    <div class="dropdown-divider"></div>
+                    <h6 class="dropdown-header">Пользователи</h6>
+                    <a class="dropdown-item" href="p_add.php">Добавить</a>
+                    <a class="dropdown-item" href="p_del.php">Удалить</a>
+                    <a class="dropdown-item" href="a_sogl.php">Соглашения</a>
+                </div>
+    </div>
+    </li>
+    <?php endif ?>
     </div>
     </li>
     <?php endif ?>
@@ -81,8 +83,8 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-default"
                      aria-labelledby="navbarDropdownMenuLink-333">
-                    <span class="dropdown-item disabled"><?php echo $user->f . " " . $user->i . " " . $user->o; ?></span>
-                    <span class="dropdown-item disabled"><?php echo "ID: " . $user->id ?></span>
+                    <span class="dropdown-item disabled"><?php echo $user->f . " " . $user->i . " " . $user->o; ?><br>
+                    <?php echo "ID: " . $user->id ?></span>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="settings.php">Личный кабинет</a>
                     <a class="dropdown-item" href="logout.php">Выход</a>
