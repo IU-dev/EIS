@@ -40,42 +40,81 @@ require_once 'includes/header.inc.php';
 ?>
 <html>
 <head>
-    <title>Добавить участников | <?php echo $pname; ?></title>
+    <title>Регистрация пользователей | <?php echo $pname; ?></title>
 </head>
 <body>
-<center><br>
-    <h1><?php echo $_SESSION['grand']['name']; ?></h1>
+<center>
     <?php if (isset($msg)) echo "<h3>" . $msg . "</h3>"; ?>
-    <form class="md-form border border-light p-5" action="p_add.php" method="post">
-        <p class="h4 mb-4 text-center">Регистрация участников </p>
-
+    <form id="form" class="md-form border border-light p-5" action="p_add.php" method="post">
+        <p class="h4 mb-4 text-center">Регистрация пользователей</p>
+        Выберите группу, в которую будут зарегистрированы пользователи:
         <select class="browser-default custom-select mb-4" id="select" name="group_id">
             <?php
-            $sections = $db->select_fs('groups', "id != '0'");
+            if ($user->admin >= 3) $sections = $db->select_fs('groups', "id != '0' ORDER BY parallel ASC, name ASC");
+            else $sections = $db->select_fs('groups', "curator_id = '" . $user->id . "' ORDER BY parallel ASC, name ASC");
             foreach ($sections as $section) {
-                $cur = $db->select('users', "username = '" . $section['curator_id'] . "'");
-                echo '<option value="' . $section['id'] . '">' . "(" . $section['id'] . ") " . $section['name'] . ' (куратор ' . $cur['f'] . ' ' . $cur['i'] . ' ' . $cur['o'] . ' (ЕИС-' . $cur['username'] . '))</option>';
+                $cur = $db->select('users', "id = '" . $section['curator_id'] . "'");
+                echo '<option value="' . $section['id'] . '">' . $section['name'] . ' (куратор ' . $cur['f'] . ' ' . $cur['i'] . ' ' . $cur['o'] . ' (ЕИС-' . $cur['id'] . '))</option>';
             }
             ?>
         </select>
-
-        <table>
+        <br>
+        <table id="participants" class="table table-sm">
             <thead>
             <tr>
                 <td>ФИО</td>
+                <td>Дата рождения</td>
+                <td>Личное дело</td>
+                <td>Права</td>
             </tr>
             </thead>
             <tbody>
-            <?php
-            for ($i = 1; $i <= 30; $i = $i + 1) {
-                echo '<tr>';
-                echo '<td><input type="text" id="textInput" name="fio[]" class="form-control mb-4" placeholder="ФИО участника"></td>';
-                echo '</tr>';
-            }
-            ?>
+            <tr>
+                <td><input type="text" id="textInput" name="fio[]" class="form-control mb-4"
+                           placeholder="ФИО участника"></td>
+                <td><input type="date" id="dateInput" name="dr[]" class="form-control mb-4" placeholder=""></td>
+                <td><input type="text" id="textInput" name="ld[]" class="form-control mb-4" placeholder="ФИО участника">
+                </td>
+                <td><select class="browser-default custom-select mb-4" id="select2" name="prava[]">
+                        <option value="0">Обучающийся</option>
+                        <option value="1">Дежурный</option>
+                        <option value="2">Сотрудник</option>
+                        <option value="3">Секретарь</option>
+                        <option value="4">Зам. директора</option>
+                        <option value="5">Директор</option>
+                        <option value="9">Администратор</option>
+                    </select></td>
+            </tr>
             </tbody>
         </table>
         <button class="btn btn-info btn-block" type="submit" name="submit">Зарегистрировать</button>
     </form>
+    <button class="btn btn-info" onclick="add_field()" href="#">Добавить поле</button>
+    <?php require_once 'includes/footer.inc.php'; ?>
+    <script>
+
+        $(document).ready(function () {
+            $('.mdb-select').materialSelect();
+        });
+
+        $('.datepicker').pickadate();
+
+        $(document).ready(function () {
+            $('#participants').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+        });
+
+        function add_field(){
+
+            var x = document.getElementById("form");
+            var new_field1
+            var new_field2 = document.createElement("input");
+            new_field2.setAttribute("type", "text");
+            new_field2.setAttribute("name", "fio[]");
+            var pos = x.childElementCount;
+            x.insertBefore(new_field, x.childNodes[pos]);
+        }
+
+    </script>
 </body>
 </html>

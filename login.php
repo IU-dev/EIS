@@ -20,7 +20,7 @@ if (isset($_POST['submit-login'])) {
     } else if ($userTools->login($username, $password) == 2) {
         $error = 'Аккаунт не активирован.';
     } else {
-        $error = 'Неверный логин или пароль.';
+        $error = 'Неверный ID или пароль.';
     }
 }
 ?>
@@ -44,10 +44,10 @@ if (isset($_POST['submit-login'])) {
                 <p class="h4 mb-4 text-center">Вход</p>
 
                 <input type="text" id="login" name="login" class="form-control mb-4 fixed-15em"
-                       placeholder="ID участника системы ЕИС">
+                       placeholder="ID пользователя">
 
                 <input type="password" id="password" name="password" class="form-control mb-4 fixed-15em"
-                       placeholder="Пин-код">
+                       placeholder="Пароль">
 
                 <button class="btn btn-info btn-block my-4 fixed-15em" type="submit" name="submit-login">Войти</button>
 

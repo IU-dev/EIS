@@ -50,10 +50,11 @@ require_once 'includes/header.inc.php';
             <p class="h4 mb-4 text-center">Выберите группу</p>
             <select class="browser-default custom-select mb-4" id="select" name="section">
                 <?php
-                $sections = $db->select_fs('groups', "id != '0'");
+                if ($user->admin >= 3) $sections = $db->select_fs('groups', "id != '0' ORDER BY parallel ASC, name ASC");
+                else $sections = $db->select_fs('groups', "curator_id = '" . $user->id . "' ORDER BY parallel ASC, name ASC");
                 foreach ($sections as $section) {
-                    $cur = $db->select('users', "username = '" . $section['curator_id'] . "'");
-                    echo '<option value="' . $section['id'] . '">' . $section['name'] . ' (куратор ' . $cur['f'] . ' ' . $cur['i'] . ' ' . $cur['o'] . ' (ЕИС-' . $cur['username'] . '))</option>';
+                    $cur = $db->select('users', "id = '" . $section['curator_id'] . "'");
+                    echo '<option value="' . $section['id'] . '">' . $section['name'] . ' (куратор ' . $cur['f'] . ' ' . $cur['i'] . ' ' . $cur['o'] . ' (ЕИС-' . $cur['id'] . '))</option>';
                 }
                 ?>
             </select>

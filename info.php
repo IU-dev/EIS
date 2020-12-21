@@ -11,7 +11,8 @@ if (!isset($_SESSION['logged_in'])) {
 $user = unserialize($_SESSION['user']);
 
 if (!isset($_GET['uid'])) {
-    die('Отсутствует UID.');
+    http_response_code(400);
+    die('<div class="alert alert-danger"><strong><h3>Error 400: Bad Request</h3></strong><hr>Отсутствует параметр "UID" в запросе</div>');
 } else {
     $uid = $_GET['uid'];
     $usr = $userTools->get($uid);

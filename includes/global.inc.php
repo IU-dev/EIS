@@ -2,6 +2,7 @@
 require_once 'classes/User.class.php';
 require_once 'classes/UserTools.class.php';
 require_once 'classes/DB.class.php';
+require_once 'classes/Tools.class.php';
 require_once 'includes/footer.inc.php';
 require 'vendor/autoload.php';
 $pname = 'МБОУ "ИТ-лицей №24"';
@@ -12,6 +13,8 @@ $db->connect();
 //initialize UserTools object
 $userTools = new UserTools();
 //start the session
+
+$tool = new Tools();
 
 session_start();
 

@@ -53,6 +53,11 @@ if (isset($_GET['customdoc'])){
         foreach($glob as $gl) {
             $document->setValue('global_'.$gl['field'], $gl['value']);
         }
+        $pda = $db->select_fs('pdata_fields', "id != 0");
+        foreach($pda as $pd){
+            $val = $db->select('pdata', "field_id = '".$pd['id']."' AND eis_id = '".$usr['id']."'");
+            $document->setValue('pd_'.$pd['id'], value);
+        }
         $docdata = "Пользователь: ".$usr['f']." ".$usr['i']." ".$usr['o']." (".$usr['id'].")";
         $document->saveAs("print/custom/".$_GET['customdoc']."/" . $_GET['id'] . ".docx");
         $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/custom/".$_GET['customdoc']."/" . $_GET['id'] . ".docx";
