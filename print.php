@@ -57,7 +57,7 @@ if (isset($_GET['customdoc'])){
         $pda = $db->select_fs('pdata_fields', "id != 0");
         foreach($pda as $pd){
             $val = $db->select('pdata', "field_id = '".$pd['id']."' AND eis_id = '".$usr['id']."'");
-            $document->setValue('pd_'.$pd['id'], value);
+            $document->setValue('pd_'.$pd['id'], $val['data']);
         }
         $docdata = "Пользователь: ".$usr['f']." ".$usr['i']." ".$usr['o']." (".$usr['id'].")";
         $document->saveAs("print/custom/".$_GET['customdoc']."/" . $_GET['id'] . ".docx");
