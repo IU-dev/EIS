@@ -43,6 +43,7 @@ if (isset($_GET['customdoc'])){
         $usr = $db->select('users', "id = '".$_GET['id']."'");
         $grp = $db->select('groups', "id = '".$usr['group_id']."'");
         $glob = $db->select_fs('globals', "field != ''");
+        $document->setValue('date', date("d.m.Y", time()));
         $document->setValue('u_id', $usr['id']);
         $document->setValue('u_f', $usr['f']);
         $document->setValue('u_i', $usr['i']);
