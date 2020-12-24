@@ -7,7 +7,7 @@ class DB
     protected $db_name = 'admin_eis24db';
     protected $db_user = 'admin_eis24';
     protected $db_pass = 'P@ssw0rdgim24';
-    protected $db_host = '192.168.13.160';
+    protected $db_host = 'localhost';
 
     // Открывает соединение к БД. Убедитесь, что
     // эта функция вызывается на каждой странице
