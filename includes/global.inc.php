@@ -9,7 +9,6 @@ $pname = 'МБОУ "ИТ-лицей №24"';
 //connect to the database
 $db = new DB();
 $db->connect();
-date_default_timezone_set($tool->getGlobal('tz'));
 
 //initialize UserTools object
 $userTools = new UserTools();
@@ -18,6 +17,8 @@ $userTools = new UserTools();
 $tool = new Tools();
 
 session_start();
+
+date_default_timezone_set($tool->getGlobal('tz'));
 
 //refresh session variables if logged in
 if (isset($_SESSION['logged_in'])) {
