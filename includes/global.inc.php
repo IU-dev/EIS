@@ -9,6 +9,7 @@ $pname = 'МБОУ "ИТ-лицей №24"';
 //connect to the database
 $db = new DB();
 $db->connect();
+date_default_timezone_set($tool->getGlobal('tz'));
 
 //initialize UserTools object
 $userTools = new UserTools();

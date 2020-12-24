@@ -9,6 +9,7 @@
 <script type="text/javascript" src="js/modules/cards.js"></script>
 <script type="text/javascript" src="js/modules/character-counter.js"></script>
 <script type="text/javascript" src="js/modules/dropdown.js"></script>
+<script type="text/javascript" src="js/modules/file-input.js"></script>
 <script type="text/javascript" src="js/modules/forms-free.js"></script>
 <script type="text/javascript" src="js/modules/jquery.easing.js"></script>
 <script type="text/javascript" src="js/modules/material-select.js"></script>

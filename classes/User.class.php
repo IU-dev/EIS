@@ -2,6 +2,7 @@
 //User.class.php
 
 require_once 'DB.class.php';
+require_once 'Tools.class.php';
 
 class User
 {
@@ -38,6 +39,7 @@ class User
 
     public function save($isNewUser = false)
     {
+        $tool = new Tools();
         $db = new DB();
         if (!$isNewUser) {
             $data = array(

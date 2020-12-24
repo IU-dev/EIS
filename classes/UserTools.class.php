@@ -3,11 +3,13 @@
 //UserTools.class.php
 require_once 'User.class.php';
 require_once 'DB.class.php';
+require_once 'Tools.class.php';
 
 class UserTools
 {
     public function login($username, $password)
     {
+        $tool = new Tools();
         $db = new DB();
         $connection = $db->connect_get();
         $hashedPassword = md5($password);
@@ -65,6 +67,7 @@ class UserTools
 
     public function add_points($username, $who, $num, $comment)
     {
+        $tool = new Tools();
         $db = new DB();
         $connection = $db->connect_get();
         $now_state = $db->select('users', "username = '" . $username . "'");
@@ -82,6 +85,7 @@ class UserTools
 
     public function add_points_to_id($username, $who, $num, $comment)
     {
+        $tool = new Tools();
         $db = new DB();
         $connection = $db->connect_get();
         $now_state = $db->select('users', "id = '" . $username . "'");
@@ -100,6 +104,7 @@ class UserTools
     public function rem_points($username, $who, $num, $comment)
     {
         $db = new DB();
+        $tool = new Tools();
         $connection = $db->connect_get();
         $now_state = $db->select('users', "username = '" . $username . "'");
         $now_points = (float)$now_state['points'];
@@ -117,6 +122,7 @@ class UserTools
     public function notify($userid, $who, $comment)
     {
         $db = new DB();
+        $tool = new Tools();
         $connection = $db->connect_get();
         $data1['userid'] = "'" . $userid . "'";
         $data1['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";

@@ -43,7 +43,6 @@ if(isset($_POST['submit-vidat'])){
     $tick = $db->select('tickets_create', "id = '".$_POST['id']."'");
     $usvr = $db->select('users', "id = '".$tick['from_eis']."'");
     $userTools->notify($usvr['id'], "Система", "Обновлен статус заявки на создание аккаунта № ".$_POST['id'].": Исполнена.");
-    $ig = $db->insert($ndata, 'logs');
     $adata['user_eis'] = "'".$usvr['id']."'";
     $adata['service_id'] = "'".$_POST['service_id']."'";
     $adata['login'] = "'".$_POST['login']."'";

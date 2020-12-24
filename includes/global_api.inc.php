@@ -7,6 +7,7 @@ $pname = "Рейтинг 2.0";
 //connect to the database
 $db = new DB();
 $db->connect();
+date_default_timezone_set($tool->getGlobal('tz'));
 
 //initialize UserTools object
 $userTools = new UserTools();

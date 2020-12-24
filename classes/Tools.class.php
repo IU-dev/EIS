@@ -20,6 +20,12 @@ class Tools
     {
 
     }
+
+    public function getGlobal($name){
+        $db = new DB();
+        $data = $db->select('globals', "name = '".$name."'");
+        return $data['value'];
+    }
 }
 
 ?>

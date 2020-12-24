@@ -28,8 +28,28 @@ if (isset($_GET['sysdoc'])) {
         $document->setValue('id', $usr['id']);
         $document->setValue('fio', $usr['f'] . ' ' . $usr['i'] . ' ' . $usr['o']);
         $document->setValue('group', $gr['name']);
-        $document->saveAs("print/sys/1/" . $_GET['id'] . ".docx");
-        $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/sys/1/" . $_GET['id'] . ".docx";
+        $document->setValue('date', date("d.m.Y", time()));
+        $document->setValue('datetime', date("d.m.Y H:m:s", time()));
+        $document->saveAs("print/sys/1/Soglashenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx");
+        $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/sys/1/Soglashenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
+        $action['href'] = "info.php?uid=".$usr['id'];
+        $action['text'] = "Вернуться к информационной карте";
+    }
+    else if ($_GET['sysdoc'] == "2") {
+        $docname = "Заявление на изменение данных доступа к ЕИС";
+        $doc = $db->select('pdata_docs', "id = '" . $_GET['id'] . "'");
+        $usr = $db->select('users', "id = '" . $doc['user_id'] . "'");
+        $gr = $db->select('groups', "id = '" . $usr['group_id'] . "'");
+        $docdata = "ID соглашения - " . $_GET['id'] . ", пользователь - " . $usr['f'] . " " . $usr['i'] . " " . $usr['o'] . " (ИД " . $usr['id'] . "), класс - " . $gr['name'];
+        $document = new \PhpOffice\PhpWord\TemplateProcessor("print/sys/2/template.docx");
+        $document->setValue('docid', $_GET['id']);
+        $document->setValue('id', $usr['id']);
+        $document->setValue('fio', $usr['f'] . ' ' . $usr['i'] . ' ' . $usr['o']);
+        $document->setValue('group', $gr['name']);
+        $document->setValue('date', date("d.m.Y", time()));
+        $document->setValue('datetime', date("d.m.Y H:m:s", time()));
+        $document->saveAs("print/sys/2/Zayavlenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx");
+        $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/sys/2/Zayavlenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
         $action['href'] = "info.php?uid=".$usr['id'];
         $action['text'] = "Вернуться к информационной карте";
     }
@@ -60,8 +80,10 @@ if (isset($_GET['customdoc'])){
             $document->setValue('pd_'.$pd['id'], $val['data']);
         }
         $docdata = "Пользователь: ".$usr['f']." ".$usr['i']." ".$usr['o']." (".$usr['id'].")";
-        $document->saveAs("print/custom/".$_GET['customdoc']."/" . $_GET['id'] . ".docx");
-        $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/custom/".$_GET['customdoc']."/" . $_GET['id'] . ".docx";
+        $document->saveAs("print/custom/".$_GET['customdoc']."/Custom-".$_GET['customdoc']."-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx");
+        $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/custom/".$_GET['customdoc']."/Custom-".$_GET['customdoc']."-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
+        $action['href'] = "info.php?uid=".$usr['id'];
+        $action['text'] = "Вернуться к информационной карте";
     }
 }
 
