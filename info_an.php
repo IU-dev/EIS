@@ -19,14 +19,18 @@ if (isset($_POST['submit'])) {
         if (isset($check['data'])) {
             $data['data'] = "'" . str_replace('"', '', $fld) . "'";
             $data['last_update_by'] = "'0'";
+            date_default_timezone_set("GMT");
             $data['last_update_datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+            date_default_timezone_set($tool->getGlobal('tz'));
             $ib = $db->update($data, 'pdata', "id = '" . $check['id'] . "'");
         } else {
             $data['eis_id'] = "'" . $_POST['uid'] . "'";
             $data['field_id'] = "'" . $key . "'";
             $data['data'] = "'" . str_replace('"', '', $fld) . "'";
             $data['last_update_by'] = "'0'";
+            date_default_timezone_set("GMT");
             $data['last_update_datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+            date_default_timezone_set($tool->getGlobal('tz'));
             $ib = $db->insert($data, 'pdata');
         }
     }

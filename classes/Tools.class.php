@@ -23,7 +23,7 @@ class Tools
 
     public function getGlobal($name){
         $db = new DB();
-        $data = $db->select('globals', "name = '".$name."'");
+        $data = $db->select('globals', "field = '".$name."'");
         return $data['value'];
     }
 }

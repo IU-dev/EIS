@@ -21,7 +21,9 @@ if (!isset($_GET['uid'])) {
 if (isset($_POST['submit-makewrite'])) {
     $data['from_id'] = "'" . $user->id . "'";
     $data['to_id'] = "'" . $usr->id . "'";
+    date_default_timezone_set("GMT");
     $data['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+    date_default_timezone_set($tool->getGlobal('tz'));
     $data['text'] = "'" . $_POST['record'] . "'";
     $not = $db->insert($data, 'notes');
     $msg = '<script type="text/javascript">toastr.success("Внесена запись NOT-' . $not . '", "Успешно!");</script>';
@@ -71,7 +73,9 @@ if (isset($_GET['sign_sogl'])) {
         if ($sogl['state'] == "0") {
             $data['state'] = "'1'";
             $data['who_signed'] = "'" . $user->id . "'";
+            date_default_timezone_set("GMT");
             $data['date_accept'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+            date_default_timezone_set($tool->getGlobal('tz'));
             $p = $db->update($data, 'pdata_docs', "id = '" . $_GET['sign_sogl'] . "'");
             $msg = '<script type="text/javascript">toastr.success("Вы успешно подписали соглашение", "Успешно!");</script>';
         } else $msg = '<script type="text/javascript">toastr.error("Данное соглашение уже подписано, либо отозвано", "Ошибка!");</script>';

@@ -18,7 +18,9 @@ if ($user->admin < 1) {
 if (isset($_POST['submit'])) {
     $data['data'] = "'" . $_POST['newPD'] . "'";
     $data['last_update_by'] = "'" . $user->id . "'";
+    date_default_timezone_set("GMT");
     $data['last_update_datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+    date_default_timezone_set($tool->getGlobal('tz'));
     $igg = $db->update($data, 'pdata', "id = '" . $_POST['pdid'] . "'");
     header("Location: info.php?uid=" . $_POST['uid']);
 }

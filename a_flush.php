@@ -43,7 +43,9 @@ if (isset($_POST['submit-vidat'])) {
     $usvr = $db->select('users', "id = '" . $tick['from_eis'] . "'");
     $userTools->notify($usvr['id'], "Система", "Обновлен статус заявки на сброс пароля № " . $_POST['id'] . ": Исполнена.");
     $adata['password'] = "'" . $_POST['password'] . "'";
+    date_default_timezone_set("GMT");
     $adata['last_update'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+    date_default_timezone_set($tool->getGlobal('tz'));
     $adata['last_update_user_eis'] = "'" . $user->id . "'";
     $igg = $db->update($adata, 'accounts', "id = '" . $_POST['accid'] . "'");
 }

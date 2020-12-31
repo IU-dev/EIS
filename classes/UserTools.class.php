@@ -20,7 +20,9 @@ class UserTools
             if ($data['active'] == '0') return 2;
             else {
                 $_SESSION["user"] = serialize(new User($data));
+                date_default_timezone_set("GMT");
                 $_SESSION["login_time"] = time();
+                date_default_timezone_set($tool->getGlobal('tz'));
                 $_SESSION["logged_in"] = 1;
                 return 1;
             }
@@ -76,7 +78,9 @@ class UserTools
         $data['points'] = "'" . strval($up_points) . "'";
         $db->update($data, 'users', "username = '" . $username . "'");
         $data1['userid'] = "'" . $now_state['id'] . "'";
+        date_default_timezone_set("GMT");
         $data1['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+        date_default_timezone_set($tool->getGlobal('tz'));
         $data1['ot'] = "'Система'";
         $data1['text'] = "'Пользователь " . $who . " зачислил на Ваш баланс " . number_format((float)$num, 2, '.', '') . " рублей (было " . number_format((float)$now_points, 2, '.', '') . ", стало " . number_format((float)$up_points, 2, '.', '') . "). Комментарий: <br><em>" . $comment . "</em>'";
         $db->insert($data1, 'logs');
@@ -94,7 +98,9 @@ class UserTools
         $data['points'] = "'" . strval($up_points) . "'";
         $db->update($data, 'users', "id = '" . $username . "'");
         $data1['userid'] = "'" . $now_state['id'] . "'";
+        date_default_timezone_set("GMT");
         $data1['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+        date_default_timezone_set($tool->getGlobal('tz'));
         $data1['ot'] = "'Система'";
         $data1['text'] = "'Пользователь " . $who . " зачислил на Ваш баланс " . number_format((float)$num, 2, '.', '') . " рублей (было " . number_format((float)$now_points, 2, '.', '') . ", стало " . number_format((float)$up_points, 2, '.', '') . "). Комментарий: <br><em>" . $comment . "</em>'";
         $db->insert($data1, 'logs');
@@ -112,7 +118,9 @@ class UserTools
         $data['points'] = "'" . strval($up_points) . "'";
         $db->update($data, 'users', "username = '" . $username . "'");
         $data1['userid'] = "'" . $now_state['id'] . "'";
+        date_default_timezone_set("GMT");
         $data1['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+        date_default_timezone_set($tool->getGlobal('tz'));
         $data1['ot'] = "'Система'";
         $data1['text'] = "'Пользователь " . $who . " списал с Вашего баланса " . number_format((float)$num, 2, '.', '') . " рублей (было " . number_format((float)$now_points, 2, '.', '') . ", стало " . number_format((float)$up_points, 2, '.', '') . "). Комментарий: <br><em>" . $comment . "</em>'";
         $db->insert($data1, 'logs');
@@ -125,7 +133,9 @@ class UserTools
         $tool = new Tools();
         $connection = $db->connect_get();
         $data1['userid'] = "'" . $userid . "'";
+        date_default_timezone_set("GMT");
         $data1['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+        date_default_timezone_set($tool->getGlobal('tz'));
         $data1['ot'] = "'" . $who . "'";
         $data1['text'] = "'" . $comment . "'";
         $db->insert($data1, 'logs');

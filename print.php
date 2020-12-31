@@ -28,8 +28,10 @@ if (isset($_GET['sysdoc'])) {
         $document->setValue('id', $usr['id']);
         $document->setValue('fio', $usr['f'] . ' ' . $usr['i'] . ' ' . $usr['o']);
         $document->setValue('group', $gr['name']);
+        date_default_timezone_set("GMT");
         $document->setValue('date', date("d.m.Y", time()));
         $document->setValue('datetime', date("d.m.Y H:m:s", time()));
+        date_default_timezone_set($tool->getGlobal('tz'));
         $document->saveAs("print/sys/1/Soglashenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx");
         $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/sys/1/Soglashenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
         $action['href'] = "info.php?uid=".$usr['id'];
@@ -46,8 +48,10 @@ if (isset($_GET['sysdoc'])) {
         $document->setValue('id', $usr['id']);
         $document->setValue('fio', $usr['f'] . ' ' . $usr['i'] . ' ' . $usr['o']);
         $document->setValue('group', $gr['name']);
+        date_default_timezone_set("GMT");
         $document->setValue('date', date("d.m.Y", time()));
         $document->setValue('datetime', date("d.m.Y H:m:s", time()));
+        date_default_timezone_set($tool->getGlobal('tz'));
         $document->saveAs("print/sys/2/Zayavlenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx");
         $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/sys/2/Zayavlenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
         $action['href'] = "info.php?uid=".$usr['id'];
@@ -63,6 +67,7 @@ if (isset($_GET['customdoc'])){
         $usr = $db->select('users', "id = '".$_GET['id']."'");
         $grp = $db->select('groups', "id = '".$usr['group_id']."'");
         $glob = $db->select_fs('globals', "field != ''");
+        date_default_timezone_set("GMT");
         $document->setValue('date', date("d.m.Y", time()));
         $document->setValue('u_id', $usr['id']);
         $document->setValue('u_f', $usr['f']);
@@ -80,6 +85,7 @@ if (isset($_GET['customdoc'])){
             $document->setValue('pd_'.$pd['id'], $val['data']);
         }
         $docdata = "Пользователь: ".$usr['f']." ".$usr['i']." ".$usr['o']." (".$usr['id'].")";
+        date_default_timezone_set($tool->getGlobal('tz'));
         $document->saveAs("print/custom/".$_GET['customdoc']."/Custom-".$_GET['customdoc']."-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx");
         $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/custom/".$_GET['customdoc']."/Custom-".$_GET['customdoc']."-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
         $action['href'] = "info.php?uid=".$usr['id'];

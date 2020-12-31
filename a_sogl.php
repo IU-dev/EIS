@@ -20,7 +20,9 @@ if (isset($_GET['sign_sogl'])) {
         if ($sogl['state'] == "0") {
             $data['state'] = "'1'";
             $data['who_signed'] = "'" . $user->id . "'";
+            date_default_timezone_set("GMT");
             $data['date_accept'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+            date_default_timezone_set($tool->getGlobal('tz'));
             $p = $db->update($data, 'pdata_docs', "id = '" . $_GET['sign_sogl'] . "'");
             $msg = '<script type="text/javascript">toastr.success("Вы успешно подписали соглашение", "Успешно!");</script>';
         } else $msg = '<script type="text/javascript">toastr.error("Данное соглашение уже подписано, либо отозвано", "Ошибка!");</script>';
@@ -33,7 +35,9 @@ if (isset($_GET['refuse_sogl'])) {
         if ($sogl['state'] != "2") {
             $data['state'] = "'2'";
             $data['who_null'] = "'" . $user->id . "'";
+            date_default_timezone_set("GMT");
             $data['date_null'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+            date_default_timezone_set($tool->getGlobal('tz'));
             $p = $db->update($data, 'pdata_docs', "id = '" . $_GET['refuse_sogl'] . "'");
             $msg = '<script type="text/javascript">toastr.success("Вы успешно отозвали соглашение", "Успешно!");</script>';
         } else $msg = '<script type="text/javascript">toastr.error("Данное соглашение уже отозвано", "Ошибка!");</script>';

@@ -20,7 +20,9 @@ if (isset($_POST['submit'])) {
     $adata['service_id'] = "'" . $_POST['service_id'] . "'";
     $adata['login'] = "'" . $_POST['login'] . "'";
     $adata['password'] = "'" . $_POST['password'] . "'";
+    date_default_timezone_set("GMT");
     $adata['last_update'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+    date_default_timezone_set($tool->getGlobal('tz'));
     $adata['last_update_user_eis'] = "'" . $user->id . "'";
     $adata['created_by_eis'] = "'" . $user->id . "'";
     $igg = $db->insert($adata, 'accounts');

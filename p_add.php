@@ -27,7 +27,9 @@ if (isset($_POST['submit'])) {
             $data['group_id'] = "'" . $_POST['group_id'] . "'";
             $password = mt_rand(1000, 9999);
             $data['password'] = "'" . md5($password) . "'";
+            date_default_timezone_set("GMT");
             $data['join_date'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+            date_default_timezone_set($tool->getGlobal('tz'));
             $itog = $db->insert($data, 'users');
             echo $itog . '; ' . $_POST['fio'][$key] . '; ' . $password . '<br>';
         }

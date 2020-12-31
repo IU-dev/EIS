@@ -27,7 +27,9 @@ if (isset($_POST['submit-create'])) {
             $data['service_id'] = "'" . $_POST['service_id'] . "'";
             $data['login'] = "'" . $_POST['login'][$key] . "'";
             $data['password'] = "'" . $_POST['password'][$key] . "'";
+            date_default_timezone_set("GMT");
             $data['last_update'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+            date_default_timezone_set($tool->getGlobal('tz'));
             $data['last_update_user_eis'] = "'" . $user->id . "'";
             $data['created_by_eis'] = "'" . $user->id . "'";
             $res = $db->insert($data, 'accounts');

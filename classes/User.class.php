@@ -55,6 +55,7 @@ class User
 
             $db->update($data, 'users', 'id = ' . $this->id);
         } else {
+            date_default_timezone_set("GMT");
             $data = array(
                 "username" => "'$this->username'",
                 "password" => "'$this->hashedPassword'",
@@ -68,6 +69,7 @@ class User
             );
             $this->id = $db->insert($data, 'users');
             $this->joinDate = time();
+            date_default_timezone_set($tool->getGlobal('tz'));
         }
         return true;
     }
