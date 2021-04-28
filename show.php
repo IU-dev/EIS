@@ -61,7 +61,7 @@ if (isset($_GET['act'])) {
                         </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button class="btn btn-default" type="submit" name="act" value="2">Отправить заявку</button>
+                    <button class="btn btn-default btn-primary" type="submit" name="act" value="2">Отправить заявку</button>
                     </form>
                 </div>
             </div>

@@ -58,6 +58,19 @@
     height:auto;
 }
 
+.flex-1 {
+    flex: 1;
+}
+
+.stepper {
+    padding-top: 0px!important;
+    margin-top: 0px!important;
+}
+
+.fas {
+    line-height: unset;
+}
+
 table.dataTable thead .sorting:after,
 table.dataTable thead .sorting:before,
 table.dataTable thead .sorting_asc:after,
