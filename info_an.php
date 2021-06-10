@@ -3,14 +3,8 @@
 require_once 'includes/global.inc.php';
 $page = "info_an.php";
 
-if (!isset($_SESSION['logged_in'])) {
-    header("Location: login.php");
-}
-
 $display = 0;
 $rt = false;
-
-$user = unserialize($_SESSION['user']);
 
 if (isset($_POST['submit'])) {
     $flds = $_POST['fld'];
