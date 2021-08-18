@@ -65,6 +65,7 @@ require_once 'includes/header.inc.php';
 <?php if ($rt == false) : ?>
     <form class="md-form border border-light p-5" action="info_an.php" method="post">
         <p class="h4 mb-4 text-center">Ввод персональных данных в систему</p>
+        <small>Если Вы не знаете данные поля, которое требуется заполнить, поставьте символ "-".</small><br>
         Субъект ПД:
         <input type="text" id="textInput" name="field_name" class="form-control mb-4" placeholder=""
                value="<?php echo "(" . $usr->id . ") " . $usr->f . " " . $usr->i . " " . $usr->o ?>" disabled>
