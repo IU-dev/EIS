@@ -74,10 +74,10 @@ if (isset($_GET['act'])) {
         $group = $db->select('groups', "id = '" . $_GET['gid'] . "'");
         $users = $db->select_fs('users', "group_id = '" . $_GET['gid'] . "' ORDER BY f ASC");
         foreach ($users as $u) {
-            echo '<strong>Единая информационная система МБОУ "ИТ-лицей №24"<br>Доступ к внесению персональных данных</strong><br><br>';
+            echo '<strong>Единая информационная система МБОУ "ИТ-лицей №24"<br>Доступ к внесению первичных персональных данных</strong><br><br>';
             echo 'ФИО ученика: ' . $u['f'] . ' ' . $u['i'] . ' ' . $u['o'] . ' (' . $group['name'] . ')<br><br>';
             echo 'Для внесения данных перейдите по ссылке, либо распознайте QR-код:<br><br>';
-            echo 'http://eis.it-lyceum24.ru/info_an.php?id=' . $u['id'] . '&gid=1&firstpass=' . $u['firstpass'] . '<br>';
+            echo 'http://eis.it-lyceum24.ru/info_an.php?id=' . $u['id'] . '&gid=0&firstpass=' . $u['firstpass'] . '<br>';
             echo '<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=http%3A%2F%2Feis.it-lyceum24.ru%2Finfo_an.php%3Fid%3D' . $u['id'] . '%26gid%3D1%26firstpass%3D' . $u['firstpass'] . '&choe=UTF-8" title="Link to Google.com" />';
             echo '<hr>';
         }

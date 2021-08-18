@@ -25,6 +25,8 @@ require_once 'includes/header.inc.php';
                 <small><?php echo $tool->getGlobal('org_full') ?></small>
                 <br>
                 <small>Уполномоченный специалист: <?php echo $tool->getGlobal('upoln') ?></small>
+                <br><br>
+                <a type="button" href="child.php" class="btn btn-primary btn-lg btn-block">Вход для обучающихся</a>
             </div>
         </div>
     </div>
@@ -42,17 +44,31 @@ require_once 'includes/header.inc.php';
                 </div>
                 <br>
             </div>
+            <?php if(!isset($_SESSION['logged_in'])) : ?>
             <div class="col-md-4">
                 <div class="card">
-                    <div class="card-body"><h4 class="card-title">Вход для педагогов</h4>
+                    <div class="card-body"><h4 class="card-title">Вход</h4>
                         <hr>
-                        <p class="card-text">Войти в административный блок Единой информационной системы</p>
+                        <p class="card-text">Войти в Единую информационную систему в роли обучающегося / педагога</p>
                         <hr>
                         <a href="login.php" class="black-text d-flex justify-content-end"><h5>Перейти <i
                                         class="fas fa-angle-double-right"></i></h5></a></div>
                 </div>
                 <br>
             </div>
+            <?php else : ?>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body"><h4 class="card-title">Выход</h4>
+                            <hr>
+                            <p class="card-text">Выйти из Единой информационной системы в роли обучающегося / педагога</p>
+                            <hr>
+                            <a href="logout.php" class="black-text d-flex justify-content-end"><h5>Перейти <i
+                                            class="fas fa-angle-double-right"></i></h5></a></div>
+                    </div>
+                    <br>
+                </div>
+            <?php endif ?>
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body"><h4 class="card-title">Новости системы</h4>

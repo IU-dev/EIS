@@ -39,7 +39,7 @@ require_once 'includes/header.inc.php';
     <h3>Список отсутствующих на <?php echo date("d.m.Y", strtotime($_POST['date'] . " GMT")) ?></h3></center>
 <br><br>
 <?php
-$grs = $db->select_fs('groups', "id != '0'");
+$grs = $db->select_fs('groups', "id != '0' ORDER BY parallel ASC, name ASC");
 foreach ($grs as $group) {
     echo '<h4><u>' . $group['name'] . '</u></h4>';
     echo '<ul>';

@@ -57,6 +57,7 @@ if (isset($_POST['submit-login'])) {
                     </p>
 
                 </div> --->
+                <br><small>Сброс пароля осуществляется в каб. 305</small>
             </form>
             <?php if ($error != "") : ?>
             <div class="alert alert-danger" role="alert">

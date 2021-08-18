@@ -91,6 +91,41 @@ if (isset($_GET['customdoc'])){
         $action['href'] = "info.php?uid=".$usr['id'];
         $action['text'] = "Вернуться к информационной карте";
     }
+    else if($docinfo['type'] == "group"){
+        $grp = $db->select('groups', "id = '".$_GET['id']."'");
+        $glob = $db->select_fs('globals', "field != ''");
+        date_default_timezone_set("GMT");
+        $document->setValue('date', date("d.m.Y", time()));
+        $document->setValue('gr_id', $grp['id']);
+        $document->setValue('gr_name', $grp['name']);
+        foreach($glob as $gl) {
+            $document->setValue('global_'.$gl['field'], $gl['value']);
+        }
+        $usrs = $db->select_fs('users', "group_id = '".$_GET['id']."' AND state = '1' ORDER BY f ASC, i ASC");
+        $cusrs = $db->counter('users', "group_id = '".$_GET['id']."' AND state = '1'");
+        $document->cloneBlock('row', $cusrs, true, true);
+        $i = 1;
+        foreach($usrs as $usr){
+            $document->setValue('n#'.$i, $i);
+            $document->setValue('u_id#'.$i, $usr['id']);
+            $document->setValue('u_f#'.$i, $usr['f']);
+            $document->setValue('u_i#'.$i, $usr['i']);
+            $document->setValue('u_o#'.$i, $usr['o']);
+            $document->setValue('u_dr#'.$i, date("d.m.Y", strtotime($usr['birthday'] . " GMT")));
+            $pda = $db->select_fs('pdata_fields', "id != 0");
+            foreach($pda as $pd){
+                $val = $db->select('pdata', "field_id = '".$pd['id']."' AND eis_id = '".$usr['id']."'");
+                $document->setValue('pd_'.$pd['id'].'#'.$i, $val['data']);
+            }
+            $i = $i + 1;
+        }
+        $docdata = "Группа: (".$grp['id'].") ".$grp['name'];
+        date_default_timezone_set($tool->getGlobal('tz'));
+        $document->saveAs("print/custom/".$_GET['customdoc']."/Custom-".$_GET['customdoc']."-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx");
+        $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/custom/".$_GET['customdoc']."/Custom-".$_GET['customdoc']."-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
+        $action['href'] = "myclass.php";
+        $action['text'] = "Вернуться к выбору группы";
+    }
 }
 
 require_once 'includes/header.inc.php';

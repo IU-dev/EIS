@@ -18,6 +18,8 @@
 <script type="text/javascript" src="js/modules/waves.js"></script>
 <script type="text/javascript" src="js/device.js"></script>
 <script type="text/javascript" src="js/toastr.min.js"></script>
+<script src="js/jquery.maskedinput.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
 <!-- Bootstrap tooltips -->
 <script>
     if (device.desktop()) $('body').addClass("desktop");

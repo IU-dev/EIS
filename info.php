@@ -348,14 +348,14 @@ require_once 'includes/header.inc.php';
     <div class="row">
         <ul class="nav nav-tabs md-tabs primary-color" id="myTabMD" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="home-tab-md" data-toggle="tab" href="#writes" role="tab"
-                   aria-controls="home-md"
-                   aria-selected="true">Записи</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#rating" role="tab"
+                <a class="nav-link active" id="contact-tab-md" data-toggle="tab" href="#rating" role="tab"
                    aria-controls="contact-md"
                    aria-selected="false">Личный рейтинг</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="home-tab-md" data-toggle="tab" href="#writes" role="tab"
+                   aria-controls="home-md"
+                   aria-selected="true">Записи</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#pdata" role="tab"
@@ -384,7 +384,7 @@ require_once 'includes/header.inc.php';
             </li>
         </ul>
         <div class="tab-content card pt-5 mw100" id="myTabContentMD">
-            <div class="tab-pane fade show active" id="writes" role="tabpanel" aria-labelledby="profile-tab-md">
+            <div class="tab-pane fade" id="writes" role="tabpanel" aria-labelledby="profile-tab-md">
                 <a href="" class="btn btn-rounded btn-primary btn-sm" data-toggle="modal" data-target="#MakeWrite">Добавить
                     запись</a>
                 <br>
@@ -404,7 +404,7 @@ require_once 'includes/header.inc.php';
                         echo '<tr>';
                         echo '<td>' . $note['id'] . '</td>';
                         $who = $db->select('users', "id = '" . $note['from_id'] . "'");
-                        echo '<td>' . $who['f'] . ' ' . $who['i'] . ' ' . $who['o'] . ' (ЕИС-' . $who['id'] . ')</td>';
+                        echo '<td>' . $who['f'] . ' ' . $who['i'] . ' ' . $who['o'] . '  <a class="badge badge-primary badge-pill">ЕИС-' . $who['id'] . '</a></td>';
                         echo '<td>' . date("d.m.Y H:i:s", strtotime($note['datetime'] . " GMT")) . '</td>';
                         echo '<td>' . $note['text'] . '</td>';
                     }
@@ -460,7 +460,7 @@ require_once 'includes/header.inc.php';
                         else if ($part['reason'] == '2') echo '<td>Уважительная причина (Заявление родителей)</td>';
                         else if ($part['reason'] == '3') echo '<td>Уважительная причина (Мероприятие)</td>';
                         $by = $db->select('users', "id = '" . $part['set_by'] . "'");
-                        echo '<td>' . $by['f'] . ' ' . $by['i'] . ' ' . $by['o'] . ' <a class="badge badge-primary">ЕИС-' . $by['id'] . '</a></td>';
+                        echo '<td>' . $by['f'] . ' ' . $by['i'] . ' ' . $by['o'] . ' <a class="badge badge-primary badge-pill">ЕИС-' . $by['id'] . '</a></td>';
                     }
                     ?>
                     </tbody>
@@ -493,7 +493,7 @@ require_once 'includes/header.inc.php';
                             $nm = $nm + 1;
                         } else if ($srv['type'] == "notrated") echo '<td>Нерейтинговый</td>';
                         echo '<td>' . $acc['value'] . '</td>';
-                        echo '<td><a class="badge badge-primary" href="mjob.php?id=' . $acc['id'] . '" target="_blank">Посмотреть подробно</a></td>';
+                        echo '<td><a class="badge badge-pill badge-primary" href="mjob.php?id=' . $acc['id'] . '" target="_blank">Посмотреть подробно</a></td>';
                         echo '</tr>';
                     }
                     ?>
@@ -502,17 +502,19 @@ require_once 'includes/header.inc.php';
                 <br>
                 <strong>Средний балл по рейтинговым работам: </strong><?php echo $avg / $nm; ?>
             </div>
-            <div class="tab-pane fade" id="rating" role="tabpanel" aria-labelledby="contact-tab-md">
+            <div class="tab-pane fade show active" id="rating" role="tabpanel" aria-labelledby="contact-tab-md">
                 <p>Модуль в разработке.</p>
             </div>
             <div class="tab-pane fade" id="pdata" role="tabpanel" aria-labelledby="profile-tab-md">
-                <table id="pdata2" class="table table-bordered table-hover table-striped table-sm">
+                <a href="info_an.php?id=<?php echo $usr->id; ?>&gid=0&firstpass=" target="_blank" class="btn btn-rounded btn-primary btn-sm"><i
+                            class="fas fa-pen"></i> Ввести первоначальные данные</a><br><br>
+                <table id="pdata3" class="table table-bordered table-hover table-striped table-sm">
                     <thead>
                     <tr>
-                        <th scope="col">PDA-</th>
-                        <th scope="col">Поле</th>
-                        <th scope="col">Значение</th>
-                        <th scope="col">Действие</th>
+                        <th style="width: 5%!important;">PDA-</th>
+                        <th style="width: 30%!important;">Поле</th>
+                        <th style="width: 55%!important;">Значение</th>
+                        <th style="width: 10%!important;">Действие</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -524,7 +526,7 @@ require_once 'includes/header.inc.php';
                         $fld = $db->select('pdata_fields', "id = '" . $acc['field_id'] . "'");
                         echo '<td>' . $fld['name'] . '</td>';
                         echo '<td>' . $acc['data'] . '</td>';
-                        echo '<td><a class="badge badge-primary" href="info_cpd.php?id=' . $usr->id . '&pd=' . $acc['id'] . '">Изменить</a></td>';
+                        echo '<td><a class="badge badge-pill badge-primary" href="info_cpd.php?id=' . $usr->id . '&pd=' . $acc['id'] . '">Изменить</a></td>';
                         echo '</tr>';
                     }
                     ?>

@@ -7,6 +7,7 @@ if (!isset($_SESSION['logged_in'])) {
     header("Location: login.php");
 }
 
+$disable = false;
 $display = 0;
 
 $user = unserialize($_SESSION['user']);
@@ -23,7 +24,7 @@ if (isset($_POST['submit'])) {
             $data['f'] = "'" . $fio[0] . "'";
             $data['i'] = "'" . $fio[1] . "'";
             $data['o'] = "'" . $fio[2] . "'";
-            $data['username'] = "'newgen'";
+            $data['username'] = "'0'";
             $data['group_id'] = "'" . $_POST['group_id'] . "'";
             $password = mt_rand(1000, 9999);
             $data['password'] = "'" . md5($password) . "'";
@@ -31,8 +32,10 @@ if (isset($_POST['submit'])) {
             $data['join_date'] = "'" . date("Y-m-d H:i:s", time()) . "'";
             date_default_timezone_set($tool->getGlobal('tz'));
             $itog = $db->insert($data, 'users');
-            echo $itog . '; ' . $_POST['fio'][$key] . '; ' . $password . '<br>';
+            echo "Создан новый пользователь. ID: " . $itog . ', ФИО: ' . $_POST['fio'][$key] . ', пароль: ' . $password . '<br>';
+            $disable = true;
         }
+        echo 'Не забудьте внести первоначальные данные в карточке созданных пользователей.<br>';
     }
     echo '<strong>Операция завершена успешно.</strong>';
 }
@@ -47,6 +50,7 @@ require_once 'includes/header.inc.php';
 <body>
 <center>
     <?php if (isset($msg)) echo "<h3>" . $msg . "</h3>"; ?>
+    <?php if($disable == false) : ?>
     <form id="form" class="md-form border border-light p-5" action="p_add.php" method="post">
         <p class="h4 mb-4 text-center">Регистрация пользователей</p>
         Выберите группу, в которую будут зарегистрированы пользователи:
@@ -61,7 +65,7 @@ require_once 'includes/header.inc.php';
             ?>
         </select>
         <br>
-        <table id="participants" class="table table-sm">
+        <table id="table" class="table table-sm">
             <thead>
             <tr>
                 <td>ФИО</td>
@@ -70,12 +74,12 @@ require_once 'includes/header.inc.php';
                 <td>Права</td>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="tbody">
             <tr>
                 <td><input type="text" id="textInput" name="fio[]" class="form-control mb-4"
                            placeholder="ФИО участника"></td>
                 <td><input type="date" id="dateInput" name="dr[]" class="form-control mb-4" placeholder=""></td>
-                <td><input type="text" id="textInput" name="ld[]" class="form-control mb-4" placeholder="ФИО участника">
+                <td><input type="text" id="textInput" name="ld[]" class="form-control mb-4" placeholder="№ дела">
                 </td>
                 <td><select class="browser-default custom-select mb-4" id="select2" name="prava[]">
                         <option value="0">Обучающийся</option>
@@ -89,9 +93,9 @@ require_once 'includes/header.inc.php';
             </tr>
             </tbody>
         </table>
+        <div align="right"><button type="button" class="btn btn-rounded btn-primary btn-sm" onclick="add_field()">Добавить строку</button></div>
         <button class="btn btn-info btn-block" type="submit" name="submit">Зарегистрировать</button>
     </form>
-    <button class="btn btn-info" onclick="add_field()" href="#">Добавить поле</button>
     <?php require_once 'includes/footer.inc.php'; ?>
     <script>
 
@@ -107,16 +111,27 @@ require_once 'includes/header.inc.php';
         });
 
         function add_field(){
-
-            var x = document.getElementById("form");
-            var new_field1
-            var new_field2 = document.createElement("input");
-            new_field2.setAttribute("type", "text");
-            new_field2.setAttribute("name", "fio[]");
+            var x = document.getElementById("tbody");
+            var new_field2 = document.createElement("tr");
+            new_field2.innerHTML = "<td><input type=\"text\" id=\"textInput\" name=\"fio[]\" class=\"form-control mb-4\"\n" +
+                "                           placeholder=\"ФИО участника\"></td>\n" +
+                "                <td><input type=\"date\" id=\"dateInput\" name=\"dr[]\" class=\"form-control mb-4\" placeholder=\"\"></td>\n" +
+                "                <td><input type=\"text\" id=\"textInput\" name=\"ld[]\" class=\"form-control mb-4\" placeholder=\"№ дела\">\n" +
+                "                </td>\n" +
+                "                <td><select class=\"browser-default custom-select mb-4\" id=\"select2\" name=\"prava[]\">\n" +
+                "                        <option value=\"0\">Обучающийся</option>\n" +
+                "                        <option value=\"1\">Дежурный</option>\n" +
+                "                        <option value=\"2\">Сотрудник</option>\n" +
+                "                        <option value=\"3\">Секретарь</option>\n" +
+                "                        <option value=\"4\">Зам. директора</option>\n" +
+                "                        <option value=\"5\">Директор</option>\n" +
+                "                        <option value=\"9\">Администратор</option>\n" +
+                "                    </select></td>";
             var pos = x.childElementCount;
-            x.insertBefore(new_field, x.childNodes[pos]);
+            x.insertBefore(new_field2, x.childNodes[pos]);
         }
 
     </script>
+    <?php endif ?>
 </body>
 </html>

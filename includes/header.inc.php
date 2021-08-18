@@ -84,7 +84,7 @@
                 <div class="dropdown-menu dropdown-menu-right dropdown-default"
                      aria-labelledby="navbarDropdownMenuLink-333">
                     <span class="dropdown-item disabled"><?php echo $user->f . " " . $user->i . " " . $user->o; ?><br>
-                    <?php echo "ID: " . $user->id ?></span>
+                    <?php echo "ID: " . $user->id ?><br>Учебный год: <?php echo $db->select('periods', "id = '".$tool->getGlobal('default_period')."'")['short_name']; ?></span>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="settings.php">Личный кабинет</a>
                     <a class="dropdown-item" href="logout.php">Выход</a>

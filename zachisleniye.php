@@ -31,14 +31,14 @@ require_once 'includes/header.inc.php';
             <br><br>
             <div class="row">
                 <div class="col-md-6">
-                    <input type="text" id="textInput" name="familiya" class="form-control mb-4"
+                    <input type="text" id="f1_fam" name="familiya" class="form-control mb-4"
                            placeholder="Фамилия ребёнка">
                 </div>
                 <div class="col-md-3">
-                    <input type="text" id="textInput" name="seriya" class="form-control mb-4" placeholder="Серия" pattern="(^[IVXLCDM]{1,6}[\-][А-Я]{2}$)">
+                    <input type="text" id="f1_ser" name="seriya" class="form-control mb-4" placeholder="Серия" pattern="(^[IVXLCDM]{1,6}[\-][А-Я]{2}$)">
                 </div>
                 <div class="col-md-3">
-                    <input type="text" id="textInput" name="nomer" class="form-control mb-4" placeholder="Номер" pattern="(^[0-9]{6}$)">
+                    <input type="text" id="f1_nom" name="nomer" class="form-control mb-4" placeholder="Номер" pattern="(^[0-9]{6}$)">
                 </div>
             </div>
             <button class="btn btn-info btn-block" type="submit" name="submit">Проверить</button>
@@ -189,16 +189,13 @@ require_once 'includes/header.inc.php';
             $('.dataTables_length').addClass('bs-select');
         });
 
-        function add_field() {
 
-            var x = document.getElementById("form");
-            var new_field1
-            var new_field2 = document.createElement("input");
-            new_field2.setAttribute("type", "text");
-            new_field2.setAttribute("name", "fio[]");
-            var pos = x.childElementCount;
-            x.insertBefore(new_field, x.childNodes[pos]);
-        }
+        $(function() {
+            //задание заполнителя с помощью параметра placeholder
+            //задание заполнителя с помощью параметра placeholder
+            $("#f1_nom").mask("999999", {placeholder: " " });
+            $("#f1_ser").mask("A-AA", {placeholder: " " });
+        });
 
     </script>
 </body>

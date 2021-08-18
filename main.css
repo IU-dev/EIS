@@ -71,6 +71,12 @@
     line-height: unset;
 }
 
+.row-masonry {
+    data-masonry: '{"percentPosition": true }
+}
+
+.grid-item { width: 300px; }
+
 table.dataTable thead .sorting:after,
 table.dataTable thead .sorting:before,
 table.dataTable thead .sorting_asc:after,
