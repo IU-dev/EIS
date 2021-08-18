@@ -46,6 +46,10 @@ if ($rt == false) {
         $gr = $db->select('pdata_groups', "id = '" . $_GET['gid'] . "'");
         $fields = json_decode($gr['value']);
     }
+
+    if ($_GET['firstpass'] != $usr->token) {
+        die('Попытка взлома - токен не совпадает');
+    }
 }
 
 require_once 'includes/header.inc.php';
