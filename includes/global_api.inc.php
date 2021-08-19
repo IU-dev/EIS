@@ -5,7 +5,7 @@ require_once 'classes/DB.class.php';
 require_once 'classes/Tools.class.php';
 require 'vendor/autoload.php';
 
-$pname = "Рейтинг 2.0";
+$pname = 'МБОУ "ИТ-лицей №24"';
 //connect to the database
 $db = new DB();
 $db->connect();

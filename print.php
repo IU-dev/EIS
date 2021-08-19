@@ -101,6 +101,11 @@ if (isset($_GET['customdoc'])){
         foreach($glob as $gl) {
             $document->setValue('global_'.$gl['field'], $gl['value']);
         }
+        $cur = $db->select('users', "id = '".$grp['curator_id']."'");
+        $document->setValue('cur_f', $cur['f']);
+        $document->setValue('cur_i', $cur['i']);
+        $document->setValue('cur_o', $cur['o']);
+        $document->setValue('cur_in', $cur['f']." ".$cur['i'][0].".".$cur['o'][0].".");
         $usrs = $db->select_fs('users', "group_id = '".$_GET['id']."' AND state = '1' ORDER BY f ASC, i ASC");
         $cusrs = $db->counter('users', "group_id = '".$_GET['id']."' AND state = '1'");
         $document->cloneBlock('row', $cusrs, true, true);

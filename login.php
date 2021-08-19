@@ -1,13 +1,9 @@
 <?php
 //login.php
-require_once 'includes/global.inc.php';
-$page = "login.php";
-require_once 'includes/header.inc.php';
-$error = "";
-$username = "";
-$password = "";
 
-//проверить отправлена ли форма логина
+require_once 'includes/global_api.inc.php';
+$page = "login.php";
+
 if (isset($_POST['submit-login'])) {
 
     $username = $_POST['login'];
@@ -23,6 +19,29 @@ if (isset($_POST['submit-login'])) {
         $error = 'Неверный ID или пароль.';
     }
 }
+
+echo '<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="css/mdb.min.css" rel="stylesheet">
+<!-- Your custom styles (optional) -->
+<link href="css/style.css" rel="stylesheet">
+<link href="css/toastr.css" rel="stylesheet">
+<link href="main.css" rel="stylesheet">
+<link href="css/addons/datatables.min.css" rel="stylesheet">';
+
+require_once 'includes/header.inc.php';
+$error = "";
+$username = "";
+$password = "";
+
+//проверить отправлена ли форма логина
+
 ?>
 <html>
 <head>

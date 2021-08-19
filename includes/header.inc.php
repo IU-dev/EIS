@@ -27,7 +27,7 @@
                     <?php endif ?>
                     <?php if ($user->admin >= 3) : ?>
                         <hr>
-                        <a class="dropdown-item" href="docs.php">Выписка документов</a>
+                        <a class="dropdown-item" href="docs.php">Работа с заявлениями</a>
                     <?php endif ?>
                 </div>
             </li>
