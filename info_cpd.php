@@ -56,12 +56,12 @@ require_once 'includes/header.inc.php';
     <p class="h4 mb-4 text-center">Изменить значение поля персональных данных</p>
     Субъект ПД:
     <input type="text" id="textInput" name="field_name" class="form-control mb-4" placeholder=""
-           value="<?php echo "(" . $user->id . ") " . $user->f . " " . $user->i . " " . $user->o ?>" disabled>
+           value="<?php echo "(" . $usr->id . ") " . $usr->f . " " . $usr->i . " " . $usr->o ?>" disabled>
     Наименование поля:
     <input type="text" id="textInput" name="field_name" class="form-control mb-4" placeholder=""
            value="<?php echo $apd['name'] ?>" disabled>
     Старое значение:
-    <input type="text" id="textInput" name="login" class="form-control mb-4" placeholder="Логин"
+    <input type="text" id="textInput" name="login" class="form-control mb-4" placeholder=""
            value="<?php echo $pd['data'] ?>" disabled>
     Новое значение:
     <input type="text" id="textInput" name="newPD" class="form-control mb-4" placeholder="">
