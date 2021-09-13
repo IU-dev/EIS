@@ -53,7 +53,7 @@ if (isset($_POST['submit-editpassword'])) {
     $pass = random_int(1000, 9999);
     $data['password'] = "'" . md5($pass) . "'";
     $n = $db->update($data, 'users', "id = '" . $uid . "'");
-    $msg = '<script type="text/javascript">toastr.success("Произведен сброс пароля. Новый пароль: '.$pass.'", "Успешно!"); $("NewPassword").modal("show");</script>';
+    $msg = '<script type="text/javascript">toastr.success("Произведен сброс пароля. Новый пароль: ' . $pass . '", "Успешно!"); $("NewPassword").modal("show");</script>';
 }
 
 if ($_GET['make_sogl'] == "1") {
@@ -82,7 +82,37 @@ if (isset($_GET['sign_sogl'])) {
     } else $msg = '<script type="text/javascript">toastr.error("У вас нет прав для подписания соглашения", "Ошибка!");</script>';
 }
 
-if ($user->admin < 1) {
+if (isset($_GET['connect_skills'])) {
+    $avs = $db->counter('r_skills_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $user->id . "'");
+    if ($avs == 0) {
+        $skills = $db->select_fs('r_skills', "id != 0 ORDER BY id ASC");
+        foreach ($skills as $skill) {
+            $skill_data['skill_id'] = "'" . $skill['id'] . "'";
+            $skill_data['period_id'] = "'" . $tool->getGlobal('default_period') . "'";
+            $skill_data['user_id'] = "'" . $user->id . "'";
+            $skill_data['value'] = "'0'";
+            $ins = $db->insert($skill_data, 'r_skills_bids');
+        }
+        $msg = '<script type="text/javascript">toastr.success("Навыки успешно подключены", "Успешно!");</script>';
+    } else $msg = '<script type="text/javascript">toastr.error("В этом году данному пользователю уже были подключены навыки", "Ошибка!");</script>';
+}
+
+if (isset($_GET['connect_accs'])) {
+    $avs = $db->counter('r_accs_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $user->id . "'");
+    if ($avs == 0) {
+        $skills = $db->select_fs('r_accs', "id != 0 ORDER BY id ASC");
+        foreach ($skills as $skill) {
+            $skill_data['acc_id'] = "'" . $skill['id'] . "'";
+            $skill_data['period_id'] = "'" . $tool->getGlobal('default_period') . "'";
+            $skill_data['user_id'] = "'" . $user->id . "'";
+            $skill_data['value'] = "'0'";
+            $ins = $db->insert($skill_data, 'r_accs_bids');
+        }
+        $msg = '<script type="text/javascript">toastr.success("Счета валют успешно созданы", "Успешно!");</script>';
+    } else $msg = '<script type="text/javascript">toastr.error("В этом году данному пользователю уже были открыты счета", "Ошибка!");</script>';
+}
+
+if ($user->admin < 2) {
     header("Location: access_denied.php");
 }
 
@@ -95,28 +125,28 @@ require_once 'includes/header.inc.php';
 </head>
 <body><br>
 <?php if (isset($pass)) : ?>
-<div class="modal fade show" id="NewPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog cascading-modal modal-avatar modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <?php
-                if (file_exists("avatars/" . $uid . ".jpg")) echo '<img src="avatars/' . $uid . '.jpg" alt="avatar mx-auto white"class="rounded-circle quadro-img img-responsive">';
-                else echo '<img src="avatars/placeholder.png" alt="avatar mx-auto white" class="rounded-circle img-responsive">';
-                ?>
-            </div>
-            <div class="modal-body text-center mb-1">
-                <form action="info.php?uid=<?php echo $_GET['uid']; ?>" method="post">
-                    <h5 class="mt-1 mb-2">Новый пароль
-                        пользователя:<br><?php echo $usr->f . ' ' . $usr->i . ' ' . $usr->o; ?></h5>
-                    <div class="md-form ml-0 mr-0">
-                        <h3><?php echo $pass ?></h3>
-                    </div>
-                </form>
+    <div class="modal fade show" id="NewPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog cascading-modal modal-avatar modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <?php
+                    if (file_exists("avatars/" . $uid . ".jpg")) echo '<img src="avatars/' . $uid . '.jpg" alt="avatar mx-auto white"class="rounded-circle quadro-img img-responsive">';
+                    else echo '<img src="avatars/placeholder.png" alt="avatar mx-auto white" class="rounded-circle img-responsive">';
+                    ?>
+                </div>
+                <div class="modal-body text-center mb-1">
+                    <form action="info.php?uid=<?php echo $_GET['uid']; ?>" method="post">
+                        <h5 class="mt-1 mb-2">Новый пароль
+                            пользователя:<br><?php echo $usr->f . ' ' . $usr->i . ' ' . $usr->o; ?></h5>
+                        <div class="md-form ml-0 mr-0">
+                            <h3><?php echo $pass ?></h3>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 <?php endif ?>
 <div class="modal fade" id="MakeWrite" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
@@ -247,18 +277,18 @@ require_once 'includes/header.inc.php';
                            target="_blank">Скачать заявление</a>
                     </div>
                     <?php if ($user->admin >= 9) : ?>
-                    <h4>Сброс пароля</h4>
-                    <small>Доступно только техническому администратору</small>
-                    <div class="text-center mt-4">
-                        <button class="btn btn-cyan mt-1" name="submit-editpassword">Сбросить пароль</button>
-                    </div>
+                        <h4>Сброс пароля</h4>
+                        <small>Доступно только техническому администратору</small>
+                        <div class="text-center mt-4">
+                            <button class="btn btn-cyan mt-1" name="submit-editpassword">Сбросить пароль</button>
+                        </div>
                     <?php endif ?>
                     <br>
                     <?php if (isset($pass)) : ?>
-                    <h5 class="mt-1 mb-2">Новый пароль</h5>
-                    <div class="md-form ml-0 mr-0">
-                        <h3><?php echo $pass ?></h3>
-                    </div>
+                        <h5 class="mt-1 mb-2">Новый пароль</h5>
+                        <div class="md-form ml-0 mr-0">
+                            <h3><?php echo $pass ?></h3>
+                        </div>
                     <?php endif ?>
                 </form>
             </div>
@@ -500,13 +530,154 @@ require_once 'includes/header.inc.php';
                     </tbody>
                 </table>
                 <br>
-                <strong>Средний балл по рейтинговым работам: </strong><?php echo $avg / $nm; ?>
+                <strong>Средний балл по рейтинговым работам: </strong><?php echo round($avg / $nm, 2); ?>
             </div>
             <div class="tab-pane fade show active" id="rating" role="tabpanel" aria-labelledby="contact-tab-md">
-                <p>Модуль в разработке.</p>
+                <p><strong>Уважаемые пользователи!</strong>Модуль рейтинга находится в разработке. Убедительная просьба не использовать данную страницу!
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                Навыки
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <?php $skills = $db->select_fs('r_skills_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $user->id . "' ORDER BY id ASC");
+                                if (isset($skills[0])) {
+                                    foreach ($skills as $skill) {
+                                        $ski = $db->select('r_skills', "id = '" . $skill['skill_id'] . "'");
+                                        echo '<li class="list-group-item">';
+                                        echo '' . $ski['name'] . ' || ' . $skill['value'] . '/' . $ski['max_value'] . '<br>';
+                                        echo '<div class="progress md-progress" style="height: 20px"><div class="progress-bar" role="progressbar" style="width: ' . (int)$skill['value'] / (int)$ski['max_value'] * 100 . '%; height: 20px; margin-bottom: 0px!important" aria-valuenow="500" aria-valuemin="0" aria-valuemax="1000">' . $skill['value'] . '/' . $ski['max_value'] . '</div></div>';
+                                        echo '</li>';
+                                    }
+                                    echo '<li class="list-group-item"><a href="" class="btn btn-rounded btn-primary btn-sm"
+                                                               data-toggle="modal" data-target="#EditSkills"><i
+                                                class="fas fa-pencil-alt"></i> Изменить</a></li>';
+                                } else {
+                                    echo '<li class="list-group-item">У пользователя нет активных навыков.<a role="button" class="btn btn-primary btn-rounded btn-sm" href="info.php?uid=' . $usr->id . '&connect_skills=1">Подключить навыки</a></li>';
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="card-header">
+                                Баланс
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <?php $skills = $db->select_fs('r_accs_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $user->id . "' ORDER BY id ASC");
+                                if (isset($skills[0])) {
+                                    foreach ($skills as $skill) {
+                                        $acc = $db->select('r_accs', "id = '" . $skill['acc_id'] . "'");
+                                        echo '<li class="list-group-item">';
+                                        echo '<div class="row"><div class="col-8">' . $acc['name'] . '</div><div class="col-4 right-aligned"><h2>' . $skill['value'] . '</h2></div></div>';
+                                        echo '</li>';
+                                    }
+                                } else {
+                                    echo '<li class="list-group-item">У пользователя нет подключенных счетов.<a role="button" class="btn btn-primary btn-rounded btn-sm" href="info.php?uid=' . $usr->id . '&connect_accs=1">Подключить счета</a></li>';
+                                }
+                                ?>
+                                <li class="list-group-item"><a href="" class="btn btn-rounded btn-primary btn-sm"
+                                                               data-toggle="modal" data-target="#Premia"><i
+                                                class="fas fa-hand-holding-usd"></i> Выдать</a> <a href=""
+                                                                                                   class="btn btn-rounded btn-primary btn-sm"
+                                                                                                   data-toggle="modal"
+                                                                                                   data-target="#Shtraf"><i
+                                                class="far fa-hand-lizard"></i> Изъять</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                Достижения
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div id="multi-item-example" class="carousel slide carousel-multi-item"
+                                         data-ride="carousel">
+                                        <div class="carousel-inner bg-light" role="listbox">
+                                            <?php
+                                            $achivki = $db->select_desc_fs('r_achievements_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $user->id . "'");
+                                            $first = 1;
+                                            foreach ($achivki as $achieve) {
+                                                $acd = $db->select('r_achievements', "id = '" . $achieve['ach_id'] . "'");
+                                                if ($first == 1) {
+                                                    $first = 0;
+                                                    echo '<div class="carousel-item active" style="border: 1px;">';
+                                                } else echo '<div class="carousel-item" style="border: 1px;">';
+                                                echo '<div class="card mb-2">';
+                                                echo '<div class="card-body">';
+                                                echo '<div class="row">';
+                                                echo '<div class="col-4 align-self-center">';
+                                                echo '<img class="card-img-top limit-250" src="' . $acd['dir'] . '">';
+                                                echo '</div><div class="col-8">';
+                                                echo '<h4 class="card-title">' . $acd['name'] . '</h4>';
+                                                $who = $userTools->get($achieve['given_id']);
+                                                date_default_timezone_set($tool->getGlobal('timezone'));
+                                                echo '<p class="card-text">' . $acd['descr'] . '<br>Выдана ' . date("d.m.Y H:i:s", strtotime($achieve['datetime'] . " GMT")) . '.<br>' . $achieve['reason'] . '<br>Выдал(а) ' . $who->f . ' ' . $who->i . ' ' . $who->o;
+                                                if($user->admin >= 4) echo '<br><a href="info.php?uid='.$usr->id.'&removeAch='.$achieve['id'].'">Отменить выдачу</a>';
+                                                echo '</p>';
+                                                date_default_timezone_set("GMT");
+                                                echo '</div></div></div></div></div>';
+                                            }
+                                            ?>
+                                        </div>
+                                        <div class="align-content-center">
+                                            <a class="btn-floating primary-color btn-sm" href="#multi-item-example"
+                                               data-slide="prev"><i
+                                                        class="fas fa-chevron-left"></i></a>
+                                            <a class="btn-floating primary-color btn-sm" href="#multi-item-example"
+                                               data-slide="next"><i
+                                                        class="fas fa-chevron-right"></i></a>
+                                            <a href="" class="btn-floating primary-color btn-sm" data-toggle="modal"
+                                               data-target="#Achieve"><i class="fas fa-plus"></i></a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="card-header">
+                                История действий с рейтингом
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <table id="rat1" class="table table-bordered table-hover table-striped table-sm">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">MBD-</th>
+                                            <th scope="col">Наименование работы</th>
+                                            <th scope="col">Тип</th>
+                                            <th scope="col">Результат</th>
+                                            <th scope="col">Действие</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $accs = $db->select_desc_fs('monitors_bids', "usr_id = '" . $usr->id . "'");
+                                        foreach ($accs as $acc) {
+                                            echo '<tr>';
+                                            echo '<td>' . $acc['id'] . '</td>';
+                                            $srv = $db->select('monitors', "id = '" . $acc['monitor_id'] . "'");
+                                            echo '<td>' . $srv['name'] . '</td>';
+                                            echo '<td>' . $acc['value'] . '</td>';
+                                            echo '</tr>';
+                                        }
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                </p>
             </div>
             <div class="tab-pane fade" id="pdata" role="tabpanel" aria-labelledby="profile-tab-md">
-                <a href="info_an.php?id=<?php echo $usr->id; ?>&gid=0&firstpass=" target="_blank" class="btn btn-rounded btn-primary btn-sm"><i
+                <a href="info_an.php?id=<?php echo $usr->id; ?>&gid=0&firstpass=" target="_blank"
+                   class="btn btn-rounded btn-primary btn-sm"><i
                             class="fas fa-pen"></i> Ввести первоначальные данные</a><br><br>
                 <table id="pdata3" class="table table-bordered table-hover table-striped table-sm">
                     <thead>
@@ -586,6 +757,13 @@ require_once 'includes/header.inc.php';
 
     $(document).ready(function () {
         $('#monitors2').DataTable({
+            "order": [[0, "desc"]]
+        });
+        $('.dataTables_length').addClass('bs-select');
+    });
+
+    $(document).ready(function () {
+        $('#rat1').DataTable({
             "order": [[0, "desc"]]
         });
         $('.dataTables_length').addClass('bs-select');

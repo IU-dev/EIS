@@ -55,7 +55,7 @@ require_once 'includes/header.inc.php';
             else $sections = $db->select_fs('groups', "curator_id = '" . $user->id . "' ORDER BY parallel ASC, name ASC");
             foreach ($sections as $section) {
                 $cur = $db->select('users', "id = '" . $section['curator_id'] . "'");
-                echo '<option value="' . $section['id'] . '">' . $section['name'] . ' (куратор ' . $cur['f'] . ' ' . $cur['i'] . ' ' . $cur['o'] . ' (ЕИС-' . $cur['id'] . '))</option>';
+                echo '<option value="' . $section['id'] . '">' . $section['name'] . ' (кл. рук. (' . $cur['id'] . ') ' . $cur['f'] . ' ' . $cur['i'] . ' ' . $cur['o'] . ')</option>';
             }
             ?>
         </select>
@@ -191,7 +191,7 @@ require_once 'includes/header.inc.php';
                     echo '<tr>';
                     echo '<td>' . $i . '</td>';
                     echo '<td>' . $part['id'] . '</td>';
-                    echo '<td><a href="info.php?uid=' . $part['id'] . '">' . $part['f'] . ' ' . $part['i'] . ' ' . $part['o'] . '</a></td>';
+                    echo '<td>' . $part['f'] . ' ' . $part['i'] . ' ' . $part['o'] . '</td>';
                     echo '<td><a class="badge badge-success" target="_blank" href="info.php?uid=' . $part['id'] . '"><i class="fas fa-check"></i> Информационная карта</a></td>';
                     $i = $i + 1;
                 }

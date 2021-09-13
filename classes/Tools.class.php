@@ -37,9 +37,52 @@ class Tools
     public function first_class_order_position($id)
     {
         $db = new DB();
-        $applics = $db->select_fs('applic_1class', "state = '1' AND period_id = '".$this->getGlobal('1class_period')."' ORDER BY datetime ASC, spec_cat DESC");
-        foreach($applics as $key=>$value){
-            if($value['id'] == $id) return $key+1;
+        $applics = $db->select_fs('applic_1class', "state = '1' AND period_id = '" . $this->getGlobal('1class_period') . "' ORDER BY datetime ASC, spec_cat DESC");
+        foreach ($applics as $key => $value) {
+            if ($value['id'] == $id) return $key + 1;
+        }
+    }
+
+    public function toast($type, $message)
+    {
+        if ($type == "success") {
+            return '<script type="text/javascript">toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": true,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}; 
+toastr["success"]("' . $message . '", "Успешно!")</script>';
+        } else if ($type == "error") {
+            return '<script type="text/javascript">toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": true,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}; 
+toastr["error"]("' . $message . '", "Ошибка!")</script>';
         }
     }
 }

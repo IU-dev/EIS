@@ -77,6 +77,63 @@
 
 .grid-item { width: 300px; }
 
+.limit-250 {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.carousel-item {
+    height: auto!important;
+    background-color: #ffffff!important;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0)!important;
+}
+
+.carousel {
+    margin-bottom: 0em!important;
+}
+
+.shadow {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Параметры тени */
+    padding: 10px;
+}
+
+.machine_text {
+    background: lightgrey;
+    font-family: Consolas;
+}
+
+.itogs {
+    width: 5em;
+}
+
+.fixed-5em {
+    width: 5em;
+}
+
+.fixed-15em {
+    width: 15em;
+}
+
+.fixed-25em {
+    width: 25em;
+}
+
+.fixed-35em {
+    width: 35em;
+}
+
+.hard-border-radius {
+    border-radius: 20px;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.val {
+    vertical-align: middle;
+}
+
 table.dataTable thead .sorting:after,
 table.dataTable thead .sorting:before,
 table.dataTable thead .sorting_asc:after,
