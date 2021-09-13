@@ -541,7 +541,7 @@ require_once 'includes/header.inc.php';
                                 Навыки
                             </div>
                             <ul class="list-group list-group-flush">
-                                <?php $skills = $db->select_fs('r_skills_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $user->id . "' ORDER BY id ASC");
+                                <?php $skills = $db->select_fs('r_skills_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $usr->id . "' ORDER BY id ASC");
                                 if (isset($skills[0])) {
                                     foreach ($skills as $skill) {
                                         $ski = $db->select('r_skills', "id = '" . $skill['skill_id'] . "'");
@@ -565,7 +565,7 @@ require_once 'includes/header.inc.php';
                                 Баланс
                             </div>
                             <ul class="list-group list-group-flush">
-                                <?php $skills = $db->select_fs('r_accs_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $user->id . "' ORDER BY id ASC");
+                                <?php $skills = $db->select_fs('r_accs_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $usr->id . "' ORDER BY id ASC");
                                 if (isset($skills[0])) {
                                     foreach ($skills as $skill) {
                                         $acc = $db->select('r_accs', "id = '" . $skill['acc_id'] . "'");
@@ -598,7 +598,7 @@ require_once 'includes/header.inc.php';
                                          data-ride="carousel">
                                         <div class="carousel-inner bg-light" role="listbox">
                                             <?php
-                                            $achivki = $db->select_desc_fs('r_achievements_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $user->id . "'");
+                                            $achivki = $db->select_desc_fs('r_achievements_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $usr->id . "'");
                                             $first = 1;
                                             foreach ($achivki as $achieve) {
                                                 $acd = $db->select('r_achievements', "id = '" . $achieve['ach_id'] . "'");
