@@ -33,7 +33,7 @@ if (isset($_GET['sysdoc'])) {
         $document->setValue('datetime', date("d.m.Y H:m:s", time()));
         date_default_timezone_set($tool->getGlobal('tz'));
         $document->saveAs("print/sys/1/Soglashenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx");
-        $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/sys/1/Soglashenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
+        $link = 'https://' . $_SERVER['SERVER_NAME'] . "/print/sys/1/Soglashenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
         $action['href'] = "info.php?uid=".$usr['id'];
         $action['text'] = "Вернуться к информационной карте";
     }
@@ -53,7 +53,7 @@ if (isset($_GET['sysdoc'])) {
         $document->setValue('datetime', date("d.m.Y H:m:s", time()));
         date_default_timezone_set($tool->getGlobal('tz'));
         $document->saveAs("print/sys/2/Zayavlenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx");
-        $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/sys/2/Zayavlenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
+        $link = 'https://' . $_SERVER['SERVER_NAME'] . "/print/sys/2/Zayavlenie-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
         $action['href'] = "info.php?uid=".$usr['id'];
         $action['text'] = "Вернуться к информационной карте";
     }
@@ -87,7 +87,7 @@ if (isset($_GET['customdoc'])){
         $docdata = "Пользователь: ".$usr['f']." ".$usr['i']." ".$usr['o']." (".$usr['id'].")";
         date_default_timezone_set($tool->getGlobal('tz'));
         $document->saveAs("print/custom/".$_GET['customdoc']."/Custom-".$_GET['customdoc']."-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx");
-        $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/custom/".$_GET['customdoc']."/Custom-".$_GET['customdoc']."-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
+        $link = 'https://' . $_SERVER['SERVER_NAME'] . "/print/custom/".$_GET['customdoc']."/Custom-".$_GET['customdoc']."-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
         $action['href'] = "info.php?uid=".$usr['id'];
         $action['text'] = "Вернуться к информационной карте";
     }
@@ -127,7 +127,7 @@ if (isset($_GET['customdoc'])){
         $docdata = "Группа: (".$grp['id'].") ".$grp['name'];
         date_default_timezone_set($tool->getGlobal('tz'));
         $document->saveAs("print/custom/".$_GET['customdoc']."/Custom-".$_GET['customdoc']."-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx");
-        $link = 'http://' . $_SERVER['SERVER_NAME'] . "/print/custom/".$_GET['customdoc']."/Custom-".$_GET['customdoc']."-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
+        $link = 'https://' . $_SERVER['SERVER_NAME'] . "/print/custom/".$_GET['customdoc']."/Custom-".$_GET['customdoc']."-" . $_GET['id'] . "-".date("d-m-Y-H-m-s", time()).".docx";
         $action['href'] = "myclass.php";
         $action['text'] = "Вернуться к выбору группы";
     }
