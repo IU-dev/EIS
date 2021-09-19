@@ -60,6 +60,14 @@ class UserTools
         return new User($result);
     }
 
+    public function fio($id, $rid = true){
+        $db = new DB();
+        $connection = $db->connect_get();
+        $result = $db->select('users', "id = $id");
+        if ($rid) return '('.$result['id']. ') '. $result['f'].' '.$result['i'].' '.$result['o'];
+        else return $result['f'].' '.$result['i'].' '.$result['o'];
+    }
+
     public function get_name($id){
         $db = new DB();
         $connection = $db->connect_get();

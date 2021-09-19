@@ -385,7 +385,7 @@ require_once 'includes/header.inc.php';
             <li class="nav-item">
                 <a class="nav-link" id="home-tab-md" data-toggle="tab" href="#writes" role="tab"
                    aria-controls="home-md"
-                   aria-selected="true">Записи</a>
+                   aria-selected="true">Портфолио и заметки</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#pdata" role="tab"
@@ -422,6 +422,32 @@ require_once 'includes/header.inc.php';
                     <thead>
                     <tr>
                         <th scope="col">NOT-</th>
+                        <th scope="col">Автор</th>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Содержание</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $nots = $db->select_desc_fs('notes', "to_id = '" . $usr->id . "'");
+                    foreach ($nots as $note) {
+                        echo '<tr>';
+                        echo '<td>' . $note['id'] . '</td>';
+                        $who = $db->select('users', "id = '" . $note['from_id'] . "'");
+                        echo '<td>' . $who['f'] . ' ' . $who['i'] . ' ' . $who['o'] . '  <a class="badge badge-primary badge-pill">ЕИС-' . $who['id'] . '</a></td>';
+                        echo '<td>' . date("d.m.Y H:i:s", strtotime($note['datetime'] . " GMT")) . '</td>';
+                        echo '<td>' . $note['text'] . '</td>';
+                    }
+                    ?>
+                    </tbody>
+                </table>
+                <a href="" class="btn btn-rounded btn-primary btn-sm" data-toggle="modal" data-target="#MakePortfolio">Добавить
+                    награду</a>
+                <br>
+                <table id="portfolio1" class="table table-bordered table-hover table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col">PFR-</th>
                         <th scope="col">Автор</th>
                         <th scope="col">Дата</th>
                         <th scope="col">Содержание</th>
@@ -533,7 +559,7 @@ require_once 'includes/header.inc.php';
                 <strong>Средний балл по рейтинговым работам: </strong><?php echo round($avg / $nm, 2); ?>
             </div>
             <div class="tab-pane fade show active" id="rating" role="tabpanel" aria-labelledby="contact-tab-md">
-                <p><strong>Уважаемые пользователи!</strong>Модуль рейтинга находится в разработке. Убедительная просьба не использовать данную страницу!
+                <p>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card">
@@ -546,7 +572,7 @@ require_once 'includes/header.inc.php';
                                     foreach ($skills as $skill) {
                                         $ski = $db->select('r_skills', "id = '" . $skill['skill_id'] . "'");
                                         echo '<li class="list-group-item">';
-                                        echo '' . $ski['name'] . ' || ' . $skill['value'] . '/' . $ski['max_value'] . '<br>';
+                                        echo '' . $ski['name'] . '<br>';
                                         echo '<div class="progress md-progress" style="height: 20px"><div class="progress-bar" role="progressbar" style="width: ' . (int)$skill['value'] / (int)$ski['max_value'] * 100 . '%; height: 20px; margin-bottom: 0px!important" aria-valuenow="500" aria-valuemin="0" aria-valuemax="1000">' . $skill['value'] . '/' . $ski['max_value'] . '</div></div>';
                                         echo '</li>';
                                     }
@@ -647,22 +673,25 @@ require_once 'includes/header.inc.php';
                                     <table id="rat1" class="table table-bordered table-hover table-striped table-sm">
                                         <thead>
                                         <tr>
-                                            <th scope="col">MBD-</th>
-                                            <th scope="col">Наименование работы</th>
-                                            <th scope="col">Тип</th>
-                                            <th scope="col">Результат</th>
-                                            <th scope="col">Действие</th>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Дата, время</th>
+                                            <th scope="col">Кто</th>
+                                            <th scope="col">Категория</th>
+                                            <th scope="col">Текст</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <?php
-                                        $accs = $db->select_desc_fs('monitors_bids', "usr_id = '" . $usr->id . "'");
+                                        $accs = $db->select_desc_fs('r_logs', "period_id = '".$tool->getGlobal('default_period')."' AND user_id = '" . $usr->id . "'");
                                         foreach ($accs as $acc) {
                                             echo '<tr>';
                                             echo '<td>' . $acc['id'] . '</td>';
-                                            $srv = $db->select('monitors', "id = '" . $acc['monitor_id'] . "'");
-                                            echo '<td>' . $srv['name'] . '</td>';
-                                            echo '<td>' . $acc['value'] . '</td>';
+                                            date_default_timezone_set($tool->getGlobal('timezone'));
+                                            echo '<td>' .  date("d.m.Y H:i:s", strtotime($acc['datetime'] . " GMT")) . '</td>';
+                                            date_default_timezone_set("GMT");
+                                            echo '<td>' . $userTools->fio($acc['who_id']) . '</td>';
+                                            echo '<td>' . $acc['action'] . '</td>';
+                                            echo '<td>' . $acc['text'] . '</td>';
                                             echo '</tr>';
                                         }
                                         ?>
@@ -764,7 +793,16 @@ require_once 'includes/header.inc.php';
 
     $(document).ready(function () {
         $('#rat1').DataTable({
-            "order": [[0, "desc"]]
+            "order": [[0, "desc"]],
+            "iDisplayLength": 25
+        });
+        $('.dataTables_length').addClass('bs-select');
+    });
+
+    $(document).ready(function () {
+        $('#portfolio1').DataTable({
+            "order": [[0, "desc"]],
+            "iDisplayLength": 50
         });
         $('.dataTables_length').addClass('bs-select');
     });

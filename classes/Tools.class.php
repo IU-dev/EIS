@@ -27,6 +27,17 @@ class Tools
         return $db->insert($data, 'log');
     }
 
+    public function rlog($cat, $sub, $who, $log)
+    {
+        $db = new DB();
+        $data['datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
+        $data['action'] = "'" . $cat . "'";
+        $data['user_id'] = "'" . $sub . "'";
+        $data['who_id'] = "'" . $who . "'";
+        $data['text'] = "'" . $log . "'";
+        return $db->insert($data, 'r_log');
+    }
+
     public function getGlobal($name)
     {
         $db = new DB();

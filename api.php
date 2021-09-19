@@ -29,6 +29,21 @@ if (isset($_GET['act'])) {
         echo 'INDEV';
     } else if ($_GET['act'] == "notify") {
         echo 'INDEV';
+    } else if ($_GET['act'] == "getPortfolioTypes") {
+        header("Content-Type: application/json");
+        $result['answer'] = "OK";
+        $accs = $db->select_desc_fs('r_portfolio', "id != 0");
+        foreach ($accs as $key => $acc) {
+            $result['types'][$key]['id'] = (int)$acc['id'];
+            $result['types'][$key]['name'] = $acc['name'];
+            $p = json_decode($acc['weight']);
+            foreach ($p as $key2=>$a){
+                $v = $db->select('r_accs', "id = '".$key2."'");
+                $result['types'][$key]['vaults'][$key2]['name'] = $v['name'];
+                $result['types'][$key]['vaults'][$key2]['value'] = (int)$a;
+            }
+        }
+        echo json_encode($result);
     } else if ($_GET['act'] == "getlog") {
         echo 'INDEV';
     } else if ($_GET['act'] == "regenerate" && $_GET['secret'] == "bondartop14072003") {
@@ -106,7 +121,7 @@ if (isset($_GET['act'])) {
             if ($_GET['act'] == "getSkills") {
                 header("Content-Type: application/json");
                 $result['answer'] = "OK";
-                $skills = $db->select_fs('r_skills_bids', "period_id = '".$tool->getGlobal('default_period')."' AND user_id = '" . $p['id'] . "'");
+                $skills = $db->select_fs('r_skills_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $p['id'] . "'");
                 foreach ($skills as $key => $skill) {
                     $sn = $db->select('r_skills', "id = '" . $skill['skill_id'] . "'");
                     $result['skills'][$key]['name'] = $sn['name'];
@@ -116,7 +131,7 @@ if (isset($_GET['act'])) {
             } else if ($_GET['act'] == "getAchievements") {
                 header("Content-Type: application/json");
                 $result['answer'] = "OK";
-                $achs = $db->select_desc_fs('r_achievements_bids', "period_id = '".$tool->getGlobal('default_period')."' AND user_id = '" . $p['id'] . "'");
+                $achs = $db->select_desc_fs('r_achievements_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $p['id'] . "'");
                 foreach ($achs as $key => $ach) {
                     $sn = $db->select('r_achievements', "id = '" . $ach['ach_id'] . "'");
                     $result['achievements'][$key]['name'] = $sn['name'];
@@ -124,9 +139,60 @@ if (isset($_GET['act'])) {
                     $result['achievements'][$key]['description'] = $sn['descr'];
                     $result['achievements'][$key]['datetime'] = $ach['datetime'];
                     $result['achievements'][$key]['reason'] = $ach['reason'];
-                    $by = $db->select('users', "id = '".$ach['given_id']."'");
-                    $result['achievements'][$key]['given_by'] = '('.$by['id'].') '. $by['f'].' '.$by['i'].' '.$by['o'];
+                    $by = $db->select('users', "id = '" . $ach['given_id'] . "'");
+                    $result['achievements'][$key]['given_by'] = '(' . $by['id'] . ') ' . $by['f'] . ' ' . $by['i'] . ' ' . $by['o'];
                 }
+            } else if ($_GET['act'] == "getBalance") {
+                header("Content-Type: application/json");
+                $result['answer'] = "OK";
+                $accs = $db->select_desc_fs('r_accs_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $p['id'] . "'");
+                foreach ($accs as $key => $acc) {
+                    $sn = $db->select('r_accs', "id = '" . $acc['acc_id'] . "'");
+                    $result['accs'][$key]['name'] = $sn['name'];
+                    $result['accs'][$key]['icon'] = $sn['icon'];
+                    $result['accs'][$key]['value'] = (int)$acc['value'];
+                }
+            } else if ($_GET['act'] == "getLogs") {
+                header("Content-Type: application/json");
+                $result['answer'] = "OK";
+                $accs = $db->select_desc_fs('r_logs', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $p['id'] . "'");
+                date_default_timezone_set($tool->getGlobal('timezone'));
+                foreach ($accs as $key => $acc) {
+                    $result['logs'][$key]['datetime'] = date("d.m.Y H:i:s", strtotime($acc['datetime'] . " GMT"));
+                    $result['logs'][$key]['who'] = $userTools->fio($acc['who_id']);
+                    $result['logs'][$key]['action'] = $acc['action'];
+                    $result['logs'][$key]['text'] = $acc['text'];
+                }
+                date_default_timezone_set("GMT");
+            } else if ($_GET['act'] == "getPortfolio") {
+                header("Content-Type: application/json");
+                $result['answer'] = "OK";
+                $accs = $db->select_desc_fs('r_portfolio_bids', "period_id = '" . $tool->getGlobal('default_period') . "' AND user_id = '" . $p['id'] . "'");
+                date_default_timezone_set($tool->getGlobal('timezone'));
+                foreach ($accs as $key => $acc) {
+                    $result['portfolio'][$key]['id'] = (int)$acc['id'];
+                    $result['portfolio'][$key]['link'] = $acc['link'];
+                    $p = $db->select('r_portfolio', "id = '".$acc['portfolio_id']."'");
+                    $result['portfolio'][$key]['level_name'] = $p['name'];
+                    $result['portfolio'][$key]['name'] = $acc['name'];
+                    $result['portfolio'][$key]['descr'] = $acc['descr'];
+                    if($acc['state'] == "0"){
+                        $result['portfolio'][$key]['state'] = "Новый";
+                    }
+                    else if($acc['state'] == "1"){
+                        $result['portfolio'][$key]['state'] = "Оценено";
+                        $result['portfolio'][$key]['acc_who'] = $userTools->fio($acc['acc_who']);
+                        $result['portfolio'][$key]['acc_when'] = date("d.m.Y H:i:s", strtotime($acc['acc_when'] . " GMT"));
+                        $result['portfolio'][$key]['acc_descr'] = $acc['acc_descr'];
+                    }
+                    else if($acc['state'] == "2"){
+                        $result['portfolio'][$key]['state'] = "Отказано";
+                        $result['portfolio'][$key]['acc_who'] = $userTools->fio($acc['acc_who']);
+                        $result['portfolio'][$key]['acc_when'] = date("d.m.Y H:i:s", strtotime($acc['acc_when'] . " GMT"));
+                        $result['portfolio'][$key]['acc_descr'] = $acc['acc_descr'];
+                    }
+                }
+                date_default_timezone_set("GMT");
             }
         } else $result['answer'] = "TOKEN_ERROR";
         echo json_encode($result);
