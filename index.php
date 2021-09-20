@@ -26,7 +26,7 @@ require_once 'includes/header.inc.php';
                 <br>
                 <small>Уполномоченный специалист: <?php echo $tool->getGlobal('upoln') ?></small>
                 <br><br>
-                <a type="button" href="child.php" class="btn btn-primary btn-lg btn-block">Вход для обучающихся</a>
+                <a type="button" href="https://eis.vercel.app" class="btn btn-primary btn-lg btn-block">Вход для обучающихся (работает в тестовом режиме)</a>
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@ require_once 'includes/header.inc.php';
                 <div class="card">
                     <div class="card-body"><h4 class="card-title">Вход</h4>
                         <hr>
-                        <p class="card-text">Войти в Единую информационную систему в роли обучающегося / педагога</p>
+                        <p class="card-text">Войти в Единую информационную систему в роли сотрудника / педагога Лицея</p>
                         <hr>
                         <a href="login.php" class="black-text d-flex justify-content-end"><h5>Перейти <i
                                         class="fas fa-angle-double-right"></i></h5></a></div>
@@ -61,7 +61,7 @@ require_once 'includes/header.inc.php';
                     <div class="card">
                         <div class="card-body"><h4 class="card-title">Выход</h4>
                             <hr>
-                            <p class="card-text">Выйти из Единой информационной системы в роли обучающегося / педагога</p>
+                            <p class="card-text">Выйти из Единой информационной системы в роли сотрудника / педагога Лицея</p>
                             <hr>
                             <a href="logout.php" class="black-text d-flex justify-content-end"><h5>Перейти <i
                                             class="fas fa-angle-double-right"></i></h5></a></div>

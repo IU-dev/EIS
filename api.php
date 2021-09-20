@@ -21,6 +21,12 @@ if (isset($_GET['act'])) {
             $result['group'] = $group['name'];
             $result['userid'] = (int)$usr['id'];
             $result['token'] = rand('10000000', '99999999');
+            if (file_exists("avatars/" . $usr['id'] . ".jpg")) $result['avatar_link'] = "https://eis.it-lyceum24.ru/avatars/". $usr['id'] . ".jpg";
+            else $result['avatar_link'] = "https://eis.it-lyceum24.ru/avatars/placeholder.png";
+            $result['fio'] = $userTools->fio($usr['id'], false);
+            $result['uid'] = $usr['id'];
+            $ug = $db->select('periods', "id = '".$tool->getGlobal('default_period')."'");
+            $result['uch_god'] = $ug['name'];
             $data['token'] = (int)$result['token'];
             $u = $db->update($data, 'users', "id = '" . $_GET['login'] . "'");
         } else $result['answer'] = "AUTH_ERROR";
@@ -47,27 +53,27 @@ if (isset($_GET['act'])) {
     } else if ($_GET['act'] == "getlog") {
         echo 'INDEV';
     } else if ($_GET['act'] == "regenerate" && $_GET['secret'] == "bondartop14072003") {
-        $grps = $db->select_fs('groups', "id != '0' AND state = '1'");
+        $grps = $db->select_fs('groups', "id = '".$_GET['group_id']."'");
         foreach ($grps as $grp) {
             echo '<strong>Группа ' . $grp['name'] . '</strong><br>';
-            $usrs = $db->select_fs('users', "group_id = '" . $grp['id'] . "'");
+            $usrs = $db->select_fs('users', "group_id = '" . $grp['id'] . "' AND state = '1'");
             foreach ($usrs as $usr) {
                 $np = random_int(1000, 9999);
                 $data['password'] = "'" . md5($np) . "'";
                 $b = $db->update($data, 'users', "id = '" . $usr['id'] . "'");
-                echo $usr['f'] . ';' . $usr['i'] . ';' . $usr['o'] . ';' . $usr['id'] . ';' . $usr['group_id'] . ';' . $np . ';';
-                if ($usr['admin'] == '0') echo 'Обучающийся';
+                echo $usr['f'] . ';' . $usr['i'] . ';' . $usr['o'] . ', ваш ID - ' . $usr['id'] . ', ваш новый пароль - ' . $np . ';';
+                /* if ($usr['admin'] == '0') echo 'Обучающийся';
                 else if ($usr['admin'] == '1') echo 'Дежурный';
                 else if ($usr['admin'] == '2') echo 'Сотрудник';
                 else if ($usr['admin'] == '3') echo 'Секретарь';
                 else if ($usr['admin'] == '4') echo 'Зам. директора';
                 else if ($usr['admin'] == '5') echo 'Директор';
-                else if ($usr['admin'] == '9') echo 'Администратор';
+                else if ($usr['admin'] == '9') echo 'Администратор'; */
                 echo '<br>';
             }
             echo '<br>';
         }
-    } else if ($_GET['act'] == "getUsersDataCheck") {
+    } else if ($_GET['act'] == "getUsersDataCheck" && $_GET['secret'] == "bondartop14072003") {
         $grp = $db->select('groups', "id = '" . $_GET['gid'] . "'");
         echo '<strong>Группа: ' . $grp['name'] . '</strong><br><br>';
         $usrs = $db->select_fs('users', "group_id = '" . $_GET['gid'] . "' ORDER BY f ASC, i ASC");
@@ -76,7 +82,7 @@ if (isset($_GET['act'])) {
         }
         echo '<hr>Выписка из Единой информационной системы<br>МБОУ "ИТ-лицей №24"';
         echo '<br>' . date("d.m.Y H:i:s");
-    } else if ($_GET['act'] == "getIrbisData") {
+    } else if ($_GET['act'] == "getIrbisData" && $_GET['secret'] == "bondartop14072003") {
         $usrs = $db->select_fs('users', "id != '0'");
         echo 'getIrbisData: Генерация данных для системы ИРБИС64.<br><strong>Внимание! Не забудьте перекодировать txt файл в кодировку Windows!!!</strong><hr>';
         $i = 1;
@@ -193,6 +199,19 @@ if (isset($_GET['act'])) {
                     }
                 }
                 date_default_timezone_set("GMT");
+            } else if ($_GET['act'] == "sendPortfolio") {
+                if(isset($_GET['name']) && isset($_GET['descr']) && isset($_GET['link']) && isset($_GET['pid'])) {
+                    $result['answer'] = "OK";
+                    $data['period_id'] = "'".$tool->getGlobal('default_period')."'";
+                    $data['user_id'] = "'".$_GET['uid']."'";
+                    $data['portfolio_id'] = "'".$_GET['pid']."'";
+                    $data['link'] = "'".$_GET['link']."'";
+                    $data['name'] = "'".$_GET['name']."'";
+                    $data['descr'] = "'".$_GET['descr']."'";
+                    $data['state'] = "'0'";
+                    $data['id'] = $db->insert($data, 'r_portfolio_bids');
+                }
+                else $result['answer'] = "ERROR";
             }
         } else $result['answer'] = "TOKEN_ERROR";
         echo json_encode($result);
