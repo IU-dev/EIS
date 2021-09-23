@@ -78,7 +78,8 @@ if (isset($_GET['act'])) {
         echo '<strong>Группа: ' . $grp['name'] . '</strong><br><br>';
         $usrs = $db->select_fs('users', "group_id = '" . $_GET['gid'] . "' ORDER BY f ASC, i ASC");
         foreach ($usrs as $usr) {
-            echo '(' . $usr['id'] . ') ' . $usr['f'] . ' ' . $usr['i'] . ' ' . $usr['o'] . '<br>';
+            if($_GET['showid'] == "1") echo '(' . $usr['id'] . ') ' . $usr['f'] . ' ' . $usr['i'] . ' ' . $usr['o'] . '<br>';
+            else if($_GET['showid'] == "0") echo $usr['f'] . ' ' . $usr['i'] . ' ' . $usr['o'] . '<br>';
         }
         echo '<hr>Выписка из Единой информационной системы<br>МБОУ "ИТ-лицей №24"';
         echo '<br>' . date("d.m.Y H:i:s");
