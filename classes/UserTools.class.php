@@ -24,8 +24,8 @@ class UserTools
                 $_SESSION["login_time"] = time();
                 date_default_timezone_set($tool->getGlobal('tz'));
                 $_SESSION["logged_in"] = 1;
-                $data['token2'] = "'" . bin2hex(random_bytes(16)) . "'";
-                $db->update($data, 'users', "id = '" . $username . "'");
+                $data2['token2'] = "'" . bin2hex(random_bytes(16)) . "'";
+                $db->update($data2, 'users', "id = '" . $username . "'");
                 return 1;
             }
         } else {
@@ -35,6 +35,7 @@ class UserTools
 
     public function logout()
     {
+        $db = new DB();
         unset($_SESSION['user']);
         unset($_SESSION['login_time']);
         unset($_SESSION['logged_in']);
