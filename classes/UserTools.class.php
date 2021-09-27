@@ -24,6 +24,8 @@ class UserTools
                 $_SESSION["login_time"] = time();
                 date_default_timezone_set($tool->getGlobal('tz'));
                 $_SESSION["logged_in"] = 1;
+                $data['token2'] = "'" . bin2hex(random_bytes(16)) . "'";
+                $db->update($data, 'users', "id = '" . $username . "'");
                 return 1;
             }
         } else {

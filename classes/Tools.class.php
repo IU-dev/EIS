@@ -54,6 +54,24 @@ class Tools
         }
     }
 
+    public function safeString($string)
+    {
+        str_replace('"', '', $string);
+        str_replace("'", '', $string);
+        str_replace('<', '', $string);
+        str_replace('>', '', $string);
+        str_replace('UPDATE', '', $string);
+        str_replace('update', '', $string);
+        str_replace('DELETE', '', $string);
+        str_replace('delete', '', $string);
+        str_replace('SELECT', '', $string);
+        str_replace('select', '', $string);
+        str_replace('pdata', '', $string);
+        str_replace('users', '', $string);
+        str_replace('js', '', $string);
+        return $string;
+    }
+
     public function toast($type, $message)
     {
         if ($type == "success") {

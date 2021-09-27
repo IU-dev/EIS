@@ -11,7 +11,7 @@ if (isset($_POST['submit'])) {
     foreach ($flds as $key => $fld) {
         $check = $db->select('pdata', "eis_id = '" . $_POST['uid'] . "' AND field_id = '" . $key . "'");
         if (isset($check['data'])) {
-            $data['data'] = "'" . str_replace('"', '', $fld) . "'";
+            $data['data'] = "'" . $tool->safeString($fld) . "'";
             $data['last_update_by'] = "'0'";
             date_default_timezone_set("GMT");
             $data['last_update_datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
@@ -20,13 +20,16 @@ if (isset($_POST['submit'])) {
         } else {
             $data['eis_id'] = "'" . $_POST['uid'] . "'";
             $data['field_id'] = "'" . $key . "'";
-            $data['data'] = "'" . str_replace('"', '', $fld) . "'";
+            $data['data'] = "'" . $tool->safeString($fld) . "'";
             $data['last_update_by'] = "'0'";
             date_default_timezone_set("GMT");
             $data['last_update_datetime'] = "'" . date("Y-m-d H:i:s", time()) . "'";
             date_default_timezone_set($tool->getGlobal('tz'));
             $ib = $db->insert($data, 'pdata');
         }
+        $token2 = bin2hex(random_bytes(16));
+        $data2['token2'] = "'".$token2."'";
+        $b = $db->update($data2, 'users', "id = '" . $_POST['uid'] . "'");
     }
     $msg = "Внесение данных произведено успешно.";
     $rt = true;
@@ -47,8 +50,9 @@ if ($rt == false) {
         $fields = json_decode($gr['value']);
     }
 
-    if ($_GET['firstpass'] != $usr->token) {
-        die('Попытка взлома - токен не совпадает');
+    if ($_GET['firstpass'] != $usr->token2) {
+        http_response_code(403);
+        die('<h1>Error 403 - Доступ запрещен (Forbidden)</h1><br>Вы попытались получить доступ к внесению персональных данных без актуального для данного пользователя кода безопасности №2 (токена №2).<br>Скорее всего, ваш QR-код устарел. Запросите новый код у технического специалиста или классного руководителя.');
     }
 }
 

@@ -20,6 +20,7 @@ class User
     public $email;
     public $delo;
     public $token;
+    public $token2;
     public $state;
 
     function __construct($data)
@@ -38,6 +39,7 @@ class User
         $this->birthday = (isset($data['birthday'])) ? $data['birthday'] : "";
         $this->delo = (isset($data['delo'])) ? $data['delo'] : "";
         $this->token = (isset($data['token'])) ? $data['token'] : "";
+        $this->token2 = (isset($data['token2'])) ? $data['token2'] : "";
         $this->state = (isset($data['state'])) ? $data['state'] : "";
     }
 
@@ -56,6 +58,7 @@ class User
                 "group_id" => "'$this->group_id'",
                 "admin" => "'$this->admin'",
                 "token" => "'$this->token'",
+                "token2" => "'$this->token2'",
                 "state" => "'$this->state'"
             );
 
@@ -72,7 +75,8 @@ class User
                 "o" => "'$this->o'",
                 "group_id" => "'$this->group_id'",
                 "admin" => "'0'",
-                "token" => "'".mt_rand(10000000,99999999)."'",
+                "token" => "'".bin2hex(random_bytes(16))."'",
+                "token2" => "'".bin2hex(random_bytes(16))."'",
                 "state" => "'1'"
             );
             $this->id = $db->insert($data, 'users');

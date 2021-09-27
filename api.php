@@ -21,11 +21,11 @@ if (isset($_GET['act'])) {
             $result['group'] = $group['name'];
             $result['userid'] = (int)$usr['id'];
             $result['token'] = rand('10000000', '99999999');
-            if (file_exists("avatars/" . $usr['id'] . ".jpg")) $result['avatar_link'] = "https://eis.it-lyceum24.ru/avatars/". $usr['id'] . ".jpg";
+            if (file_exists("avatars/" . $usr['id'] . ".jpg")) $result['avatar_link'] = "https://eis.it-lyceum24.ru/avatars/" . $usr['id'] . ".jpg";
             else $result['avatar_link'] = "https://eis.it-lyceum24.ru/avatars/placeholder.png";
             $result['fio'] = $userTools->fio($usr['id'], false);
             $result['uid'] = $usr['id'];
-            $ug = $db->select('periods', "id = '".$tool->getGlobal('default_period')."'");
+            $ug = $db->select('periods', "id = '" . $tool->getGlobal('default_period') . "'");
             $result['uch_god'] = $ug['name'];
             $data['token'] = (int)$result['token'];
             $u = $db->update($data, 'users', "id = '" . $_GET['login'] . "'");
@@ -43,8 +43,8 @@ if (isset($_GET['act'])) {
             $result['types'][$key]['id'] = (int)$acc['id'];
             $result['types'][$key]['name'] = $acc['name'];
             $p = json_decode($acc['weight']);
-            foreach ($p as $key2=>$a){
-                $v = $db->select('r_accs', "id = '".$key2."'");
+            foreach ($p as $key2 => $a) {
+                $v = $db->select('r_accs', "id = '" . $key2 . "'");
                 $result['types'][$key]['vaults'][$key2]['name'] = $v['name'];
                 $result['types'][$key]['vaults'][$key2]['value'] = (int)$a;
             }
@@ -53,13 +53,19 @@ if (isset($_GET['act'])) {
     } else if ($_GET['act'] == "getlog") {
         echo 'INDEV';
     } else if ($_GET['act'] == "regenerate" && $_GET['secret'] == "bondartop14072003") {
-        $grps = $db->select_fs('groups', "id = '".$_GET['group_id']."'");
+        $grps = $db->select_fs('groups', "id = '" . $_GET['group_id'] . "'");
         foreach ($grps as $grp) {
             echo '<strong>Группа ' . $grp['name'] . '</strong><br>';
             $usrs = $db->select_fs('users', "group_id = '" . $grp['id'] . "' AND state = '1'");
             foreach ($usrs as $usr) {
-                $np = random_int(1000, 9999);
-                $data['password'] = "'" . md5($np) . "'";
+                if ($_GET['clear_password'] == "1") {
+                    $np = random_int(100000, 999999);
+                    $data['password'] = "'" . md5($np) . "'";
+                }
+                $token = bin2hex(random_bytes(16));
+                $token2 = bin2hex(random_bytes(16));
+                $data['token'] = "'" . $token . "'";
+                $data['token2'] = "'" . $token2 . "'";
                 $b = $db->update($data, 'users', "id = '" . $usr['id'] . "'");
                 echo $usr['f'] . ';' . $usr['i'] . ';' . $usr['o'] . ', ваш ID - ' . $usr['id'] . ', ваш новый пароль - ' . $np . ';';
                 /* if ($usr['admin'] == '0') echo 'Обучающийся';
@@ -78,8 +84,8 @@ if (isset($_GET['act'])) {
         echo '<strong>Группа: ' . $grp['name'] . '</strong><br><br>';
         $usrs = $db->select_fs('users', "group_id = '" . $_GET['gid'] . "' ORDER BY f ASC, i ASC");
         foreach ($usrs as $usr) {
-            if($_GET['showid'] == "1") echo '(' . $usr['id'] . ') ' . $usr['f'] . ' ' . $usr['i'] . ' ' . $usr['o'] . '<br>';
-            else if($_GET['showid'] == "0") echo $usr['f'] . ' ' . $usr['i'] . ' ' . $usr['o'] . '<br>';
+            if ($_GET['showid'] == "1") echo '(' . $usr['id'] . ') ' . $usr['f'] . ' ' . $usr['i'] . ' ' . $usr['o'] . '<br>';
+            else if ($_GET['showid'] == "0") echo $usr['f'] . ' ' . $usr['i'] . ' ' . $usr['o'] . '<br>';
         }
         echo '<hr>Выписка из Единой информационной системы<br>МБОУ "ИТ-лицей №24"';
         echo '<br>' . date("d.m.Y H:i:s");
@@ -102,25 +108,37 @@ if (isset($_GET['act'])) {
         $i = $i - 1;
         echo '<hr>Операция завершена. Всего пользователей: ' . $i . '.';
     } else if ($_GET['act'] == "getLinksForParents") {
-        $group = $db->select('groups', "id = '" . $_GET['gid'] . "'");
-        $users = $db->select_fs('users', "group_id = '" . $_GET['gid'] . "' ORDER BY f ASC");
-        foreach ($users as $u) {
-            echo '<strong>Единая информационная система МБОУ "ИТ-лицей №24"<br>Доступ к внесению первичных персональных данных</strong><br><br>';
-            echo 'ФИО: ' . $u['f'] . ' ' . $u['i'] . ' ' . $u['o'] . ' (' . $group['name'] . ')<br><br>';
-            echo 'Для внесения данных перейдите по ссылке, либо распознайте QR-код:<br><br>';
-            echo 'https://eis.it-lyceum24.ru/info_an.php?id=' . $u['id'] . '&gid=0&firstpass=' . $u['token'] . '<br>';
-            echo '<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=https%3A%2F%2Feis.it-lyceum24.ru%2Finfo_an.php%3Fid%3D' . $u['id'] . '%26gid%3D0%26firstpass%3D' . $u['token'] . '&choe=UTF-8" title="Link to Google.com" />';
-            echo '<hr>';
+        $ruid = $db->select('users', "id = '" . $_GET['ruid'] . "'");
+        if ($_GET['token2'] == $ruid['token2']) {
+            $group = $db->select('groups', "id = '" . $_GET['gid'] . "'");
+            $users = $db->select_fs('users', "group_id = '" . $_GET['gid'] . "' ORDER BY f ASC");
+            foreach ($users as $u) {
+                echo '<strong>Единая информационная система МБОУ "ИТ-лицей №24"<br>Доступ к внесению первичных персональных данных</strong><br><br>';
+                echo 'ФИО: ' . $u['f'] . ' ' . $u['i'] . ' ' . $u['o'] . ' (' . $group['name'] . ')<br>';
+                echo 'Внести данные можно только один раз. Никому не передавайте QR-код!<br><br>';
+                echo 'https://eis.it-lyceum24.ru/info_an.php?id=' . $u['id'] . '&gid=0&firstpass=' . $u['token2'] . '<br>';
+                echo '<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=https%3A%2F%2Feis.it-lyceum24.ru%2Finfo_an.php%3Fid%3D' . $u['id'] . '%26gid%3D0%26firstpass%3D' . $u['token2'] . '&choe=UTF-8" title="Link to Google.com" />';
+                echo '<hr>';
+            }
+        } else {
+            http_response_code(403);
+            echo '<strong>Ошибка 403 - Доступ запрещен</strong><br><br>Вы попытались получить QR-коды с некорректным ключом безопасности №2. Обратитесь к техническому специалисту.';
         }
     } else if ($_GET['act'] == "getLinkForParent") {
-        $u = $db->select('users', "id = '" . $_GET['uid'] . "'");
-        $group = $db->select('groups', "id = '" . $u['group_id'] . "'");
-        echo '<strong>Единая информационная система МБОУ "ИТ-лицей №24"<br>Доступ к внесению первичных персональных данных</strong><br><br>';
-        echo 'ФИО: ' . $u['f'] . ' ' . $u['i'] . ' ' . $u['o'] . ' (' . $group['name'] . ')<br><br>';
-        echo 'Для внесения данных перейдите по ссылке, либо распознайте QR-код:<br><br>';
-        echo 'https://eis.it-lyceum24.ru/info_an.php?id=' . $u['id'] . '&gid=0&firstpass=' . $u['token'] . '<br>';
-        echo '<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=https%3A%2F%2Feis.it-lyceum24.ru%2Finfo_an.php%3Fid%3D' . $u['id'] . '%26gid%3D0%26firstpass%3D' . $u['token'] . '&choe=UTF-8" title="Link to Google.com" />';
-        echo '<hr>';
+        $ruid = $db->select('users', "id = '" . $_GET['ruid'] . "'");
+        if ($_GET['token2'] == $ruid['token2']) {
+            $u = $db->select('users', "id = '" . $_GET['uid'] . "'");
+            $group = $db->select('groups', "id = '" . $u['group_id'] . "'");
+            echo '<strong>Единая информационная система МБОУ "ИТ-лицей №24"<br>Доступ к внесению первичных персональных данных</strong><br><br>';
+            echo 'ФИО: ' . $u['f'] . ' ' . $u['i'] . ' ' . $u['o'] . ' (' . $group['name'] . ')<br>';
+            echo 'Внести данные можно только один раз. Никому не передавайте QR-код!<br><br>';
+            echo 'https://eis.it-lyceum24.ru/info_an.php?id=' . $u['id'] . '&gid=0&firstpass=' . $u['token2'] . '<br>';
+            echo '<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=https%3A%2F%2Feis.it-lyceum24.ru%2Finfo_an.php%3Fid%3D' . $u['id'] . '%26gid%3D0%26firstpass%3D' . $u['token2'] . '&choe=UTF-8" title="Link to Google.com" />';
+            echo '<hr>';
+        } else {
+            http_response_code(403);
+            echo '<strong>Ошибка 403 - Доступ запрещен</strong><br><br>Вы попытались получить QR-коды с некорректным ключом безопасности №2. Обратитесь к техническому специалисту.';
+        }
     } # с этого места идут $_GET['act'], требующие авторизации юзверя с использованием токена
     else {
         $p = $db->select('users', "id = '" . $_GET['uid'] . "'");
@@ -179,20 +197,18 @@ if (isset($_GET['act'])) {
                 foreach ($accs as $key => $acc) {
                     $result['portfolio'][$key]['id'] = (int)$acc['id'];
                     $result['portfolio'][$key]['link'] = $acc['link'];
-                    $p = $db->select('r_portfolio', "id = '".$acc['portfolio_id']."'");
+                    $p = $db->select('r_portfolio', "id = '" . $acc['portfolio_id'] . "'");
                     $result['portfolio'][$key]['level_name'] = $p['name'];
                     $result['portfolio'][$key]['name'] = $acc['name'];
                     $result['portfolio'][$key]['descr'] = $acc['descr'];
-                    if($acc['state'] == "0"){
+                    if ($acc['state'] == "0") {
                         $result['portfolio'][$key]['state'] = "Новый";
-                    }
-                    else if($acc['state'] == "1"){
+                    } else if ($acc['state'] == "1") {
                         $result['portfolio'][$key]['state'] = "Оценено";
                         $result['portfolio'][$key]['acc_who'] = $userTools->fio($acc['acc_who']);
                         $result['portfolio'][$key]['acc_when'] = date("d.m.Y H:i:s", strtotime($acc['acc_when'] . " GMT"));
                         $result['portfolio'][$key]['acc_descr'] = $acc['acc_descr'];
-                    }
-                    else if($acc['state'] == "2"){
+                    } else if ($acc['state'] == "2") {
                         $result['portfolio'][$key]['state'] = "Отказано";
                         $result['portfolio'][$key]['acc_who'] = $userTools->fio($acc['acc_who']);
                         $result['portfolio'][$key]['acc_when'] = date("d.m.Y H:i:s", strtotime($acc['acc_when'] . " GMT"));
@@ -201,18 +217,17 @@ if (isset($_GET['act'])) {
                 }
                 date_default_timezone_set("GMT");
             } else if ($_GET['act'] == "sendPortfolio") {
-                if(isset($_GET['name']) && isset($_GET['descr']) && isset($_GET['link']) && isset($_GET['pid'])) {
+                if (isset($_GET['name']) && isset($_GET['descr']) && isset($_GET['link']) && isset($_GET['pid'])) {
                     $result['answer'] = "OK";
-                    $data['period_id'] = "'".$tool->getGlobal('default_period')."'";
-                    $data['user_id'] = "'".$_GET['uid']."'";
-                    $data['portfolio_id'] = "'".$_GET['pid']."'";
-                    $data['link'] = "'".$_GET['link']."'";
-                    $data['name'] = "'".$_GET['name']."'";
-                    $data['descr'] = "'".$_GET['descr']."'";
+                    $data['period_id'] = "'" . $tool->getGlobal('default_period') . "'";
+                    $data['user_id'] = "'" . $_GET['uid'] . "'";
+                    $data['portfolio_id'] = "'" . $_GET['pid'] . "'";
+                    $data['link'] = "'" . $_GET['link'] . "'";
+                    $data['name'] = "'" . $_GET['name'] . "'";
+                    $data['descr'] = "'" . $_GET['descr'] . "'";
                     $data['state'] = "'0'";
                     $data['id'] = $db->insert($data, 'r_portfolio_bids');
-                }
-                else $result['answer'] = "ERROR";
+                } else $result['answer'] = "ERROR";
             }
         } else $result['answer'] = "TOKEN_ERROR";
         echo json_encode($result);

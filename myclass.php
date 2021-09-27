@@ -179,10 +179,10 @@ require_once 'includes/header.inc.php';
                 echo '<table id="participants" class="table table-sm table-hover">' .
                     '<thead>' .
                     '<tr>' .
-                    '<th>№</th>' .
-                    '<th>ЕИС</th>' .
-                    '<th>ФИО участника</th>' .
-                    '<th>Действие</th>' .
+                    '<th style="width: 5%!important;">№</th>' .
+                    '<th style="width: 5%!important;">ЕИС</th>' .
+                    '<th style="width: 65%!important;">ФИО участника</th>' .
+                    '<th style="width: 25%!important;">Действие</th>' .
                     '</tr>' .
                     '</thead>';
                 $parts = $db->select_fs('users', "group_id = '" . $cont['id'] . "' ORDER BY f ASC, i ASC");
@@ -192,7 +192,7 @@ require_once 'includes/header.inc.php';
                     echo '<td>' . $i . '</td>';
                     echo '<td>' . $part['id'] . '</td>';
                     echo '<td>' . $part['f'] . ' ' . $part['i'] . ' ' . $part['o'] . '</td>';
-                    echo '<td><a class="badge badge-success" target="_blank" href="info.php?uid=' . $part['id'] . '"><i class="fas fa-check"></i> Информационная карта</a></td>';
+                    echo '<td><a class="badge badge-success" target="_blank" href="info.php?uid=' . $part['id'] . '"><i class="fas fa-check"></i> Информационная карта</a> <a class="badge badge-warning" target="_blank" href="api.php?act=getLinkForParent&uid=' . $part['id'] . '&ruid='.$user->id.'&token2='.$user->token2.'"><i class="fas fa-qrcode"></i> QR-код родителя</a></td>';
                     $i = $i + 1;
                 }
                 echo '</table>';

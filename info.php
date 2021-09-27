@@ -705,7 +705,7 @@ require_once 'includes/header.inc.php';
                 </p>
             </div>
             <div class="tab-pane fade" id="pdata" role="tabpanel" aria-labelledby="profile-tab-md">
-                <a href="info_an.php?id=<?php echo $usr->id; ?>&gid=0&firstpass=" target="_blank"
+                <a href="info_an.php?id=<?php echo $usr->id ?>&gid=0&firstpass=<?php echo $usr->token2 ?>" target="_blank"
                    class="btn btn-rounded btn-primary btn-sm"><i
                             class="fas fa-pen"></i> Ввести первоначальные данные</a><br><br>
                 <table id="pdata3" class="table table-bordered table-hover table-striped table-sm">
