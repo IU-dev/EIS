@@ -155,7 +155,7 @@ require_once 'includes/header.inc.php';
         Посещаемость
     </button>
     <a type="button" class="btn btn-rounded btn-sm btn-primary" target="_blank"
-       href="api.php?act=getLinksForParents&gid=<?php echo $_POST['section'] ?>">
+       href="api.php?act=getLinksForParents&gid=<?php echo $_POST['section'] ?>&ruid=<?php echo $user->id ?>&token2=<?php echo $user->token2 ?>">
         Генерация QR-кодов
     </a>
     <a type="button" class="btn btn-rounded btn-sm btn-primary" target="_blank"

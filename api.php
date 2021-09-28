@@ -109,13 +109,13 @@ if (isset($_GET['act'])) {
         echo '<hr>Операция завершена. Всего пользователей: ' . $i . '.';
     } else if ($_GET['act'] == "getLinksForParents") {
         $ruid = $db->select('users', "id = '" . $_GET['ruid'] . "'");
-        if ($_GET['token2'] == $ruid['token2']) {
+        if (isset($_GET['token2']) && isset($_GET['ruid']) && $_GET['token2'] == $ruid['token2']) {
             $group = $db->select('groups', "id = '" . $_GET['gid'] . "'");
             $users = $db->select_fs('users', "group_id = '" . $_GET['gid'] . "' ORDER BY f ASC");
             foreach ($users as $u) {
                 echo '<strong>Единая информационная система МБОУ "ИТ-лицей №24"<br>Доступ к внесению первичных персональных данных</strong><br><br>';
                 echo 'ФИО: ' . $u['f'] . ' ' . $u['i'] . ' ' . $u['o'] . ' (' . $group['name'] . ')<br>';
-                echo 'Внести данные можно только один раз. Никому не передавайте QR-код!<br><br>';
+                echo 'Перейдите по QR-коду для внесения данных. Внести данные можно только один раз.<br>Никому не передавайте данный QR-код!<br><br>';
                 echo 'https://eis.it-lyceum24.ru/info_an.php?id=' . $u['id'] . '&gid=0&firstpass=' . $u['token2'] . '<br>';
                 echo '<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=https%3A%2F%2Feis.it-lyceum24.ru%2Finfo_an.php%3Fid%3D' . $u['id'] . '%26gid%3D0%26firstpass%3D' . $u['token2'] . '&choe=UTF-8" title="Link to Google.com" />';
                 echo '<hr>';
@@ -126,12 +126,12 @@ if (isset($_GET['act'])) {
         }
     } else if ($_GET['act'] == "getLinkForParent") {
         $ruid = $db->select('users', "id = '" . $_GET['ruid'] . "'");
-        if ($_GET['token2'] == $ruid['token2']) {
+        if (isset($_GET['token2']) && isset($_GET['ruid']) && $_GET['token2'] == $ruid['token2']) {
             $u = $db->select('users', "id = '" . $_GET['uid'] . "'");
             $group = $db->select('groups', "id = '" . $u['group_id'] . "'");
             echo '<strong>Единая информационная система МБОУ "ИТ-лицей №24"<br>Доступ к внесению первичных персональных данных</strong><br><br>';
             echo 'ФИО: ' . $u['f'] . ' ' . $u['i'] . ' ' . $u['o'] . ' (' . $group['name'] . ')<br>';
-            echo 'Внести данные можно только один раз. Никому не передавайте QR-код!<br><br>';
+            echo 'Перейдите по QR-коду для внесения данных. Внести данные можно только один раз.<br>Никому не передавайте данный QR-код!<br><br>';
             echo 'https://eis.it-lyceum24.ru/info_an.php?id=' . $u['id'] . '&gid=0&firstpass=' . $u['token2'] . '<br>';
             echo '<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=https%3A%2F%2Feis.it-lyceum24.ru%2Finfo_an.php%3Fid%3D' . $u['id'] . '%26gid%3D0%26firstpass%3D' . $u['token2'] . '&choe=UTF-8" title="Link to Google.com" />';
             echo '<hr>';
