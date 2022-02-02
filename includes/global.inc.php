@@ -17,6 +17,7 @@ $userTools = new UserTools();
 $tool = new Tools();
 
 session_start();
+session_regenerate_id();
 
 date_default_timezone_set($tool->getGlobal('tz'));
 

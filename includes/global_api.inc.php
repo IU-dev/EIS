@@ -18,6 +18,7 @@ $tool = new Tools();
 date_default_timezone_set($tool->getGlobal('tz'));
 
 session_start();
+session_regenerate_id();
 
 //refresh session variables if logged in
 if (isset($_SESSION['logged_in'])) {

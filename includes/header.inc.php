@@ -13,7 +13,7 @@
                 </a>
             </li>
             <?php if (isset($user->username)) : ?>
-            <li class="nav-item dropdown <?php echo($page == "show.php" || $page == "visits.php" || $page == "delay.php" ? "active" : ""); ?>">
+            <li class="nav-item dropdown <?php echo($page == "show.php" || $page == "visits.php" || $page == "applics.php" || $page == "delay.php" ? "active" : ""); ?>">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">Мои действия
                 </a>
@@ -22,30 +22,31 @@
                     <a class="dropdown-item" href="visits.php">Посещаемость</a>
                     <a class="dropdown-item" href="applics.php">Заявления</a>
                     <?php if ($user->admin >= 1) : ?>
-                        <hr>
                         <a class="dropdown-item" href="delay.php">Отметить отсутствующих</a>
-                    <?php endif ?>
-                    <?php if ($user->admin >= 3) : ?>
-                        <hr>
-                        <a class="dropdown-item" href="docs.php">Работа с заявлениями</a>
                     <?php endif ?>
                 </div>
             </li>
             <?php if ($user->admin >= 2) : ?>
-            <li class="nav-item dropdown <?php echo($page == "myclass.php" || $page == "p_add.php" || $page == "p_del.php" || $page == "not_visited.php" ? "active" : ""); ?>">
+            <li class="nav-item dropdown <?php echo($page == "myclass.php" || $page == "mon_list.php"  || $page == "not_visited.php" ? "active" : ""); ?>">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">Действия педагогов
+                   aria-haspopup="true" aria-expanded="false">Педагог
                 </a>
                 <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                <h6 class="dropdown-header">Просмотр</h6>
-                <a class="dropdown-item" href="myclass.php">Списки классов</a>
+                <a class="dropdown-item" href="myclass.php">Классы</a>
                 <a class="dropdown-item" href="not_visited.php">Отсутствующие</a>
-                <div class="dropdown-divider"></div>
-                <h6 class="dropdown-header">Мониторинги</h6>
-                <a class="dropdown-item" href="mon_list.php">Список мониторингов</a>
-                <?php if ($user->admin == 9) : ?>
-                    </li>
-                <?php endif ?>
+                <a class="dropdown-item" href="mon_list.php">Мониторинги</a>
+            </li>
+            <?php endif ?>
+            <?php if ($user->admin >= 3) : ?>
+                <li class="nav-item dropdown <?php echo($page == "myclass.php" || $page == "p_add.php" || $page == "p_del.php" || $page == "not_visited.php" ? "active" : ""); ?>">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Секретарь
+                    </a>
+                    <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+                        <a class="dropdown-item" href="docs.php">Заявки</a>
+                        <a class="dropdown-item" href="students.php">Обучающиеся</a>
+                        <a class="dropdown-item" href="documents.php">Документы</a>
+                </li>
             <?php endif ?>
             <?php if ($user->admin == "9") : ?>
             <li class="nav-item dropdown <?php echo($page == "a_create.php" || $page == "a_flush.php" || $page == "a_give_solo.php" || $page == "a_give_group.php" || $page == "a_delete.php" ? "active" : ""); ?>">
@@ -54,7 +55,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
                     <h6 class="dropdown-header">Заявки</h6>
-                    <a class="dropdown-item" href="a_create.php">Создание УЗ</a>
+                    <a class="dropdown-item" href="a_create.php">Аккаунты</a>
                     <a class="dropdown-item" href="a_flush.php">Сброс пароля</a>
                     <div class="dropdown-divider"></div>
                     <h6 class="dropdown-header">Аккаунты</h6>
