@@ -125,7 +125,7 @@ if (isset($_GET['customdoc'])){
                 if($val['data'] != "") $j = $j + 1;
             }
             $document->setValue('u_pdn#'.$i, $j);
-            if(count($db->select('pdata_docs', "user_id = '" . $usr['id'] . "'")) == 0) $document->setValue('u_sogl#'.$i, "Отсутствует");
+            if(count($db->select('pdata_docs', "user_id = '" . $usr['id'] . "' AND state = '1'")) == 0) $document->setValue('u_sogl#'.$i, "Отсутствует");
             else $document->setValue('u_sogl#'.$i, "Имеется");
             $i = $i + 1;
         }
