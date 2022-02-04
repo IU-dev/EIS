@@ -304,8 +304,8 @@ require_once 'includes/header.inc.php';
             ?>
         </div>
         <div class="col-9">
-            <h1><?php echo $usr->f . ' ' . $usr->i . ' ' . $usr->o; ?></h1>
-            <h3>Состоит в группе
+            <h1><?php echo $usr->f . ' ' . $usr->i . ' ' . $usr->o; ?> <a class="badge badge-primary badge-pill"><?php echo $usr->id ?></a></h1>
+            <h3>Класс:
                 <?php $gr = $db->select('groups', "id = '" . $usr->group_id . "'");
                 echo $gr['name']; ?>
             </h3>
