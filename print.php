@@ -118,10 +118,15 @@ if (isset($_GET['customdoc'])){
             $document->setValue('u_o#'.$i, $usr['o']);
             $document->setValue('u_dr#'.$i, date("d.m.Y", strtotime($usr['birthday'] . " GMT")));
             $pda = $db->select_fs('pdata_fields', "id != 0");
+            $j = 0;
             foreach($pda as $pd){
                 $val = $db->select('pdata', "field_id = '".$pd['id']."' AND eis_id = '".$usr['id']."'");
                 $document->setValue('pd_'.$pd['id'].'#'.$i, $val['data']);
+                if($val['data'] != "") $j = $j + 1;
             }
+            $document->setValue('u_pdn#'.$i, $j);
+            if(count($db->select('pdata_docs', "user_id = '" . $usr['id'] . "'")) == 0) $document->setValue('u_sogl#'.$i, "Отсутствует");
+            else $document->setValue('u_sogl#'.$i, "Имеется");
             $i = $i + 1;
         }
         $docdata = "Группа: (".$grp['id'].") ".$grp['name'];
