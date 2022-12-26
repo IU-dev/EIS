@@ -27,15 +27,15 @@
                 </div>
             </li>
             <?php if ($user->admin >= 2) : ?>
-            <li class="nav-item dropdown <?php echo($page == "myclass.php" || $page == "mon_list.php"  || $page == "not_visited.php" ? "active" : ""); ?>">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">Педагог
-                </a>
-                <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                <a class="dropdown-item" href="myclass.php">Классы</a>
-                <a class="dropdown-item" href="not_visited.php">Отсутствующие</a>
-                <a class="dropdown-item" href="mon_list.php">Мониторинги</a>
-            </li>
+                <li class="nav-item dropdown <?php echo($page == "myclass.php" || $page == "mon_list.php" || $page == "not_visited.php" ? "active" : ""); ?>">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Педагог
+                    </a>
+                    <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+                        <a class="dropdown-item" href="myclass.php">Классы</a>
+                        <a class="dropdown-item" href="not_visited.php">Отсутствующие</a>
+                        <a class="dropdown-item" href="mon_list.php">Мониторинги</a>
+                </li>
             <?php endif ?>
             <?php if ($user->admin >= 3) : ?>
                 <li class="nav-item dropdown <?php echo($page == "myclass.php" || $page == "p_add.php" || $page == "p_del.php" || $page == "not_visited.php" ? "active" : ""); ?>">
@@ -43,9 +43,9 @@
                        aria-haspopup="true" aria-expanded="false">Секретарь
                     </a>
                     <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                        <a class="dropdown-item" href="docs.php">Заявки</a>
+                        <a class="dropdown-item" href="docs.php">Заявления</a>
                         <a class="dropdown-item" href="students.php">Обучающиеся</a>
-                        <a class="dropdown-item" href="documents.php">Документы</a>
+                        <a class="dropdown-item" href="documents.php">Приказы</a>
                 </li>
             <?php endif ?>
             <?php if ($user->admin == "9") : ?>
@@ -85,7 +85,7 @@
                 <div class="dropdown-menu dropdown-menu-right dropdown-default"
                      aria-labelledby="navbarDropdownMenuLink-333">
                     <span class="dropdown-item disabled"><?php echo $user->f . " " . $user->i . " " . $user->o; ?><br>
-                    <?php echo "ID: " . $user->id ?><br>Учебный год: <?php echo $db->select('periods', "id = '".$tool->getGlobal('default_period')."'")['short_name']; ?></span>
+                    <?php echo "ID: " . $user->id ?><br>Учебный год: <?php echo $db->select('periods', "id = '" . $tool->getGlobal('default_period') . "'")['short_name']; ?></span>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="settings.php">Личный кабинет</a>
                     <a class="dropdown-item" href="logout.php">Выход</a>

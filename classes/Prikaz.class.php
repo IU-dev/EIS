@@ -7,52 +7,39 @@ require_once 'Tools.class.php';
 class User
 {
     public $id;
-    public $username;
-    public $hashedPassword;
-    public $joinDate;
-    public $f;
-    public $i;
-    public $o;
-    public $group_id;
-    public $admin;
-    public $birthday;
-    public $phone;
-    public $email;
-    public $delo;
-    public $token;
-    public $token2;
-    public $state;
+    public $reg_n;
+    public $date;
+    public $created_by;
+    public $created_when;
+    public $edited_by;
+    public $edited_when;
+    public $signed_by;
+    public $signed_when;
+    public $status;
+    public $type;
+    public $link_to_file;
 
     function __construct($data)
     {
         $this->id = (isset($data['id'])) ? $data['id'] : "";
-        $this->username = (isset($data['username'])) ? $data['username'] : "";
-        $this->hashedPassword = (isset($data['password'])) ? $data['password'] : "";
-        $this->email = (isset($data['email'])) ? $data['email'] : "";
-        $this->joinDate = (isset($data['join_date'])) ? $data['join_date'] : "";
-        $this->f = (isset($data['f'])) ? $data['f'] : "";
-        $this->i = (isset($data['i'])) ? $data['i'] : "";
-        $this->o = (isset($data['o'])) ? $data['o'] : "";
-        $this->group_id = (isset($data['group_id'])) ? $data['group_id'] : "";
-        $this->admin = (isset($data['admin'])) ? $data['admin'] : "";
-        $this->phone = (isset($data['phone'])) ? $data['phone'] : "";
-        $this->birthday = (isset($data['birthday'])) ? $data['birthday'] : "";
-        $this->delo = (isset($data['delo'])) ? $data['delo'] : "";
-        $this->token = (isset($data['token'])) ? $data['token'] : "";
-        $this->token2 = (isset($data['token2'])) ? $data['token2'] : "";
-        $this->state = (isset($data['state'])) ? $data['state'] : "";
+        $this->reg_n = (isset($data['reg_n'])) ? $data['reg_n'] : "";
+        $this->date = (isset($data['date'])) ? $data['date'] : "";
+        $this->created_by = (isset($data['created_by'])) ? $data['created_by'] : "";
+        $this->created_when = (isset($data['created_when'])) ? $data['created_when'] : "";
+        $this->edited_by = (isset($data['$edited_by'])) ? $data['$edited_by'] : "";
+        $this->edited_when = (isset($data['edited_when'])) ? $data['edited_when'] : "";
+        $this->signed_by = (isset($data['signed_by'])) ? $data['signed_by'] : "";
+        $this->signed_when = (isset($data['signed_when'])) ? $data['signed_when'] : "";
+        $this->status = (isset($data['status'])) ? $data['status'] : "";
+        $this->type = (isset($data['type'])) ? $data['type'] : "";
+        $this->link_to_file = (isset($data['link_to_file'])) ? $data['link_to_file'] : "";
     }
 
-    public function fio($rid = true){
-        if($rid) return '('. $this->id . ') ' . $this->f . ' ' . $this->i . ' ' . $this->o;
-        else return $this->f . ' ' . $this->i . ' ' . $this->o;
-    }
-
-    public function save($isNewUser = false)
+    public function save($isNew = false)
     {
         $tool = new Tools();
         $db = new DB();
-        if (!$isNewUser) {
+        if (!$isNew) {
             $data = array(
                 "username" => "'$this->username'",
                 "password" => "'$this->hashedPassword'",

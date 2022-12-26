@@ -72,6 +72,16 @@ class Tools
         return $string;
     }
 
+    public function date($date)
+    {
+        return date("d.m.Y H:i:s", strtotime($date . " GMT"));
+    }
+
+    public function date_short($date)
+    {
+        return date("d.m.Y", strtotime($date . " GMT"));
+    }
+
     public function toast($type, $message)
     {
         if ($type == "success") {
