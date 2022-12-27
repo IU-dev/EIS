@@ -4,7 +4,7 @@
 require_once 'DB.class.php';
 require_once 'Tools.class.php';
 
-class User
+class Prikaz
 {
     public $id;
     public $reg_n;
@@ -35,47 +35,64 @@ class User
         $this->link_to_file = (isset($data['link_to_file'])) ? $data['link_to_file'] : "";
     }
 
+    static function get($id){
+        $db = new DB();
+        return new Prikaz($db->select("prikazy", "id = '". $id ."'"));
+    }
+
     public function save($isNew = false)
     {
         $tool = new Tools();
         $db = new DB();
+        $user = unserialize($_SESSION['user']);
         if (!$isNew) {
+            date_default_timezone_set("GMT");
             $data = array(
-                "username" => "'$this->username'",
-                "password" => "'$this->hashedPassword'",
-                "email" => "'$this->email'",
-                "f" => "'$this->f'",
-                "i" => "'$this->i'",
-                "o" => "'$this->o'",
-                "group_id" => "'$this->group_id'",
-                "admin" => "'$this->admin'",
-                "token" => "'$this->token'",
-                "token2" => "'$this->token2'",
-                "state" => "'$this->state'"
+                "reg_n" => "'$this->reg_n'",
+                "date" => "'$this->date'",
+                "edited_by" => "'$user->id'",
+                "edited_when" => "'" .  date("Y-m-d H:i:s", time()) . "'",
+                "signed_by" => "'$this->signed_by'",
+                "signed_when" => "'$this->signed_when'",
+                "status" => "'$this->status'",
+                "type" => "'$this->type'",
+                "link_to_file" => "'$this->link_to_file'"
             );
-
-            $db->update($data, 'users', 'id = ' . $this->id);
+            date_default_timezone_set($tool->getGlobal('tz'));
+            $db->update($data, 'prikazy', 'id = ' . $this->id);
         } else {
             date_default_timezone_set("GMT");
             $data = array(
-                "username" => "'$this->username'",
-                "password" => "'$this->hashedPassword'",
-                "email" => "'$this->email'",
-                "join_date" => "'" . date("Y-m-d H:i:s", time()) . "'",
-                "f" => "'$this->f'",
-                "i" => "'$this->i'",
-                "o" => "'$this->o'",
-                "group_id" => "'$this->group_id'",
-                "admin" => "'0'",
-                "token" => "'".bin2hex(random_bytes(16))."'",
-                "token2" => "'".bin2hex(random_bytes(16))."'",
-                "state" => "'1'"
+                "reg_n" => "'$this->reg_n'",
+                "date" => "'$this->date'",
+                "edited_by" => "'$user->id'",
+                "edited_when" => "'" .  date("Y-m-d H:i:s", time()) . "'",
+                "status" => "'0'",
+                "type" => "'$this->type'",
+                "link_to_file" => "'$this->link_to_file'",
+                "created_by" => "'$user->id'",
+                "created_when" => "'" .  date("Y-m-d H:i:s", time()) . "'"
             );
-            $this->id = $db->insert($data, 'users');
-            $this->joinDate = time();
+            $this->id = $db->insert($data, 'prikazy');
             date_default_timezone_set($tool->getGlobal('tz'));
         }
         return true;
+    }
+
+    public function sign()
+    {
+        $tool = new Tools();
+        $db = new DB();
+        $user = unserialize($_SESSION['user']);
+        if ($user->admin >= 5 && $this->status == "1") {
+            date_default_timezone_set("GMT");
+            $this->signed_by = $user->id;
+            $this->signed_when = date("Y-m-d H:i:s", time());
+            $this->status = "2";
+            $this->save();
+            date_default_timezone_set($tool->getGlobal('tz'));
+            return true;
+        } else return false;
     }
 }
 

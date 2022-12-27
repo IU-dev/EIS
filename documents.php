@@ -13,13 +13,12 @@ if ($user->admin < 3) {
     header("Location: access_denied.php");
 }
 
-if (isset($_POST['submit'])) {
-    $data['name'] = "'" . $_POST['name'] . "'";
-    $data['type'] = "'" . $_POST['type'] . "'";
-    $data['created_by'] = "'" . $user->id . "'";
-    $data['description'] = "'" . $_POST['description'] . "'";
-    $ab = $db->insert($data, 'monitors');
-    $msg = "Мониторинг создан успешно.";
+if (isset($_GET['action'])) {
+    if($_GET['action'] == "sign"){
+        $prikaz = Prikaz::get($_GET['id']);
+        if($prikaz->sign()) $msg = $tool->toast("success", "Приказ подписан успешно!");
+        else $msg = $tool->toast("error", "Приказ не подписан. У вас нет прав, или приказ не в нужном статусе.");
+    }
 }
 
 require_once 'includes/header.inc.php';
@@ -27,7 +26,7 @@ require_once 'includes/header.inc.php';
 ?>
 <html>
 <head>
-    <title>Список документов | <?php echo $pname; ?></title>
+    <title>Приказы по обучающимся | <?php echo $pname; ?></title>
 </head>
 <body>
 <center><br>
@@ -97,11 +96,12 @@ require_once 'includes/header.inc.php';
             foreach ($parts as $part) {
                 echo '<tr>';
                 echo '<td>' . $part['id'] . '</td>';
-                echo '<td>№ ' . $part['reg_n'] . ' от ' . $tool->date_short($part['date']) . '  ';
-                if ($part['status'] == "0") echo '<span class="badge badge-primary">Подготовка</span></td>';
-                else if ($part['status'] == "1") echo '<span class="badge badge-warning">Ожидает подписания</span></td>';
-                else if ($part['status'] == "2") echo '<span class="badge badge-success">Подписан</span></td>';
-                else if ($part['status'] == "3") echo '<span class="badge badge-light">Отозван подписантом</span></td>';
+                echo '<td><strong>№ ' . $part['reg_n'] . ' от ' . $tool->date_short($part['date']) . '</strong>  ';
+                if ($part['status'] == "0") echo '<span class="badge badge-primary">Подготовка</span>';
+                else if ($part['status'] == "1") echo '<span class="badge badge-warning">Ожидает подписания</span>';
+                else if ($part['status'] == "2") echo '<span class="badge badge-success">Подписан</span>';
+                else if ($part['status'] == "3") echo '<span class="badge badge-light">Отозван подписантом</span>';
+                echo '<br><a class="badge badge-primary" target="_blank" href="documents.php?action=getFile&id=' . $part['id'] . '"><i class="fas fa-download"> </i> Скачать файл</a></td>';
                 echo '</td>';
                 if ($part['type'] == "zachisleniye") echo '<td>Зачисление</td>';
                 else if ($part['type'] == "otchisleniye") echo '<td>Отчисление</td>';
@@ -110,7 +110,7 @@ require_once 'includes/header.inc.php';
                 if ($part['status'] == "2") echo '<br>Подписал ' . $tool->date($part['signed_when']) . ' / ' . $userTools->get($part['signed_by'])->fio();
                 echo '</td>';
                 echo '<td><a class="badge badge-primary" target="_blank" href="document.php?type=prikaz&id=' . $part['id'] . '"><i class="fas fa-info"> </i> Перейти к приказу</a> ';
-                if ($part['status'] == "1" && $user->admin >= 5) echo '<a class="badge badge-success" target="_blank" href="document.php?type=prikaz&id=' . $part['id'] . '"><i class="fas fa-check"> </i> Подписать приказ</a>';
+                if ($part['status'] == "1" && $user->admin >= 5) echo '<a class="badge badge-success" target="_blank" href="documents.php?action=sign&id=' . $part['id'] . '"><i class="fas fa-check"> </i> Подписать приказ</a>';
                 echo '</td>';
             }
             echo '</table>';

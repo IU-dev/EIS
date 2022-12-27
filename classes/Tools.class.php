@@ -54,7 +54,7 @@ class Tools
         }
     }
 
-    public function safeString($string)
+    public function safeString($string) // защиты от XSS уязвимостей
     {
         str_replace('"', '', $string);
         str_replace("'", '', $string);

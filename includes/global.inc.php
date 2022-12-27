@@ -1,6 +1,7 @@
 <?php
 require_once 'classes/User.class.php';
 require_once 'classes/UserTools.class.php';
+require_once 'classes/Prikaz.class.php';
 require_once 'classes/DB.class.php';
 require_once 'classes/Tools.class.php';
 require_once 'includes/footer.inc.php';
