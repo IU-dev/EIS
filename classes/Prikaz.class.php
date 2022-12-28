@@ -15,6 +15,10 @@ class Prikaz
     public $edited_when;
     public $signed_by;
     public $signed_when;
+    /**
+     * @var mixed|string
+     * Статусы: 0 - подготовка, 1 - на подписании, 2 - подписан, 3 - отозван
+     */
     public $status;
     public $type;
     public $link_to_file;
