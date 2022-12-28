@@ -5,8 +5,15 @@ require_once 'User.class.php';
 require_once 'DB.class.php';
 require_once 'UserTools.class.php';
 
+/**
+ * Класс-инструмент tools для упрощения стандартных функций. TODO: переделать в include со статическими функциями!
+ */
 class Tools
 {
+    /**
+     * Функция для осуществления выхода пользователя из системы (рудимент)
+     * @return void
+     */
     public function logout()
     {
         unset($_SESSION['user']);
@@ -16,6 +23,13 @@ class Tools
         header("Location: index.php");
     }
 
+    /**
+     * @param $cat Категория
+     * @param $sub Над кем совершается действие
+     * @param $who Кто совершает действие
+     * @param $log Запись
+     * @return int|string|null ID лога
+     */
     public function log($cat, $sub, $who, $log)
     {
         $db = new DB();
@@ -38,6 +52,11 @@ class Tools
         return $db->insert($data, 'r_log');
     }
 
+    /**
+     * Получить значение глобальной переменной проекта
+     * @param $name Название переменной
+     * @return mixed Значение переменной
+     */
     public function getGlobal($name)
     {
         $db = new DB();
@@ -54,6 +73,11 @@ class Tools
         }
     }
 
+    /**
+     * Очистить строку от символов, способных вызвать XSS
+     * @param $string строка
+     * @return string "безопасная" строка
+     */
     public function safeString($string) // защиты от XSS уязвимостей
     {
         str_replace('"', '', $string);
@@ -72,6 +96,11 @@ class Tools
         return $string;
     }
 
+    /**
+     * Отформатировать дату
+     * @param $date Дата в формате PHP date
+     * @return string Дата в формате дд.мм.ГГГГ чч:мм:сс
+     */
     public function date($date)
     {
         return date("d.m.Y H:i:s", strtotime($date . " GMT"));

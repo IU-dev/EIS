@@ -4,6 +4,9 @@
 require_once 'DB.class.php';
 require_once 'Tools.class.php';
 
+/**
+ * Класс приказа по движению обучающихся (зачисление/отчисление/перевод)
+ */
 class Prikaz
 {
     public $id;

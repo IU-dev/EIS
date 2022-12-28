@@ -108,7 +108,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Prikaz",
             "name": "Prikaz",
-            "summary": "",
+            "summary": "\u041A\u043B\u0430\u0441\u0441\u0020\u043F\u0440\u0438\u043A\u0430\u0437\u0430\u0020\u043F\u043E\u0020\u0434\u0432\u0438\u0436\u0435\u043D\u0438\u044E\u0020\u043E\u0431\u0443\u0447\u0430\u044E\u0449\u0438\u0445\u0441\u044F\u0020\u0028\u0437\u0430\u0447\u0438\u0441\u043B\u0435\u043D\u0438\u0435\/\u043E\u0442\u0447\u0438\u0441\u043B\u0435\u043D\u0438\u0435\/\u043F\u0435\u0440\u0435\u0432\u043E\u0434\u0029",
             "url": "classes/Prikaz.html"
         },                {
             "fqsen": "\\Prikaz\u003A\u003A__construct\u0028\u0029",
@@ -193,12 +193,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Tools",
             "name": "Tools",
-            "summary": "",
+            "summary": "\u041A\u043B\u0430\u0441\u0441\u002D\u0438\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442\u0020tools\u0020\u0434\u043B\u044F\u0020\u0443\u043F\u0440\u043E\u0449\u0435\u043D\u0438\u044F\u0020\u0441\u0442\u0430\u043D\u0434\u0430\u0440\u0442\u043D\u044B\u0445\u0020\u0444\u0443\u043D\u043A\u0446\u0438\u0439.\u0020TODO\u003A\u0020\u043F\u0435\u0440\u0435\u0434\u0435\u043B\u0430\u0442\u044C\u0020\u0432\u0020include\u0020\u0441\u043E\u0020\u0441\u0442\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u043C\u0438\u0020\u0444\u0443\u043D\u043A\u0446\u0438\u044F\u043C\u0438\u0021",
             "url": "classes/Tools.html"
         },                {
             "fqsen": "\\Tools\u003A\u003Alogout\u0028\u0029",
             "name": "logout",
-            "summary": "",
+            "summary": "\u0424\u0443\u043D\u043A\u0446\u0438\u044F\u0020\u0434\u043B\u044F\u0020\u043E\u0441\u0443\u0449\u0435\u0441\u0442\u0432\u043B\u0435\u043D\u0438\u044F\u0020\u0432\u044B\u0445\u043E\u0434\u0430\u0020\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F\u0020\u0438\u0437\u0020\u0441\u0438\u0441\u0442\u0435\u043C\u044B\u0020\u0028\u0440\u0443\u0434\u0438\u043C\u0435\u043D\u0442\u0029",
             "url": "classes/Tools.html#method_logout"
         },                {
             "fqsen": "\\Tools\u003A\u003Alog\u0028\u0029",
@@ -213,7 +213,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Tools\u003A\u003AgetGlobal\u0028\u0029",
             "name": "getGlobal",
-            "summary": "",
+            "summary": "\u041F\u043E\u043B\u0443\u0447\u0438\u0442\u044C\u0020\u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435\u0020\u0433\u043B\u043E\u0431\u0430\u043B\u044C\u043D\u043E\u0439\u0020\u043F\u0435\u0440\u0435\u043C\u0435\u043D\u043D\u043E\u0439\u0020\u043F\u0440\u043E\u0435\u043A\u0442\u0430",
             "url": "classes/Tools.html#method_getGlobal"
         },                {
             "fqsen": "\\Tools\u003A\u003Afirst_class_order_position\u0028\u0029",
@@ -223,12 +223,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Tools\u003A\u003AsafeString\u0028\u0029",
             "name": "safeString",
-            "summary": "",
+            "summary": "\u041E\u0447\u0438\u0441\u0442\u0438\u0442\u044C\u0020\u0441\u0442\u0440\u043E\u043A\u0443\u0020\u043E\u0442\u0020\u0441\u0438\u043C\u0432\u043E\u043B\u043E\u0432,\u0020\u0441\u043F\u043E\u0441\u043E\u0431\u043D\u044B\u0445\u0020\u0432\u044B\u0437\u0432\u0430\u0442\u044C\u0020XSS",
             "url": "classes/Tools.html#method_safeString"
         },                {
             "fqsen": "\\Tools\u003A\u003Adate\u0028\u0029",
             "name": "date",
-            "summary": "",
+            "summary": "\u041E\u0442\u0444\u043E\u0440\u043C\u0430\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C\u0020\u0434\u0430\u0442\u0443",
             "url": "classes/Tools.html#method_date"
         },                {
             "fqsen": "\\Tools\u003A\u003Adate_short\u0028\u0029",
@@ -243,7 +243,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\User",
             "name": "User",
-            "summary": "",
+            "summary": "\u041A\u043B\u0430\u0441\u0441\u0020\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F\u0020\u0441\u0438\u0441\u0442\u0435\u043C\u044B",
             "url": "classes/User.html"
         },                {
             "fqsen": "\\User\u003A\u003A__construct\u0028\u0029",
@@ -253,7 +253,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\User\u003A\u003Afio\u0028\u0029",
             "name": "fio",
-            "summary": "",
+            "summary": "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0020\u0424\u0418\u041E\u0020\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F",
             "url": "classes/User.html#method_fio"
         },                {
             "fqsen": "\\User\u003A\u003Asave\u0028\u0029",

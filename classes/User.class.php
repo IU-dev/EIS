@@ -4,6 +4,9 @@
 require_once 'DB.class.php';
 require_once 'Tools.class.php';
 
+/**
+ * Класс пользователя системы
+ */
 class User
 {
     public $id;
@@ -43,6 +46,11 @@ class User
         $this->state = (isset($data['state'])) ? $data['state'] : "";
     }
 
+    /**
+     * Вернуть ФИО пользователя
+     * @param $rid По умолчанию true - вернуть с ID в скобках перед ФИО. Иначе - вернуть ФИО без ID.
+     * @return string Отформатированное ФИО пользователя
+     */
     public function fio($rid = true){
         if($rid) return '('. $this->id . ') ' . $this->f . ' ' . $this->i . ' ' . $this->o;
         else return $this->f . ' ' . $this->i . ' ' . $this->o;
