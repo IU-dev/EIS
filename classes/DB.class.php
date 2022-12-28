@@ -1,16 +1,41 @@
 <?php
 //DB.class.php
 
+/**
+ * Сlass DB
+ * Используется для взаимодействия с базой данных
+ * На текущей версии вызывается один раз для работы с основной БД.
+ */
 class DB
 {
 
+    /**
+     * @var string
+     * Имя базы данных MySQL/MariaDB
+     */
     protected $db_name = 'admin_eis24db';
+    /**
+     * @var string
+     * Имя пользователя для подключения к БД
+     */
     protected $db_user = 'admin_eis24';
+    /**
+     * @var string
+     * Пароль пользователя для подключения к БД
+     */
     protected $db_pass = 'P@ssw0rdgim24';
+    /**
+     * @var string
+     * IP-адрес MySQL/MariaDB сервера
+     */
     protected $db_host = '192.168.13.39';
 
     // Открывает соединение к БД. Убедитесь, что
     // эта функция вызывается на каждой странице
+    /**
+     * @return true
+     * Функця подключения к БД
+     */
     public function connect()
     {
         $connection = mysqli_connect($this->db_host, $this->db_user, $this->db_pass);

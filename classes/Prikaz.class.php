@@ -19,6 +19,10 @@ class Prikaz
     public $type;
     public $link_to_file;
 
+    /**
+     * @param $data
+     * Конструктор класса
+     */
     function __construct($data)
     {
         $this->id = (isset($data['id'])) ? $data['id'] : "";
@@ -35,11 +39,21 @@ class Prikaz
         $this->link_to_file = (isset($data['link_to_file'])) ? $data['link_to_file'] : "";
     }
 
+    /**
+     * @param $id
+     * @return Prikaz
+     * Статический класс для получения приказа по его ID
+     */
     static function get($id){
         $db = new DB();
         return new Prikaz($db->select("prikazy", "id = '". $id ."'"));
     }
 
+    /**
+     * @param $isNew
+     * @return true
+     * Сохранить текущий приказ
+     */
     public function save($isNew = false)
     {
         $tool = new Tools();
@@ -79,6 +93,10 @@ class Prikaz
         return true;
     }
 
+    /**
+     * @return bool
+     * Подписать приказ - вернет FALSE если нет прав, или приказ уже был подписан. Переходит в статус "2" - Подписан.
+     */
     public function sign()
     {
         $tool = new Tools();
